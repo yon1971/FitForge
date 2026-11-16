@@ -314,8 +314,15 @@ app.get('/api/admin/users/:id', wrap(auth), adminOnly, wrap(async (req, res) => 
   });
 }));
 
+app.delete('/api/me', wrap(auth), wrap(async (req, res) => {
+  await q('DELETE FROM users WHERE id=$1', [req.user.id]);
+  res.json({ ok: true });
+}));
+
 app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: '5m' }));
+app.get('/privacy', (req, res) => res.sendFile(path.join(__dirname, 'public', 'privacy.html')));
+app.get('/terms', (req, res) => res.sendFile(path.join(__dirname, 'public', 'terms.html')));
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 app.use((err, req, res, next) => { console.error(err); res.status(500).json({ error: 'Server error. Please try again.' }); });
 

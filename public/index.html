@@ -426,6 +426,7 @@ select.inp option{background:var(--panel);color:var(--text)}
       <div id="g-btn" class="g-btn"></div>
     </div>
     <p class="fine" id="auth-fine"></p>
+    <p class="fine" style="margin-top:6px"><a href="/privacy" style="color:var(--mute)">Privacy Policy</a> · <a href="/terms" style="color:var(--mute)">Terms</a></p>
   </div>
 </section>
 
@@ -921,7 +922,9 @@ $('#h-plans').addEventListener('click',e=>{const m=e.target.closest('[data-menu]
   const c=e.target.closest('.plan');if(c)startWorkout(c.dataset.id)});
 $('#btn-new').addEventListener('click',()=>openBuilder(null));
 $('#btn-account').addEventListener('click',()=>{sheet(`<h3>${esc(me.name)}</h3><p>${me.provider==='email'?esc(me.email):'Signed in with '+me.provider[0].toUpperCase()+me.provider.slice(1)}${me.isAdmin?' · <span style="color:var(--acc)">Admin</span>':''}</p>
-  <div class="menu">${me.isAdmin?`<button data-a="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Admin dashboard</button>`:''}<button class="red" data-a="out">${ICON.logout}Log out</button></div>`,(el,close)=>{el.addEventListener('click',e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='out'){close();logout()}if(a==='admin'){close();openAdmin()}})})});
+  <div class="menu">${me.isAdmin?`<button data-a="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Admin dashboard</button>`:''}<button data-a="out">${ICON.logout}Log out</button><button class="red" data-a="del">${ICON.trash}Delete my account</button></div>
+  <p style="margin:12px 0 0;font-size:12.5px"><a href="/privacy" style="color:var(--mute)">Privacy Policy</a> · <a href="/terms" style="color:var(--mute)">Terms</a></p>`,(el,close)=>{el.addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='out'){close();logout()}if(a==='admin'){close();openAdmin()}
+    if(a==='del'){close();if(await confirmBox('Delete your account?','This permanently deletes your account, all workout plans and your workout history. This cannot be undone.','Delete forever',true)){try{await Api.call('DELETE','/api/me');LS.del('ff_cache_'+me.id);Api.setToken(null);me=null;toast('Your account was deleted');logout(true)}catch(x){toast(x.message)}}}})})});
 $('#h-admin').addEventListener('click',openAdmin);
 function planMenu(id){const p=ws.plans.find(x=>x.id===id);if(!p)return;
   sheet(`<h3>${esc(p.name)}</h3><p>${p.items.length} exercises · ~${Math.max(1,Math.round(planEst(p)/60))} min</p><div class="menu">
