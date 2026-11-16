@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0d0f13">
 <title>FitForge — Workout Planner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +15,7 @@
   --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{touch-action:manipulation;-webkit-text-size-adjust:100%}
 html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.45;min-height:100%}
 body{padding-left:var(--sl);padding-right:var(--sr);overscroll-behavior-y:none}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
@@ -61,7 +62,7 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .seg button.on{background:var(--panel2);color:var(--text);box-shadow:0 1px 0 rgba(255,255,255,.04) inset}
 .fld{display:block;margin-bottom:14px}
 .fld>span{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#c7cdd8}
-.fld input,.inp{width:100%;height:50px;border-radius:12px;background:var(--panel);border:1px solid var(--line);padding:0 14px;outline:none;transition:border-color .15s,box-shadow .15s}
+.fld input,.inp{font-size:16px;width:100%;height:50px;border-radius:12px;background:var(--panel);border:1px solid var(--line);padding:0 14px;outline:none;transition:border-color .15s,box-shadow .15s}
 .fld input:focus,.inp:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(200,255,46,.15)}
 .pw{position:relative}.pw input{padding-right:68px}
 .pw button{position:absolute;right:8px;top:8px;height:34px;padding:0 10px;border-radius:8px;font-size:13px;color:var(--mute);font-weight:600}
@@ -152,8 +153,8 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .body-layout{display:grid;gap:16px}
 @media(min-width:880px){.body-layout{grid-template-columns:1.15fr .85fr;align-items:start}}
 .body-stage{position:relative;border-radius:24px;background:radial-gradient(ellipse at 50% 40%,#1b212b 0%,#12151b 70%);border:1px solid var(--line);overflow:hidden}
-#body3d{height:clamp(400px,62vh,640px);width:100%;position:relative}
-#body3d canvas{display:block;touch-action:pan-y}
+#body3d{height:clamp(400px,62vh,640px);height:clamp(400px,60svh,640px);width:100%;position:relative;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#body3d canvas{display:block;touch-action:none;-webkit-tap-highlight-color:transparent}
 .b-label{position:absolute;left:50%;top:14px;transform:translateX(-50%);background:rgba(13,15,19,.8);border:1px solid var(--line);padding:7px 14px;border-radius:999px;font-weight:700;font-size:13.5px;white-space:nowrap;pointer-events:none;transition:all .2s}
 .b-label.sel{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
 .b-tog{position:absolute;left:12px;bottom:12px;display:flex;background:rgba(13,15,19,.8);border:1px solid var(--line);border-radius:12px;padding:3px}
@@ -710,7 +711,7 @@ const Body={ok:false,running:false,groups:{},hover:null,sel:null,targetRot:0,dra
   },
   attach(el){this.el=el;if(this.renderer.domElement.parentNode!==el)el.appendChild(this.renderer.domElement);this.resize()},
   resize(){if(!this.el)return;const w=this.el.clientWidth,h=this.el.clientHeight;if(!w||!h)return;
-    this.renderer.setSize(w,h);const a=w/h;this.cam.aspect=a;const d=Math.max(7.3,1.55/(.268*a));
+    if(w===this._w&&h===this._h)return;this._w=w;this._h=h;this.renderer.setSize(w,h);const a=w/h;this.cam.aspect=a;const d=Math.max(7.3,1.55/(.268*a));
     this.cam.position.set(0,.14,d);this.cam.lookAt(0,.14,0);this.cam.updateProjectionMatrix();this.renderer.render(this.scene,this.cam)},
   start(){if(this.running||!this.ok)return;this.running=true;const loop=()=>{if(!this.running)return;
     if(!this.dragging)this.g.rotation.y+=(this.targetRot-this.g.rotation.y)*.12;
@@ -718,12 +719,16 @@ const Body={ok:false,running:false,groups:{},hover:null,sel:null,targetRot:0,dra
   stop(){this.running=false;cancelAnimationFrame(this.raf)},
   paint(){for(const[k,o]of Object.entries(this.groups)){const sel=k===this.sel,hov=k===this.hover;
     o.mat.color.setHex(sel?0xc8ff2e:hov?0x8f9ab0:0x4a5365);o.mat.emissive.setHex(sel?0x2e3c00:hov?0x14161a:0)}},
-  pick(e){const r=this.renderer.domElement.getBoundingClientRect();this.v2.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);
-    this.ray.setFromCamera(this.v2,this.cam);const hit=this.ray.intersectObjects(this.g.children,false)[0];return hit&&hit.object.userData.group||null},
-  bind(c){let sx=0,sy=0,start=0,down=false;
+  pick1(x,y){const r=this.renderer.domElement.getBoundingClientRect();this.v2.set((x-r.left)/r.width*2-1,-(y-r.top)/r.height*2+1);
+    this.ray.setFromCamera(this.v2,this.cam);const hit=this.ray.intersectObjects(this.g.children,false)[0];return hit?(hit.object.userData.group||'base'):null},
+  pick(e,rad){rad=rad??(e.pointerType==='mouse'?8:26);const c=this.pick1(e.clientX,e.clientY);if(c&&c!=='base')return c;if(!c){if(e.pointerType==='mouse')return null;rad=Math.min(rad,14)}
+    // search outward in rings for the nearest muscle (forgiving taps on small muscles / gaps)
+    for(let d=6;d<=rad;d+=5){const n=Math.max(8,Math.round(d*0.9));for(let k=0;k<n;k++){const t=k/n*Math.PI*2,g=this.pick1(e.clientX+Math.cos(t)*d,e.clientY+Math.sin(t)*d);if(g&&g!=='base')return g}}
+    return null},
+  bind(c){let sx=0,sy=0,start=0,down=false;c.style.touchAction='none';c.addEventListener('contextmenu',e=>e.preventDefault());c.addEventListener('touchstart',e=>e.preventDefault(),{passive:false});c.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
     c.addEventListener('pointerdown',e=>{down=true;this.dragging=false;sx=e.clientX;sy=e.clientY;start=this.g.rotation.y});
     c.addEventListener('pointermove',e=>{
-      if(down){const dx=e.clientX-sx;if(!this.dragging&&Math.abs(dx)>7&&Math.abs(dx)>Math.abs(e.clientY-sy)){this.dragging=true;try{c.setPointerCapture(e.pointerId)}catch(_){}}
+      if(down){const dx=e.clientX-sx;if(!this.dragging&&Math.abs(dx)>(e.pointerType==='mouse'?6:12)){this.dragging=true;try{c.setPointerCapture(e.pointerId)}catch(_){}}
         if(this.dragging){this.g.rotation.y=start+dx*.012;this.targetRot=this.g.rotation.y;this.onRotate&&this.onRotate()}}
       else if(e.pointerType==='mouse'){const h=this.pick(e);if(h!==this.hover){this.hover=h;this.paint();this.onHover&&this.onHover(h)}c.style.cursor=h?'pointer':'grab'}});
     c.addEventListener('pointerup',e=>{if(!down)return;down=false;if(!this.dragging){const h=this.pick(e);if(h&&this.onPick)this.onPick(h)}this.dragging=false});
