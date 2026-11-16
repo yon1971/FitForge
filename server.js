@@ -10,6 +10,7 @@ const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '').toLowerCase().split(',').m
 const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
 const MAIL_FROM = process.env.MAIL_FROM || '';
 const EMAIL_ENABLED = !!(RESEND_API_KEY && MAIL_FROM);
+const GOOGLE_CLIENT_ID = (process.env.GOOGLE_CLIENT_ID || '').trim();
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -166,18 +167,27 @@ app.post('/api/auth/verify', limit(20, 60000), wrap(async (req, res) => {
   res.json({ token, user: pub(v) });
 }));
 
-// Social sign-in is simulated until real OAuth apps are configured: one account per provider per device.
-app.post('/api/auth/social', limit(10, 60000), wrap(async (req, res) => {
-  const provider = String(req.body.provider || ''), device = String(req.body.deviceId || '').slice(0, 64);
-  if (!['google', 'facebook', 'apple'].includes(provider) || device.length < 8) return res.status(400).json({ error: 'Bad request' });
-  const key = provider + ':' + device;
-  let u = (await q('SELECT * FROM users WHERE provider_key=$1', [key])).rows[0];
-  if (!u) {
-    const N = { google: 'Google', facebook: 'Facebook', apple: 'Apple' }[provider];
-    u = (await q('INSERT INTO users(provider,provider_key,name,verified) VALUES($1,$2,$3,true) RETURNING *', [provider, key, N + ' user'])).rows[0];
-    await logEvent(u.id, 'signup', { provider });
+app.get('/api/config', (req, res) => res.json({ googleClientId: GOOGLE_CLIENT_ID || null, emailEnabled: EMAIL_ENABLED }));
+
+// Real "Sign in with Google": the browser gets an ID token from Google, we verify it with Google.
+app.post('/api/auth/google', limit(20, 60000), wrap(async (req, res) => {
+  if (!GOOGLE_CLIENT_ID) return res.status(400).json({ error: 'Google sign-in is not set up yet.' });
+  const cred = String(req.body.credential || '');
+  if (!cred || cred.length > 4000) return res.status(400).json({ error: 'Bad request' });
+  const r = await fetch('https://oauth2.googleapis.com/tokeninfo?id_token=' + encodeURIComponent(cred));
+  const t = await r.json().catch(() => ({}));
+  if (!r.ok || t.aud !== GOOGLE_CLIENT_ID || !['accounts.google.com', 'https://accounts.google.com'].includes(t.iss) || +t.exp * 1000 < Date.now())
+    return res.status(401).json({ error: 'Google sign-in failed. Please try again.' });
+  if (String(t.email_verified) !== 'true' || !emailOk(String(t.email || '').toLowerCase())) return res.status(401).json({ error: 'Your Google account email is not verified.' });
+  const email = t.email.toLowerCase(), key = 'google:' + t.sub, name = String(t.given_name || t.name || email.split('@')[0]).slice(0, 40);
+  // match by Google id first, then by email (links to an existing email/password account)
+  let u = (await q('SELECT * FROM users WHERE provider_key=$1', [key])).rows[0] || (await q('SELECT * FROM users WHERE email=$1', [email])).rows[0];
+  if (u) u = (await q('UPDATE users SET provider_key=COALESCE(provider_key,$1), email=COALESCE(email,$2), verified=true, code=NULL, name=CASE WHEN name=\'\' THEN $3 ELSE name END WHERE id=$4 RETURNING *', [key, email, name, u.id])).rows[0];
+  else {
+    u = (await q("INSERT INTO users(email,provider,provider_key,name,verified) VALUES($1,'google',$2,$3,true) RETURNING *", [email, key, name])).rows[0];
+    await logEvent(u.id, 'signup', { provider: 'google' });
   }
-  const token = await newSession(u.id); await logEvent(u.id, 'login');
+  const token = await newSession(u.id); await logEvent(u.id, 'login', { provider: 'google' });
   res.json({ token, user: pub(u) });
 }));
 
