@@ -142,6 +142,8 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .fig{display:block;width:100%;height:auto;max-width:100%;aspect-ratio:1/1;overflow:hidden}
 .fig .bn{stroke:var(--fig);stroke-width:6.6;stroke-linecap:round;fill:none}
 .fig .hd{fill:var(--fig)}
+.fig .eye{fill:#0d0f13}
+.fig .chest{stroke:var(--acc2);stroke-width:3.4;stroke-linecap:round;opacity:.95}
 .fig .gr{stroke:#2c333f;stroke-width:2;stroke-linecap:round}
 .fig .pr{fill:#353d4b}
 .fig .prl{stroke:#4c5567;stroke-width:3.6;stroke-linecap:round}
@@ -191,6 +193,10 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .excard .pic{display:block;width:100%;border-radius:13px;background:linear-gradient(160deg,#1f2530,#161a21);padding:8px}
 .excard b{font-size:14.5px;line-height:1.25;padding:0 2px}
 .excard .tags{display:flex;gap:4px;flex-wrap:wrap;padding:0 2px 2px}
+.fig-hint{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--mute);margin:0 0 10px}
+.fh-line{display:inline-block;width:16px;height:3px;border-radius:2px;background:var(--acc2)}
+.fh-eye{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--fig);box-shadow:inset 0 0 0 2.5px var(--fig);position:relative;margin-left:8px}
+.fh-eye::after{content:"";position:absolute;left:2.5px;top:2.5px;width:3px;height:3px;border-radius:50%;background:#0d0f13}
 .excard .tags span.homet{color:var(--good);background:rgba(61,220,132,.12)}
 .excard .tags span{font-size:10.5px;font-weight:600;color:var(--mute);background:var(--panel2);padding:3px 7px;border-radius:6px}
 .subsec{font-size:18px;margin:24px 0 10px;color:#c7cdd8}
@@ -766,7 +772,7 @@ const TPL={
  goblet:{A:{...ST,e:[64,44],w:[69,35]},B:{h:[70,42],n:[63,52],p:[42,80],k:[66,86],f:[58,114],e:[71,67],w:[76,57]},hold:'w'},
  lunge:{extra:[['p','k2'],['k2','f2']],A:{...ST,k2:[58,89],f2:[56,114],e:[60,46],w:[60,64]},B:{h:[60,35],n:[60,46],p:[60,82],k:[80,88],f:[82,114],k2:[52,104],f2:[34,112],e:[60,64],w:[60,82]},hold:'w'},
  legExt:{A:{h:[42,24],n:[42,36],p:[42,74],k:[66,74],f:[68,104],e:[50,56],w:[56,72]},B:{f:[92,70]},props:[{r:[28,77,42,6]},{r:[28,30,6,47]},{r:[38,83,4,33]}]},
- legCurl:{A:{h:[22,74],n:[30,78],p:[62,80],k:[88,80],f:[112,80],e:[34,92],w:[24,90]},B:{f:[80,56]},props:[{r:[14,85,82,5]},{r:[20,90,4,26]},{r:[86,90,4,26]}]},
+ legCurl:{face:-1,A:{h:[22,74],n:[30,78],p:[62,80],k:[88,80],f:[112,80],e:[34,92],w:[24,90]},B:{f:[80,56]},props:[{r:[14,85,82,5]},{r:[20,90,4,26]},{r:[86,90,4,26]}]},
  hipThrust:{A:{h:[20,82],n:[30,86],p:[48,104],k:[74,88],f:[80,114],e:[40,98],w:[50,100]},B:{p:[56,84],k:[80,84],e:[42,82],w:[56,80]},hold:'w',props:[{r:[6,91,30,6]},{r:[10,97,4,19]}]},
  bridge:{A:{h:[14,106],n:[24,108],p:[48,110],k:[68,92],f:[78,114],e:[36,114],w:[48,114]},B:{p:[50,94],k:[70,88]}},
  calf:{extra:[['f','t']],A:{...ST,f:[60,110],t:[70,114],e:[60,46],w:[60,64]},B:{h:[60,10],n:[60,21],p:[60,57],k:[60,82],f:[62,104],e:[60,39],w:[60,57]},hold:'w'},
@@ -782,18 +788,18 @@ const TPL={
  facePull:{A:{...ST,e:[72,32],w:[86,30]},B:{e:[48,28],w:[64,22]},hold:'w',cable:{w:[116,26]}},
  backExt:{A:{p:[52,66],n:[78,94],h:[85,104],k:[34,74],f:[14,82],e:[70,90],w:[76,86]},B:{n:[82,62],h:[93,57],e:[76,70],w:[82,66]},props:[{r:[44,69,14,8]},{l:[51,77,51,116]},{l:[8,85,22,85]}]},
  superman:{A:{h:[100,104],n:[92,108],p:[60,110],k:[38,110],f:[16,110],e:[104,108],w:[114,108]},B:{h:[98,94],n:[90,100],e:[100,94],w:[110,88],k:[38,106],f:[18,100]}},
- sidePlank:{A:{h:[99,78],n:[90,84],p:[56,96],k:[34,104],f:[14,112],e:[90,113],w:[104,113]},B:{p:[56,90],k:[34,101]}},
+ sidePlank:{face:0,A:{h:[99,78],n:[90,84],p:[56,96],k:[34,104],f:[14,112],e:[90,113],w:[104,113]},B:{p:[56,90],k:[34,101]}},
  inclinePush:{A:{h:[92,62],n:[84,66],p:[50,88],k:[32,100],f:[14,112],e:[74,80],w:[80,90]},B:{h:[94,52],n:[86,56],p:[52,80],k:[33,96],e:[84,72]},props:[{r: [72, 92, 26, 5]}, {r: [73, 97, 3, 19]}, {r: [94, 97, 3, 19]}]},
  declinePush:{A:{h:[100,106],n:[90,106],p:[52,90],k:[34,88],f:[16,84],e:[80,104],w:[90,114]},B:{h:[100,88],n:[90,92],p:[54,86],k:[34,86],e:[90,103]},props:[{r: [4, 88, 26, 5]}, {r: [5, 93, 3, 23]}, {r: [26, 93, 3, 23]}]},
  pike:{A:{h:[84,98],n:[78,90],p:[56,64],k:[44,88],f:[32,112],e:[84,102],w:[88,114]},B:{h:[90,108],n:[82,100],p:[58,68],e:[74,104]}},
  shtap:{A:{h:[100,70],n:[90,76],p:[58,90],k:[38,100],f:[18,111],e:[89,95],w:[88,114]},B:{e:[98,90],w:[90,80]}},
- tableRow:{noGround:0,A:{f:[10,112],k:[26,104],p:[44,96],n:[72,84],h:[81,88],e:[70,66],w:[68,48]},B:{p:[46,82],k:[27,98],n:[70,64],h:[80,64],e:[56,60]},props:[{r:[60,43,56,5]},{r:[110,48,4,68]}]},
- chairDip:{A:{h:[60,30],n:[64,41],p:[62,72],k:[38,80],f:[18,112],e:[70,56],w:[76,70]},B:{h:[58,46],n:[62,57],p:[58,90],k:[38,92],e:[86,58]},props:[{r: [72, 72, 26, 5]}, {r: [73, 77, 3, 39]}, {r: [94, 77, 3, 39]}, {r: [94, 30, 4, 42]}]},
+ tableRow:{face:-1,noGround:0,A:{f:[10,112],k:[26,104],p:[44,96],n:[72,84],h:[81,88],e:[70,66],w:[68,48]},B:{p:[46,82],k:[27,98],n:[70,64],h:[80,64],e:[56,60]},props:[{r:[60,43,56,5]},{r:[110,48,4,68]}]},
+ chairDip:{face:-1,A:{h:[60,30],n:[64,41],p:[62,72],k:[38,80],f:[18,112],e:[70,56],w:[76,70]},B:{h:[58,46],n:[62,57],p:[58,90],k:[38,92],e:[86,58]},props:[{r: [72, 72, 26, 5]}, {r: [73, 77, 3, 39]}, {r: [94, 77, 3, 39]}, {r: [94, 30, 4, 42]}]},
  revCrunch:{A:{h:[20,107],n:[30,110],p:[60,110],k:[76,96],f:[92,100],e:[42,114],w:[54,114]},B:{p:[58,104],k:[54,84],f:[72,78]}},
  chairTuck:{A:{h:[38,30],n:[42,41],p:[54,72],k:[78,80],f:[100,90],e:[48,58],w:[58,73]},B:{h:[40,32],n:[44,43],k:[66,58],f:[80,74]},props:[{r: [36, 76, 30, 5]}, {r: [37, 81, 3, 35]}, {r: [62, 81, 3, 35]}, {r: [34, 36, 4, 40]}]},
  hollow:{A:{h:[24,98],n:[32,102],p:[60,108],k:[82,104],f:[104,98],e:[20,96],w:[8,92]},B:{h:[24,96],n:[32,100],f:[104,96],w:[8,90]}},
  lyingLegRaise:{A:{h:[20,107],n:[30,110],p:[60,110],k:[82,110],f:[104,110],e:[42,114],w:[54,114]},B:{k:[70,90],f:[80,70]}},
- sideDip:{A:{h:[99,78],n:[90,84],p:[56,94],k:[34,104],f:[14,112],e:[90,113],w:[104,113]},B:{p:[56,104],k:[34,108]}},
+ sideDip:{face:0,A:{h:[99,78],n:[90,84],p:[56,94],k:[34,104],f:[14,112],e:[90,113],w:[104,113]},B:{p:[56,104],k:[34,108]}},
  supPull:{A:{h:[98,94],n:[90,100],p:[60,110],k:[38,106],f:[18,100],e:[100,94],w:[110,88]},B:{e:[80,92],w:[92,90]}},
  birdDog:{A:{h:[94,84],n:[84,88],p:[50,88],k:[50,112],f:[30,114],e:[84,101],w:[84,114]},B:{e:[96,86],w:[108,82],k:[30,88],f:[12,86]}},
  slBridge:{extra:[['k','f2']],A:{h:[14,106],n:[24,108],p:[48,110],k:[68,92],f:[78,114],f2:[90,82],e:[36,114],w:[48,114]},B:{p:[50,94],k:[70,88],f2:[94,72]}},
@@ -830,6 +836,15 @@ function fig(tid,eq,o={}){
   const bones=(tp.front?FRONT:SIDE).concat(tp.extra||[]);
   bones.forEach(([a,b])=>{s+=L(A[a],A[b],B[a],B[b],'bn')});
   s+=`<circle class="hd" cx="${A.h[0]}" cy="${A.h[1]}" r="7.5">${ani('cx',A.h[0],B.h[0])}${ani('cy',A.h[1],B.h[1])}</circle>`;
+  // front-of-body cues: eyes show where the face points, orange line marks chest/belly
+  const r1=v=>Math.round(v*10)/10;
+  const dot=(a,b,cls,r)=>`<circle class="${cls}" cx="${r1(a[0])}" cy="${r1(a[1])}" r="${r}">${ani('cx',r1(a[0]),r1(b[0]))}${ani('cy',r1(a[1]),r1(b[1]))}</circle>`;
+  if(tp.front||tp.face===0){const E=(P,dx)=>[P.h[0]+dx,P.h[1]-0.6];s+=dot(E(A,-2.6),E(B,-2.6),'eye',1.35)+dot(E(A,2.6),E(B,2.6),'eye',1.35)}
+  else if(A.n&&A.p){const sg=tp.face??1;
+    const fr=P=>{let tx=P.n[0]-P.p[0],ty=P.n[1]-P.p[1];const L=Math.hypot(tx,ty)||1;tx/=L;ty/=L;return{t:[tx,ty],f:[-ty*sg,tx*sg]}};
+    const eye=P=>{const{t,f}=fr(P);return[P.h[0]+f[0]*3.6+t[0]*1.3,P.h[1]+f[1]*3.6+t[1]*1.3]};
+    const ch=(P,u)=>{const{f}=fr(P);return[r1(P.n[0]+(P.p[0]-P.n[0])*u+f[0]*4.9),r1(P.n[1]+(P.p[1]-P.n[1])*u+f[1]*4.9)]};
+    s+=L(ch(A,.1),ch(A,.75),ch(B,.1),ch(B,.75),"chest")+dot(eye(A),eye(B),'eye',1.6)}
   if(eq==='db'||eq==='kb'||eq==='ball')holds.forEach(j=>s+=mv(A[j],B[j],SH[eq]));
   else if(eq==='bb'){if(holds.length===2){const[a,b]=holds;const e=(p,d)=>[p[0]+d,p[1]];s+=L(e(A[a],-12),e(A[b],12),e(B[a],-12),e(B[b],12),'eql')}else if(holds[0])s+=mv(A[holds[0]],B[holds[0]],SH.plate)}
   else if(eq==='cablebar'){const[a,b]=holds;const e=(p,d)=>[p[0]+d,p[1]];s+=L(e(A[a],-7),e(A[b],7),e(B[a],-7),e(B[b],7),'eql')}
@@ -1121,6 +1136,7 @@ function renderExStep(){const m=Bd.muscle,M=MUSCLES[m];const ok=e=>!homeOnly||e.
   const nHome=EX.filter(e=>e.m.includes(m)&&e.home).length,nAll=EX.filter(e=>e.m.includes(m)).length;
   $('#b-ex').innerHTML=`<div class="step-h"><button class="icon-btn" data-a="back">${ICON.back}</button><div><h2>${M.n} exercises</h2><p>Pick exercise ${Bd.plan.items.length+1} for your plan</p></div></div>
    <div class="fchips" style="margin-bottom:6px"><button class="fchip ${homeOnly?'':'on'}" data-home="0">All exercises <i>${nAll}</i></button><button class="fchip ${homeOnly?'on':''}" data-home="1">At home · no weights <i>${nHome}</i></button></div>
+   <p class="fig-hint"><span class="fh-line"></span>Orange line = front of the body (chest &amp; belly) <span class="fh-eye"></span>dot = eyes</p>
    ${homeOnly?'<p class="mute" style="font-size:13px;margin:0 0 12px">Bodyweight exercises you can do at home — at most you\'ll need a sturdy chair, table or a step.</p>':''}
    <div class="exgrid">${prim.map(exCard).join('')||'<p class="mute">No exercises here — see below.</p>'}</div>${sec.length?`<h3 class="subsec">Also works your ${M.n.toLowerCase()}</h3><div class="exgrid">${sec.map(exCard).join('')}</div>`:''}`}
 $('#b-ex').addEventListener('click',e=>{if(e.target.closest('[data-a=back]'))return setStep('body');const hb=e.target.closest('[data-home]');if(hb){homeOnly=hb.dataset.home==='1';LS.set('ff_home',homeOnly);renderExStep();return}const c=e.target.closest('[data-ex]');if(c){Bd.ex=c.dataset.ex;Bd.edit=null;setStep('cfg')}});
