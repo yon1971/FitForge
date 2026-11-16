@@ -52,6 +52,29 @@ async function migrate() {
     );
     CREATE INDEX IF NOT EXISTS events_user_idx ON events(user_id);
     CREATE INDEX IF NOT EXISTS events_at_idx ON events(at);
+    CREATE TABLE IF NOT EXISTS shared_plans (
+      id TEXT PRIMARY KEY,
+      owner_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      source_plan_id TEXT NOT NULL,
+      name TEXT NOT NULL,
+      category TEXT NOT NULL,
+      items JSONB NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      UNIQUE(owner_id, source_plan_id)
+    );
+    CREATE TABLE IF NOT EXISTS shared_views (
+      shared_id TEXT NOT NULL REFERENCES shared_plans(id) ON DELETE CASCADE,
+      user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      PRIMARY KEY(shared_id, user_id)
+    );
+    CREATE TABLE IF NOT EXISTS shared_adds (
+      shared_id TEXT NOT NULL REFERENCES shared_plans(id) ON DELETE CASCADE,
+      user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      PRIMARY KEY(shared_id, user_id)
+    );
   `);
 }
 
@@ -216,6 +239,75 @@ app.post('/api/event', wrap(auth), wrap(async (req, res) => {
   res.json({ ok: true });
 }));
 
+/* ---------- shared plans (community) ---------- */
+const CATEGORIES = ['upper', 'lower', 'full', 'push', 'pull', 'core', 'arms', 'mixed'];
+function cleanItems(items) {
+  if (!Array.isArray(items) || !items.length || items.length > 60) return null;
+  const out = [];
+  for (const it of items) {
+    if (!it || typeof it.exId !== 'string' || it.exId.length > 40) return null;
+    const n = (v, a, b, d) => { v = +v; return Number.isFinite(v) ? Math.min(b, Math.max(a, v)) : d; };
+    out.push({ exId: it.exId, sets: n(it.sets, 1, 20, 3), reps: n(it.reps, 1, 200, 10), secs: n(it.secs, 5, 900, 30), time: !!it.time, rest: n(it.rest, 0, 900, 60), weight: n(it.weight, 0, 500, 0) });
+  }
+  return out;
+}
+const SHARED_SELECT = `SELECT s.id, s.name, s.category, s.items, s.created_at, s.updated_at, s.owner_id, s.source_plan_id, u.name AS owner_name,
+    (SELECT count(*)::int FROM shared_views v WHERE v.shared_id=s.id) AS views,
+    (SELECT count(*)::int FROM shared_adds a WHERE a.shared_id=s.id) AS adds,
+    EXISTS(SELECT 1 FROM shared_adds a WHERE a.shared_id=s.id AND a.user_id=$1) AS added_by_me
+  FROM shared_plans s JOIN users u ON u.id=s.owner_id`;
+const sharedOut = (r, me) => ({ id: r.id, name: r.name, category: r.category, items: r.items, ownerName: r.owner_name || 'Someone', isMine: r.owner_id === me, sourcePlanId: r.owner_id === me ? r.source_plan_id : undefined,
+  views: r.views, adds: r.adds, addedByMe: r.added_by_me, createdAt: r.created_at, updatedAt: r.updated_at });
+
+app.get('/api/shared', wrap(auth), wrap(async (req, res) => {
+  const cat = String(req.query.category || ''), sort = String(req.query.sort || 'views');
+  const order = sort === 'adds' ? 'adds DESC, views DESC' : sort === 'new' ? 'created_at DESC' : 'views DESC, adds DESC';
+  const params = [req.user.id]; let where = '';
+  if (CATEGORIES.includes(cat)) { params.push(cat); where = ' WHERE s.category=$2'; }
+  const rows = (await q(`SELECT * FROM (${SHARED_SELECT}${where}) t ORDER BY ${order}, created_at DESC LIMIT 300`, params)).rows;
+  const counts = (await q('SELECT category, count(*)::int n FROM shared_plans GROUP BY category')).rows;
+  res.json({ plans: rows.map(r => sharedOut(r, req.user.id)), counts: Object.fromEntries(counts.map(c => [c.category, c.n])) });
+}));
+
+// share or update a shared plan (one shared copy per source plan)
+app.post('/api/shared', wrap(auth), wrap(async (req, res) => {
+  const b = req.body || {};
+  const name = String(b.name || '').trim().slice(0, 40), category = String(b.category || ''), src = String(b.planId || '').slice(0, 40);
+  const items = cleanItems(b.items);
+  if (!name || !src || !items) return res.status(400).json({ error: 'This plan can\'t be shared — it needs a name and at least one exercise.' });
+  if (!CATEGORIES.includes(category)) return res.status(400).json({ error: 'Choose a category before sharing.' });
+  const id = crypto.randomBytes(9).toString('base64url');
+  const r = await q(`INSERT INTO shared_plans(id,owner_id,source_plan_id,name,category,items) VALUES($1,$2,$3,$4,$5,$6)
+     ON CONFLICT(owner_id,source_plan_id) DO UPDATE SET name=EXCLUDED.name, category=EXCLUDED.category, items=EXCLUDED.items, updated_at=now()
+     RETURNING id, (xmax = 0) AS inserted`, [id, req.user.id, src, name, category, JSON.stringify(items)]);
+  if (r.rows[0].inserted) await logEvent(req.user.id, 'plan_shared', { sharedId: r.rows[0].id });
+  res.json({ id: r.rows[0].id });
+}));
+
+app.delete('/api/shared/by-plan/:planId', wrap(auth), wrap(async (req, res) => {
+  await q('DELETE FROM shared_plans WHERE owner_id=$1 AND source_plan_id=$2', [req.user.id, req.params.planId]);
+  res.json({ ok: true });
+}));
+
+app.post('/api/shared/:id/view', wrap(auth), wrap(async (req, res) => {
+  const s = (await q('SELECT owner_id FROM shared_plans WHERE id=$1', [req.params.id])).rows[0];
+  if (!s) return res.status(404).json({ error: 'This plan is no longer shared.' });
+  if (s.owner_id !== req.user.id) await q('INSERT INTO shared_views(shared_id,user_id) VALUES($1,$2) ON CONFLICT DO NOTHING', [req.params.id, req.user.id]);
+  res.json({ ok: true });
+}));
+
+app.post('/api/shared/:id/add', wrap(auth), wrap(async (req, res) => {
+  const r = (await q(SHARED_SELECT + ' WHERE s.id=$2', [req.user.id, req.params.id])).rows[0];
+  if (!r) return res.status(404).json({ error: 'This plan is no longer shared.' });
+  if (r.owner_id !== req.user.id) {
+    await q('INSERT INTO shared_views(shared_id,user_id) VALUES($1,$2) ON CONFLICT DO NOTHING', [r.id, req.user.id]);
+    const ins = await q('INSERT INTO shared_adds(shared_id,user_id) VALUES($1,$2) ON CONFLICT DO NOTHING', [r.id, req.user.id]);
+    if (ins.rowCount) await logEvent(req.user.id, 'plan_added_from_shared', { sharedId: r.id });
+  }
+  const fresh = (await q(SHARED_SELECT + ' WHERE s.id=$2', [req.user.id, req.params.id])).rows[0];
+  res.json({ plan: sharedOut(fresh, req.user.id) });
+}));
+
 /* ---------- admin ---------- */
 const DAY = 864e5;
 async function loadAll() {
@@ -267,6 +359,9 @@ app.get('/api/admin/overview', wrap(auth), adminOnly, wrap(async (req, res) => {
   for (const o of opens) if (perDay[o.d]) perDay[o.d].opens = o.n;
   const quits = (await q(`SELECT count(*)::int n FROM events WHERE type='workout_quit'`)).rows[0].n;
   const starts = (await q(`SELECT count(*)::int n FROM events WHERE type='workout_start'`)).rows[0].n;
+  const sh = (await q(`SELECT count(*)::int n, (SELECT count(*)::int FROM shared_adds) adds, (SELECT count(*)::int FROM shared_views) views FROM shared_plans`)).rows[0];
+  const topShared = (await q(`SELECT s.name, s.category, u.name owner, (SELECT count(*)::int FROM shared_views v WHERE v.shared_id=s.id) views, (SELECT count(*)::int FROM shared_adds a WHERE a.shared_id=s.id) adds
+                              FROM shared_plans s JOIN users u ON u.id=s.owner_id ORDER BY adds DESC, views DESC LIMIT 5`)).rows;
   const providers = {}; for (const u of users) providers[u.provider] = (providers[u.provider] || 0) + 1;
   const hours = Array(24).fill(0); for (const u of users) for (const s of (u.data || {}).sessions || []) hours[new Date(+s.at).getUTCHours()]++;
   durs.sort((a, b) => a - b);
@@ -287,8 +382,10 @@ app.get('/api/admin/overview', wrap(auth), adminOnly, wrap(async (req, res) => {
       workoutStarts: starts, workoutQuits: quits,
       completionRate: starts ? Math.round(Math.min(1, (starts - quits) / starts) * 100) : null,
       usersWithPlan: stats.filter(s => s.plans > 0).length,
-      usersWithWorkout: stats.filter(s => s.workouts > 0).length
+      usersWithWorkout: stats.filter(s => s.workouts > 0).length,
+      sharedPlans: sh.n, sharedViews: sh.views, sharedAdds: sh.adds
     },
+    topShared,
     daily: days.map(k => ({ day: k, workouts: perDay[k].workouts, signups: perDay[k].signups, opens: perDay[k].opens, activeUsers: perDay[k].active.size })),
     topExercises: Object.entries(exCount).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([id, n]) => ({ id, n })),
     providers, hoursUTC: hours,
