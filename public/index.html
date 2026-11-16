@@ -191,6 +191,7 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .excard .pic{display:block;width:100%;border-radius:13px;background:linear-gradient(160deg,#1f2530,#161a21);padding:8px}
 .excard b{font-size:14.5px;line-height:1.25;padding:0 2px}
 .excard .tags{display:flex;gap:4px;flex-wrap:wrap;padding:0 2px 2px}
+.excard .tags span.homet{color:var(--good);background:rgba(61,220,132,.12)}
 .excard .tags span{font-size:10.5px;font-weight:600;color:var(--mute);background:var(--panel2);padding:3px 7px;border-radius:6px}
 .subsec{font-size:18px;margin:24px 0 10px;color:#c7cdd8}
 .cfg{display:grid;gap:18px;grid-template-columns:minmax(0,1fr)}
@@ -247,8 +248,8 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .pt-name{font-size:13px;color:var(--mute);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pt-clock{font-family:var(--disp);font-size:26px;font-weight:700;letter-spacing:.04em;font-variant-numeric:tabular-nums}
 .pt-count{width:42px;text-align:center;font-family:var(--disp);font-size:20px;font-weight:700;color:var(--mute)}
-.pbar{display:flex;gap:3px;padding:0 16px}
-.pbar i{flex:1;height:5px;border-radius:3px;background:#20252e;overflow:hidden;position:relative}
+.pbar{display:flex;gap:2px;padding:0 16px}
+.pbar i{flex:1;min-width:2px;height:5px;border-radius:3px;background:#20252e;overflow:hidden;position:relative}
 .pbar i.d{background:var(--acc)}
 .pbar i.c::after{content:"";position:absolute;inset:0;background:var(--acc);opacity:.45;animation:pulse 1.4s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.15}}
@@ -319,6 +320,11 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .rv-sec.need{border-color:var(--bad);box-shadow:0 0 0 3px rgba(255,97,97,.15)}
 .rv-sec h4{margin:0 0 10px;font-size:15px;display:flex;justify-content:space-between;align-items:baseline}.rv-sec h4 small{font-weight:500;color:var(--mute);font-size:12.5px}
 @media(min-width:700px){.rv-sec .catgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.ordgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.ordopt{display:flex;flex-direction:column;gap:3px;text-align:left;padding:12px;border-radius:12px;background:var(--panel2);border:1.5px solid var(--line);min-width:0}
+.ordopt b{font-size:14.5px}.ordopt small{font-size:12px;color:var(--mute);line-height:1.35}
+.ordopt .seq{margin-top:6px;font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.02em;white-space:nowrap;color:#9aa3b3}
+.ordopt.on{border-color:var(--acc);background:rgba(200,255,46,.08)}.ordopt.on b,.ordopt.on .seq{color:var(--acc)}
 .switch-row{display:flex;align-items:center;gap:12px;cursor:pointer}
 .switch-row .tx{flex:1}.switch-row .tx b{display:block;font-size:15px}.switch-row .tx small{color:var(--mute);font-size:12.5px}
 .sw{width:50px;height:30px;border-radius:15px;background:#2d3440;position:relative;flex:none;transition:background .2s}
@@ -634,11 +640,11 @@ const MUSCLES={
   traps:{n:'Traps',side:'back'},lats:{n:'Back / Lats',side:'back'},triceps:{n:'Triceps',side:'back'},lowerBack:{n:'Lower back',side:'back'},
   glutes:{n:'Glutes',side:'back'},hamstrings:{n:'Hamstrings',side:'back'},calves:{n:'Calves',side:'back'}
 };
-const EQN={bb:'Barbell',db:'Dumbbell',kb:'Kettlebell',cable:'Cable',cablebar:'Cable',ball:'Med ball',none:'Bodyweight'};
+const EQN={bb:'Barbell',db:'Dumbbell',kb:'Kettlebell',cable:'Cable',cablebar:'Cable',ball:'Med ball',none:'Bodyweight',chair:'Chair',table:'Sturdy table',step:'Step / stair'};
 const EX=[
  {id:'bbbench',n:'Barbell Bench Press',m:['chest','triceps','shoulders'],t:'bench',eq:'bb',reps:10},
  {id:'dbbench',n:'Dumbbell Bench Press',m:['chest','triceps'],t:'bench',eq:'db',reps:10},
- {id:'pushup',n:'Push-Up',m:['chest','triceps','shoulders'],t:'pushup',eq:'none',reps:15},
+ {id:'pushup',home:1,n:'Push-Up',m:['chest','triceps','shoulders'],t:'pushup',eq:'none',reps:15},
  {id:'cablefly',n:'Cable Fly',m:['chest','shoulders'],t:'fly',eq:'cable',reps:12},
  {id:'chestdip',n:'Chest Dip',m:['chest','triceps'],t:'dip',eq:'none',reps:10},
  {id:'ohp',n:'Overhead Press',m:['shoulders','triceps'],t:'press',eq:'bb',reps:8},
@@ -655,19 +661,19 @@ const EX=[
  {id:'ohext',n:'Overhead Triceps Extension',m:['triceps'],t:'ohExt',eq:'db',reps:12},
  {id:'tridip',n:'Triceps Dip',m:['triceps','chest'],t:'dip',eq:'none',reps:10},
  {id:'cgbench',n:'Close-Grip Bench Press',m:['triceps','chest'],t:'bench',eq:'bb',reps:10},
- {id:'diamond',n:'Diamond Push-Up',m:['triceps','chest'],t:'pushup',eq:'none',reps:12},
+ {id:'diamond',home:1,n:'Diamond Push-Up',m:['triceps','chest'],t:'pushup',eq:'none',reps:12},
  {id:'wristcurl',n:'Wrist Curl',m:['forearms'],t:'wristCurl',eq:'db',reps:15},
  {id:'revcurl',n:'Reverse Curl',m:['forearms','biceps'],t:'curl',eq:'bb',reps:12},
  {id:'farmer',n:"Farmer's Walk",m:['forearms','traps'],t:'farmer',eq:'db',time:1,secs:40},
  {id:'deadhang',n:'Dead Hang',m:['forearms','lats'],t:'hang',eq:'none',time:1,secs:30},
- {id:'crunch',n:'Crunch',m:['abs'],t:'crunch',eq:'none',reps:20},
- {id:'plank',n:'Plank',m:['abs','obliques'],t:'plank',eq:'none',time:1,secs:45},
+ {id:'crunch',home:1,n:'Crunch',m:['abs'],t:'crunch',eq:'none',reps:20},
+ {id:'plank',home:1,n:'Plank',m:['abs','obliques'],t:'plank',eq:'none',time:1,secs:45},
  {id:'legraise',n:'Hanging Leg Raise',m:['abs'],t:'legRaise',eq:'none',reps:12},
- {id:'climber',n:'Mountain Climber',m:['abs','quads'],t:'mountain',eq:'none',time:1,secs:30},
+ {id:'climber',home:1,n:'Mountain Climber',m:['abs','quads'],t:'mountain',eq:'none',time:1,secs:30},
  {id:'russian',n:'Russian Twist',m:['obliques','abs'],t:'russian',eq:'ball',reps:20},
  {id:'sidebend',n:'Dumbbell Side Bend',m:['obliques'],t:'sideBend',eq:'db',reps:15},
- {id:'sideplank',n:'Side Plank',m:['obliques','abs'],t:'sidePlank',eq:'none',time:1,secs:30},
- {id:'bicycle',n:'Bicycle Crunch',m:['obliques','abs'],t:'crunch',eq:'none',reps:20},
+ {id:'sideplank',home:1,n:'Side Plank',m:['obliques','abs'],t:'sidePlank',eq:'none',time:1,secs:30},
+ {id:'bicycle',home:1,n:'Bicycle Crunch',m:['obliques','abs'],t:'crunch',eq:'none',reps:20},
  {id:'bbshrug',n:'Barbell Shrug',m:['traps'],t:'shrug',eq:'bb',reps:12},
  {id:'dbshrug',n:'Dumbbell Shrug',m:['traps'],t:'shrug',eq:'db',reps:15},
  {id:'uprow',n:'Upright Row',m:['traps','shoulders'],t:'uprightRow',eq:'bb',reps:12},
@@ -679,10 +685,10 @@ const EX=[
  {id:'cablerow',n:'Seated Cable Row',m:['lats','traps'],t:'seatedRow',eq:'cable',reps:12},
  {id:'deadlift',n:'Deadlift',m:['lowerBack','glutes','hamstrings'],t:'deadlift',eq:'bb',reps:6},
  {id:'backext',n:'Back Extension',m:['lowerBack','glutes'],t:'backExt',eq:'none',reps:15},
- {id:'superman',n:'Superman',m:['lowerBack'],t:'superman',eq:'none',reps:15},
+ {id:'superman',home:1,n:'Superman',m:['lowerBack'],t:'superman',eq:'none',reps:15},
  {id:'goodmorning',n:'Good Morning',m:['lowerBack','hamstrings'],t:'goodMorning',eq:'bb',reps:10},
  {id:'hipthrust',n:'Barbell Hip Thrust',m:['glutes','hamstrings'],t:'hipThrust',eq:'bb',reps:10},
- {id:'bridge',n:'Glute Bridge',m:['glutes'],t:'bridge',eq:'none',reps:15},
+ {id:'bridge',home:1,n:'Glute Bridge',m:['glutes'],t:'bridge',eq:'none',reps:15},
  {id:'bulgarian',n:'Bulgarian Split Squat',m:['glutes','quads'],t:'lunge',eq:'db',reps:10},
  {id:'sumo',n:'Kettlebell Sumo Squat',m:['glutes','quads'],t:'goblet',eq:'kb',reps:12},
  {id:'squat',n:'Back Squat',m:['quads','glutes'],t:'squat',eq:'bb',reps:8},
@@ -693,8 +699,39 @@ const EX=[
  {id:'dbrdl',n:'Dumbbell RDL',m:['hamstrings','glutes'],t:'rdl',eq:'db',reps:12},
  {id:'legcurl',n:'Lying Leg Curl',m:['hamstrings'],t:'legCurl',eq:'none',reps:12},
  {id:'calfraise',n:'Standing Calf Raise',m:['calves'],t:'calf',eq:'db',reps:15},
- {id:'slcalf',n:'Single-Leg Calf Raise',m:['calves'],t:'calf',eq:'none',reps:12},
- {id:'seatcalf',n:'Seated Calf Raise',m:['calves'],t:'seatCalf',eq:'bb',reps:15}
+ {id:'slcalf',home:1,n:'Single-Leg Calf Raise',m:['calves'],t:'calf',eq:'none',reps:12},
+ {id:'seatcalf',n:'Seated Calf Raise',m:['calves'],t:'seatCalf',eq:'bb',reps:15},
+ {id:'incpush',n:"Incline Push-Up",m:['chest','triceps'],t:'inclinePush',eq:'chair',home:1,reps:12},
+ {id:'decpush',n:"Decline Push-Up",m:['chest','shoulders'],t:'declinePush',eq:'chair',home:1,reps:10},
+ {id:'widepush',n:"Wide Push-Up",m:['chest','shoulders'],t:'pushup',eq:'none',home:1,reps:12},
+ {id:'pike',n:"Pike Push-Up",m:['shoulders','triceps'],t:'pike',eq:'none',home:1,reps:10},
+ {id:'shtap',n:"Plank Shoulder Taps",m:['shoulders','abs'],t:'shtap',eq:'none',home:1,reps:20},
+ {id:'tablerowu',n:"Underhand Table Row",m:['biceps','lats'],t:'tableRow',eq:'table',home:1,reps:10},
+ {id:'chairdip',n:"Chair Dip",m:['triceps','chest'],t:'chairDip',eq:'chair',home:1,reps:12},
+ {id:'fingerplank',n:"Fingertip Plank",m:['forearms','abs'],t:'plank',eq:'none',home:1,time:1,secs:20},
+ {id:'revcrunch',n:"Reverse Crunch",m:['abs'],t:'revCrunch',eq:'none',home:1,reps:15},
+ {id:'chairtuck',n:"Chair Knee Tuck",m:['abs'],t:'chairTuck',eq:'chair',home:1,reps:15},
+ {id:'hollow',n:"Hollow Body Hold",m:['abs'],t:'hollow',eq:'none',home:1,time:1,secs:30},
+ {id:'lyinglegraise',n:"Lying Leg Raise",m:['abs'],t:'lyingLegRaise',eq:'none',home:1,reps:12},
+ {id:'heeltaps',n:"Heel Taps",m:['obliques','abs'],t:'crunch',eq:'none',home:1,reps:20},
+ {id:'sidedips',n:"Side Plank Hip Dips",m:['obliques'],t:'sideDip',eq:'none',home:1,reps:12},
+ {id:'ytraise',n:"Prone Y-T Raise",m:['traps','shoulders'],t:'superman',eq:'none',home:1,reps:12},
+ {id:'tablerowwide',n:"Wide Table Row",m:['traps','lats'],t:'tableRow',eq:'table',home:1,reps:10},
+ {id:'tablerow',n:"Inverted Table Row",m:['lats','biceps'],t:'tableRow',eq:'table',home:1,reps:10},
+ {id:'suppull',n:"Superman Lat Pull",m:['lats','lowerBack'],t:'supPull',eq:'none',home:1,reps:15},
+ {id:'birddog',n:"Bird Dog",m:['lowerBack','glutes','abs'],t:'birdDog',eq:'none',home:1,reps:12},
+ {id:'slbridge',n:"Single-Leg Glute Bridge",m:['glutes','hamstrings'],t:'slBridge',eq:'none',home:1,reps:12},
+ {id:'donkey',n:"Donkey Kick",m:['glutes'],t:'donkey',eq:'none',home:1,reps:15},
+ {id:'chairbulg',n:"Chair Bulgarian Split Squat",m:['glutes','quads'],t:'bulgar',eq:'chair',home:1,reps:10},
+ {id:'airsquat',n:"Bodyweight Squat",m:['quads','glutes'],t:'airSquat',eq:'none',home:1,reps:20},
+ {id:'chairsquat',n:"Chair Squat",m:['quads','glutes'],t:'chairSquat',eq:'chair',home:1,reps:15},
+ {id:'wallsit',n:"Wall Sit",m:['quads'],t:'wallSit',eq:'none',home:1,time:1,secs:45},
+ {id:'stepup',n:"Chair Step-Up",m:['quads','glutes'],t:'stepUp',eq:'chair',home:1,reps:12},
+ {id:'jumpsquat',n:"Jump Squat",m:['quads','glutes','calves'],t:'jumpSquat',eq:'none',home:1,reps:12},
+ {id:'slrdl',n:"Single-Leg RDL (bodyweight)",m:['hamstrings','glutes'],t:'slRdl',eq:'none',home:1,reps:10},
+ {id:'chairham',n:"Chair Hamstring Bridge",m:['hamstrings','glutes'],t:'chairHam',eq:'chair',home:1,reps:12},
+ {id:'stepcalf',n:"Step Calf Raise",m:['calves'],t:'stepCalf',eq:'step',home:1,reps:20},
+ {id:'pogo',n:"Pogo Hops",m:['calves'],t:'pogo',eq:'none',home:1,time:1,secs:30}
 ];
 const EXM=Object.fromEntries(EX.map(e=>[e.id,e]));
 
@@ -745,7 +782,32 @@ const TPL={
  facePull:{A:{...ST,e:[72,32],w:[86,30]},B:{e:[48,28],w:[64,22]},hold:'w',cable:{w:[116,26]}},
  backExt:{A:{p:[52,66],n:[78,94],h:[85,104],k:[34,74],f:[14,82],e:[70,90],w:[76,86]},B:{n:[82,62],h:[93,57],e:[76,70],w:[82,66]},props:[{r:[44,69,14,8]},{l:[51,77,51,116]},{l:[8,85,22,85]}]},
  superman:{A:{h:[100,104],n:[92,108],p:[60,110],k:[38,110],f:[16,110],e:[104,108],w:[114,108]},B:{h:[98,94],n:[90,100],e:[100,94],w:[110,88],k:[38,106],f:[18,100]}},
- sidePlank:{A:{h:[99,78],n:[90,84],p:[56,96],k:[34,104],f:[14,112],e:[90,113],w:[104,113]},B:{p:[56,90],k:[34,101]}}
+ sidePlank:{A:{h:[99,78],n:[90,84],p:[56,96],k:[34,104],f:[14,112],e:[90,113],w:[104,113]},B:{p:[56,90],k:[34,101]}},
+ inclinePush:{A:{h:[92,62],n:[84,66],p:[50,88],k:[32,100],f:[14,112],e:[74,80],w:[80,90]},B:{h:[94,52],n:[86,56],p:[52,80],k:[33,96],e:[84,72]},props:[{r: [72, 92, 26, 5]}, {r: [73, 97, 3, 19]}, {r: [94, 97, 3, 19]}]},
+ declinePush:{A:{h:[100,106],n:[90,106],p:[52,90],k:[34,88],f:[16,84],e:[80,104],w:[90,114]},B:{h:[100,88],n:[90,92],p:[54,86],k:[34,86],e:[90,103]},props:[{r: [4, 88, 26, 5]}, {r: [5, 93, 3, 23]}, {r: [26, 93, 3, 23]}]},
+ pike:{A:{h:[84,98],n:[78,90],p:[56,64],k:[44,88],f:[32,112],e:[84,102],w:[88,114]},B:{h:[90,108],n:[82,100],p:[58,68],e:[74,104]}},
+ shtap:{A:{h:[100,70],n:[90,76],p:[58,90],k:[38,100],f:[18,111],e:[89,95],w:[88,114]},B:{e:[98,90],w:[90,80]}},
+ tableRow:{noGround:0,A:{f:[10,112],k:[26,104],p:[44,96],n:[72,84],h:[81,88],e:[70,66],w:[68,48]},B:{p:[46,82],k:[27,98],n:[70,64],h:[80,64],e:[56,60]},props:[{r:[60,43,56,5]},{r:[110,48,4,68]}]},
+ chairDip:{A:{h:[60,30],n:[64,41],p:[62,72],k:[38,80],f:[18,112],e:[70,56],w:[76,70]},B:{h:[58,46],n:[62,57],p:[58,90],k:[38,92],e:[86,58]},props:[{r: [72, 72, 26, 5]}, {r: [73, 77, 3, 39]}, {r: [94, 77, 3, 39]}, {r: [94, 30, 4, 42]}]},
+ revCrunch:{A:{h:[20,107],n:[30,110],p:[60,110],k:[76,96],f:[92,100],e:[42,114],w:[54,114]},B:{p:[58,104],k:[54,84],f:[72,78]}},
+ chairTuck:{A:{h:[38,30],n:[42,41],p:[54,72],k:[78,80],f:[100,90],e:[48,58],w:[58,73]},B:{h:[40,32],n:[44,43],k:[66,58],f:[80,74]},props:[{r: [36, 76, 30, 5]}, {r: [37, 81, 3, 35]}, {r: [62, 81, 3, 35]}, {r: [34, 36, 4, 40]}]},
+ hollow:{A:{h:[24,98],n:[32,102],p:[60,108],k:[82,104],f:[104,98],e:[20,96],w:[8,92]},B:{h:[24,96],n:[32,100],f:[104,96],w:[8,90]}},
+ lyingLegRaise:{A:{h:[20,107],n:[30,110],p:[60,110],k:[82,110],f:[104,110],e:[42,114],w:[54,114]},B:{k:[70,90],f:[80,70]}},
+ sideDip:{A:{h:[99,78],n:[90,84],p:[56,94],k:[34,104],f:[14,112],e:[90,113],w:[104,113]},B:{p:[56,104],k:[34,108]}},
+ supPull:{A:{h:[98,94],n:[90,100],p:[60,110],k:[38,106],f:[18,100],e:[100,94],w:[110,88]},B:{e:[80,92],w:[92,90]}},
+ birdDog:{A:{h:[94,84],n:[84,88],p:[50,88],k:[50,112],f:[30,114],e:[84,101],w:[84,114]},B:{e:[96,86],w:[108,82],k:[30,88],f:[12,86]}},
+ slBridge:{extra:[['k','f2']],A:{h:[14,106],n:[24,108],p:[48,110],k:[68,92],f:[78,114],f2:[90,82],e:[36,114],w:[48,114]},B:{p:[50,94],k:[70,88],f2:[94,72]}},
+ donkey:{A:{h:[94,84],n:[84,88],p:[50,88],k:[50,112],f:[30,114],e:[84,101],w:[84,114]},B:{k:[36,80],f:[30,60]}},
+ bulgar:{extra:[['p','k2'],['k2','f2']],A:{h:[64,18],n:[64,29],p:[62,64],k:[66,89],f:[68,114],k2:[46,82],f2:[26,86],e:[64,47],w:[64,64]},B:{h:[66,36],n:[64,47],p:[60,82],k:[80,90],f:[76,114],k2:[46,102],e:[64,64],w:[64,80]},props:[{r: [8, 87, 26, 5]}, {r: [9, 92, 3, 24]}, {r: [30, 92, 3, 24]}]},
+ airSquat:{A:{...ST,e:[72,30],w:[86,30]},B:{h:[70,42],n:[63,52],p:[42,80],k:[66,86],f:[58,114],e:[76,54],w:[90,54]}},
+ chairSquat:{A:{...ST,e:[72,30],w:[86,30]},B:{h:[70,42],n:[63,52],p:[40,78],k:[64,84],f:[58,114],e:[76,54],w:[90,54]},props:[{r: [16, 82, 26, 5]}, {r: [17, 87, 3, 29]}, {r: [38, 87, 3, 29]}, {r: [14, 44, 4, 38]}]},
+ wallSit:{A:{h:[38,44],n:[38,55],p:[38,86],k:[64,86],f:[64,114],e:[48,64],w:[60,62]},B:{h:[38,43],w:[60,60]},props:[{l:[32,8,32,116]}]},
+ stepUp:{extra:[['p','k2'],['k2','f2']],A:{h:[46,26],n:[46,37],p:[46,72],k:[64,78],f:[70,90],k2:[44,94],f2:[42,114],e:[47,54],w:[48,70]},B:{h:[70,10],n:[70,21],p:[70,56],k:[72,74],f:[74,90],k2:[62,76],f2:[56,92],e:[71,39],w:[72,55]},props:[{r: [60, 91, 34, 5]}, {r: [61, 96, 3, 20]}, {r: [90, 96, 3, 20]}]},
+ jumpSquat:{A:{h:[70,42],n:[63,52],p:[42,80],k:[66,86],f:[58,114],e:[58,66],w:[50,78]},B:{h:[60,6],n:[60,17],p:[60,53],k:[61,78],f:[62,102],e:[56,34],w:[52,50]}},
+ slRdl:{extra:[['p','k2'],['k2','f2']],A:{...ST,k2:[60,89],f2:[60,114],e:[61,46],w:[62,64]},B:{h:[88,48],n:[80,52],p:[58,62],k:[60,89],f:[58,114],k2:[36,64],f2:[14,62],e:[82,70],w:[84,86]}},
+ chairHam:{A:{h:[12,106],n:[22,108],p:[46,110],k:[64,84],f:[82,78],e:[34,114],w:[46,114]},B:{p:[48,92],k:[64,78]},props:[{r: [74, 80, 30, 5]}, {r: [75, 85, 3, 31]}, {r: [100, 85, 3, 31]}]},
+ stepCalf:{extra:[['f','t']],A:{h:[60,11],n:[60,22],p:[60,58],k:[60,83],f:[60,104],t:[70,106],e:[60,40],w:[60,58]},B:{h:[60,5],n:[60,16],p:[60,52],k:[60,77],f:[62,96],e:[60,34],w:[60,52]},props:[{r:[56,107,40,9]}]},
+ pogo:{extra:[['f','t']],A:{...ST,f:[60,110],t:[70,114],e:[64,46],w:[70,56]},B:{h:[60,5],n:[60,16],p:[60,52],k:[60,77],f:[60,98],t:[70,102],e:[64,34],w:[70,44]}}
 };
 function fig(tid,eq,o={}){
   const tp=TPL[tid];if(!tp)return'';
@@ -973,7 +1035,7 @@ function renderHome(){
       <div class="plan-meta"><span><b>${p.items.length}</b> exercise${p.items.length>1?'s':''}</span><span>~<b>${Math.max(1,Math.round(planEst(p)/60))}</b> min</span>${best!=null?`<span>Best <b>${fmt(best)}</b></span>`:''}</div>
       <div class="thumbs">${th}</div>
       ${p.fromShared?`<div class="from-line">From ${esc(p.fromOwner||'a shared plan')}</div>`:''}
-      <div class="chips">${p.category?`<span class="chip acc">${CATS[p.category]}</span>`:'<span class="chip" style="border-style:dashed">No category</span>'}${planMuscles(p).slice(0,4).map(m=>`<span class="chip">${MUSCLES[m].n}</span>`).join('')}</div>
+      <div class="chips">${p.category?`<span class="chip acc">${CATS[p.category]}</span>`:'<span class="chip" style="border-style:dashed">No category</span>'}${p.mode==='circuit'?'<span class="chip">Circuit</span>':''}${planMuscles(p).slice(0,4).map(m=>`<span class="chip">${MUSCLES[m].n}</span>`).join('')}</div>
       ${p.shared?`<div class="shared-badge">${SIC.share} Shared${myShared[p.id]?` · ${myShared[p.id].views} view${myShared[p.id].views===1?'':'s'} · ${myShared[p.id].adds} added`:''}</div>`:''}
       <div class="plan-f"><div class="last">${last?`Last done <b>${ago(last.at)}</b> · ${fmt(last.dur)}`:'Not started yet'}</div><span class="play">${ICON.play}</span></div></div>`}).join('');
 }
@@ -1037,7 +1099,7 @@ async function savePlan(){const p=Bd.plan;if(!p.items.length){toast('Add at leas
 let advT;
 function renderBodyStep(){
   $('#b-num').textContent='Exercise '+(Bd.plan.items.length+1);
-  const mg=$('#b-mgrid');mg.innerHTML=Object.entries(MUSCLES).map(([k,v])=>`<button class="mbtn" data-m="${k}">${v.n}<small>${EX.filter(e=>e.m[0]===k).length}</small></button>`).join('');
+  const mg=$('#b-mgrid');mg.innerHTML=Object.entries(MUSCLES).map(([k,v])=>`<button class="mbtn" data-m="${k}">${v.n}<small>${EX.filter(e=>e.m[0]===k&&(!homeOnly||e.home)).length}</small></button>`).join('');
   Body.sel=null;Body.hover=null;setLabel(null);
   const el=$('#body3d');
   if(!Body.ok){const ok=Body.init(el);if(!ok){el.innerHTML='<div class="no3d">3D view isn\'t available on this device — choose a muscle from the list.</div>';el.style.height='auto';$('#b-tog').style.display='none';$('.b-hint').style.display='none';return}
@@ -1052,11 +1114,16 @@ function chooseMuscle(m){Bd.muscle=m;Body.sel=m;Body.paint();setLabel(m);$$('#b-
   clearTimeout(advT);advT=setTimeout(()=>{if(Bd.step==='body')setStep('ex')},Body.ok?650:150)}
 
 // step 2: exercises
-function exCard(e){return`<button class="excard" data-ex="${e.id}"><div class="pic">${fig(e.t,e.eq)}</div><b>${esc(e.n)}</b><div class="tags"><span>${EQN[e.eq]}</span>${e.time?'<span>Timed</span>':''}${e.m.slice(1,3).map(x=>`<span>+ ${MUSCLES[x].n}</span>`).join('')}</div></button>`}
-function renderExStep(){const m=Bd.muscle,M=MUSCLES[m];const prim=EX.filter(e=>e.m[0]===m),sec=EX.filter(e=>e.m[0]!==m&&e.m.includes(m));
+function exCard(e){return`<button class="excard" data-ex="${e.id}"><div class="pic">${fig(e.t,e.eq)}</div><b>${esc(e.n)}</b><div class="tags">${e.home?'<span class="homet">At home</span>':''}<span>${EQN[e.eq]}</span>${e.time?'<span>Timed</span>':''}${e.m.slice(1,3).map(x=>`<span>+ ${MUSCLES[x].n}</span>`).join('')}</div></button>`}
+let homeOnly=!!LS.get('ff_home',false);
+function renderExStep(){const m=Bd.muscle,M=MUSCLES[m];const ok=e=>!homeOnly||e.home;
+  const prim=EX.filter(e=>e.m[0]===m&&ok(e)),sec=EX.filter(e=>e.m[0]!==m&&e.m.includes(m)&&ok(e));
+  const nHome=EX.filter(e=>e.m.includes(m)&&e.home).length,nAll=EX.filter(e=>e.m.includes(m)).length;
   $('#b-ex').innerHTML=`<div class="step-h"><button class="icon-btn" data-a="back">${ICON.back}</button><div><h2>${M.n} exercises</h2><p>Pick exercise ${Bd.plan.items.length+1} for your plan</p></div></div>
-   <div class="exgrid">${prim.map(exCard).join('')}</div>${sec.length?`<h3 class="subsec">Also works your ${M.n.toLowerCase()}</h3><div class="exgrid">${sec.map(exCard).join('')}</div>`:''}`}
-$('#b-ex').addEventListener('click',e=>{if(e.target.closest('[data-a=back]'))return setStep('body');const c=e.target.closest('[data-ex]');if(c){Bd.ex=c.dataset.ex;Bd.edit=null;setStep('cfg')}});
+   <div class="fchips" style="margin-bottom:6px"><button class="fchip ${homeOnly?'':'on'}" data-home="0">All exercises <i>${nAll}</i></button><button class="fchip ${homeOnly?'on':''}" data-home="1">At home · no weights <i>${nHome}</i></button></div>
+   ${homeOnly?'<p class="mute" style="font-size:13px;margin:0 0 12px">Bodyweight exercises you can do at home — at most you\'ll need a sturdy chair, table or a step.</p>':''}
+   <div class="exgrid">${prim.map(exCard).join('')||'<p class="mute">No exercises here — see below.</p>'}</div>${sec.length?`<h3 class="subsec">Also works your ${M.n.toLowerCase()}</h3><div class="exgrid">${sec.map(exCard).join('')}</div>`:''}`}
+$('#b-ex').addEventListener('click',e=>{if(e.target.closest('[data-a=back]'))return setStep('body');const hb=e.target.closest('[data-home]');if(hb){homeOnly=hb.dataset.home==='1';LS.set('ff_home',homeOnly);renderExStep();return}const c=e.target.closest('[data-ex]');if(c){Bd.ex=c.dataset.ex;Bd.edit=null;setStep('cfg')}});
 
 // step 3: config
 let cfgV={};
@@ -1097,15 +1164,20 @@ function itemLine(it){return`${it.sets} × ${it.time?it.secs+'s':it.reps+' reps'
 function renderReview(){const p=Bd.plan;
   const sug=suggestCat(p.items);
   $('#b-review').innerHTML=`<div class="step-h"><div><h2>Your workout plan</h2><p>Reorder, edit, or keep adding exercises. Pick a category and save when you're done.</p></div></div>
-   <div class="rv-sec" id="rv-cat"><h4>Category <small>required</small></h4><div class="catgrid">${Object.entries(CATS).map(([k,n])=>`<button class="catopt ${p.category===k?'on':''}" data-cat="${k}">${k===sug&&p.category!==k?'<span class="sug">Suggested</span>':''}<b>${n}</b><small>${CAT_HINT[k]}</small></button>`).join('')}</div></div>
-   <div class="rv-sec"><div class="switch-row" data-a="share"><div class="tx"><b>Share with everyone</b><small>Show this plan on the Shared plans page so other users can view it and add it. Shown with your name (${esc(me.name)}).</small></div><div class="sw ${p.shared?'on':''}"></div></div></div>
    <div class="rv-sum"><span><b>${p.items.length}</b> exercises</span><span><b>${p.items.reduce((a,i)=>a+i.sets,0)}</b> sets</span><span>~<b>${Math.round(planEst(p)/60)}</b> min</span></div>
    <div class="rv-list">${p.items.map((it,i)=>`<div class="rv"><div class="n">${i+1}</div><div class="t">${exFig(it.exId)}</div><div class="info"><b>${esc(EXM[it.exId].n)}</b><span>${itemLine(it)}</span></div>
      <div class="acts"><button data-up="${i}" aria-label="Move up" ${i?'':'style="visibility:hidden"'}>${ICON.up}</button><button data-dn="${i}" aria-label="Move down" ${i<p.items.length-1?'':'style="visibility:hidden"'}>${ICON.down}</button><button data-ed="${i}" aria-label="Edit">${ICON.edit}</button><button data-rm="${i}" aria-label="Remove">${ICON.x}</button></div></div>`).join('')}
-   <button class="rv-add" data-a="more">${ICON.plus.replace('<svg','<svg width="20" height="20"')} Add next exercise</button></div>`}
+   <button class="rv-add" data-a="more">${ICON.plus.replace('<svg','<svg width="20" height="20"')} Add next exercise</button></div>
+   <div style="height:16px"></div>
+   <div class="rv-sec" id="rv-cat"><h4>Category <small>required</small></h4><div class="catgrid">${Object.entries(CATS).map(([k,n])=>`<button class="catopt ${p.category===k?'on':''}" data-cat="${k}">${k===sug&&p.category!==k?'<span class="sug">Suggested</span>':''}<b>${n}</b><small>${CAT_HINT[k]}</small></button>`).join('')}</div></div>
+   <div class="rv-sec"><h4>Workout order</h4>
+     <div class="ordgrid"><button class="ordopt ${p.mode!=='circuit'?'on':''}" data-mode="straight"><b>One exercise at a time</b><small>All sets of exercise 1, then all sets of exercise 2…</small><span class="seq">AAA → BBB → CCC</span></button>
+     <button class="ordopt ${p.mode==='circuit'?'on':''}" data-mode="circuit"><b>Circuit (rounds)</b><small>One set of every exercise per round, then repeat</small><span class="seq">ABC → ABC → ABC</span></button></div></div>
+   <div class="rv-sec"><div class="switch-row" data-a="share"><div class="tx"><b>Share with everyone</b><small>Show this plan on the Shared plans page so other users can view it and add it. Shown with your name (${esc(me.name)}).</small></div><div class="sw ${p.shared?'on':''}"></div></div></div>`}
 $('#b-review').addEventListener('click',e=>{const sw=e.target.closest('[data-a=share]');if(sw){Bd.plan.shared=!Bd.plan.shared;Bd.dirty=true;sw.querySelector('.sw').classList.toggle('on',!!Bd.plan.shared);return}
   const t=e.target.closest('button');if(!t)return;const it=Bd.plan.items,d=t.dataset;
   if(d.a==='more'){Bd.muscle=null;return setStep('body')}
+  if(d.mode){Bd.plan.mode=d.mode;Bd.dirty=true;$$('#b-review .ordopt').forEach(b=>b.classList.toggle('on',b===t));return}
   if(d.cat){Bd.plan.category=d.cat;Bd.dirty=true;$$('#rv-cat .catopt').forEach(b=>{b.classList.toggle('on',b===t);const sg=b.querySelector('.sug');if(sg&&b===t)sg.remove()});$('#rv-cat').classList.remove('need');return}
   if(d.up){const i=+d.up;[it[i-1],it[i]]=[it[i],it[i-1]]}
   else if(d.dn){const i=+d.dn;[it[i+1],it[i]]=[it[i],it[i+1]]}
@@ -1119,19 +1191,23 @@ function ensureAudio(){try{if(!actx)actx=new(window.AudioContext||window.webkitA
 function beep(f=880,d=.14,v=.25){try{if(!actx)return;const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=f;o.type='sine';g.gain.setValueAtTime(v,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+d);o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+d+.02)}catch(e){}}
 const buzz=p=>{try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
 async function lockWake(){try{if('wakeLock'in navigator)wake=await navigator.wakeLock.request('screen')}catch(e){}}
+function buildSteps(plan){const st=[],its=plan.items;
+  if(plan.mode==='circuit'){const R=Math.max(...its.map(i=>i.sets));for(let r=1;r<=R;r++)its.forEach((it,i)=>{if(it.sets>=r)st.push({i,set:r,round:r})})}
+  else its.forEach((it,i)=>{for(let r=1;r<=it.sets;r++)st.push({i,set:r})});return st}
 function startWorkout(id){const plan=ws.plans.find(p=>p.id===id);if(!plan||!plan.items.length)return;ensureAudio();
-  P={plan,items:plan.items,i:0,set:1,phase:'work',startAt:Date.now(),workStart:Date.now(),restEnd:0,restTotal:0,done:0,total:plan.items.reduce((a,i)=>a+i.sets,0),beeped:{}};
+  const steps=buildSteps(plan);
+  P={plan,items:plan.items,steps,k:0,circuit:plan.mode==='circuit',rounds:Math.max(...plan.items.map(i=>i.sets)),i:0,set:1,phase:'work',startAt:Date.now(),workStart:Date.now(),restEnd:0,restTotal:0,done:0,total:plan.items.reduce((a,i)=>a+i.sets,0),beeped:{}};
   Api.event('workout_start',{planId:plan.id});show('s-player');renderPlayer();clearInterval(tickT);tickT=setInterval(tick,200);lockWake()}
-function nextPos(){const it=P.items[P.i];if(P.set<it.sets)return{i:P.i,set:P.set+1};if(P.i<P.items.length-1)return{i:P.i+1,set:1};return null}
+function nextPos(){const n=P.steps[P.k+1];return n?{...n,k:P.k+1}:null}
 function renderPlayer(){const it=P.items[P.i],ex=EXM[it.exId],el=$('#s-player');
-  const segs=P.items.map((x,i)=>`<i class="${i<P.i?'d':i===P.i?'c':''}"></i>`).join('');
-  const top=`<header class="ptop"><button class="icon-btn" data-act="quit" aria-label="End workout">${ICON.x}</button><div class="pt-mid"><div class="pt-name">${esc(P.plan.name)}</div><div class="pt-clock" id="p-clock">${fmt((Date.now()-P.startAt)/1000)}</div></div><div class="pt-count">${P.i+1}/${P.items.length}</div></header><div class="pbar">${segs}</div>`;
+  const segs=P.steps.map((x,k)=>`<i class="${k<P.k?'d':k===P.k?'c':''}"></i>`).join('');
+  const top=`<header class="ptop"><button class="icon-btn" data-act="quit" aria-label="End workout">${ICON.x}</button><div class="pt-mid"><div class="pt-name">${esc(P.plan.name)}</div><div class="pt-clock" id="p-clock">${fmt((Date.now()-P.startAt)/1000)}</div></div><div class="pt-count">${P.k+1}/${P.steps.length}</div></header><div class="pbar">${segs}</div>`;
   if(P.phase==='work'){
     el.innerHTML=top+`<div class="stage work" data-act="tap" id="p-stage">
       <div class="p-fig">${fig(ex.t,ex.eq,{dur:1.8})}</div>
       <div class="chips" style="justify-content:center">${ex.m.slice(0,2).map((x,i)=>`<span class="chip ${i?'':'acc'}">${MUSCLES[x].n}</span>`).join('')}</div>
       <h1 class="p-name">${esc(ex.n)}</h1>
-      <div class="p-set">SET <b>${P.set}</b> / ${it.sets}</div>
+      <div class="p-set">${P.circuit?`ROUND <b>${P.set}</b> / ${P.rounds}`:`SET <b>${P.set}</b> / ${it.sets}`}</div>${P.circuit?`<div class="mute" style="font-size:13px;margin-top:2px">Exercise ${P.i+1} of ${P.items.length} in this round</div>`:''}
       <div class="p-target">${it.time?`<span id="p-tt">0:00</span><small> / ${fmt(it.secs)}</small>`:`${it.reps}<small> REPS</small>`}</div>
       ${it.weight?`<div class="p-weight">${it.weight} kg</div>`:''}
       <div class="p-tap"><span class="tap-ring"></span><span id="p-taptxt">${it.time?'Tap anywhere when you finish the set':(isTouch()?'Tap the screen':'Click anywhere')+' when you finish the set'}</span></div></div>`;
@@ -1140,7 +1216,7 @@ function renderPlayer(){const it=P.items[P.i],ex=EXM[it.exId],el=$('#s-player');
       <div class="ring" id="p-ring"><svg viewBox="0 0 200 200"><circle class="rg-bg" cx="100" cy="100" r="88"/><circle id="p-rg" class="rg" cx="100" cy="100" r="88" pathLength="100" stroke-dasharray="100" stroke-dashoffset="0" transform="rotate(-90 100 100)"/></svg>
         <div class="ring-in"><div class="ring-lbl">REST</div><div class="ring-t" id="p-rest">${Math.ceil(P.restTotal)}</div></div></div>
       <div class="r-btns"><button class="btn" data-act="minus">−10s</button><button class="btn primary" data-act="skip">Skip rest</button><button class="btn" data-act="plus">+10s</button></div>
-      <div class="upnext"><div class="un-fig">${fig(nex.t,nex.eq)}</div><div><div class="eyebrow">Up next${n.i!==P.i?' · new exercise':''}</div><div class="un-name">${esc(nex.n)}</div><div class="mute" style="font-size:13.5px">Set ${n.set} of ${nit.sets} · ${nit.time?nit.secs+' sec':nit.reps+' reps'}${nit.weight?' · '+nit.weight+' kg':''}</div></div></div></div>`;
+      <div class="upnext"><div class="un-fig">${fig(nex.t,nex.eq)}</div><div><div class="eyebrow">Up next${P.circuit?(n.set!==P.set?` · round ${n.set}`:''):(n.i!==P.i?' · new exercise':'')}</div><div class="un-name">${esc(nex.n)}</div><div class="mute" style="font-size:13.5px">${P.circuit?`Round ${n.set} of ${P.rounds}`:`Set ${n.set} of ${nit.sets}`} · ${nit.time?nit.secs+' sec':nit.reps+' reps'}${nit.weight?' · '+nit.weight+' kg':''}</div></div></div></div>`;
   }}
 const isTouch=()=>matchMedia('(pointer:coarse)').matches;
 function tick(){if(!P)return;const now=Date.now();const c=$('#p-clock');if(c)c.textContent=fmt((now-P.startAt)/1000);
@@ -1151,7 +1227,7 @@ function tick(){if(!P)return;const now=Date.now();const c=$('#p-clock');if(c)c.t
     $('#p-ring')?.classList.toggle('low',rem<=5);
     const s=Math.ceil(rem);if(s<=3&&s>0&&!P.beeped['r'+s]){P.beeped['r'+s]=1;beep(660,.1)}
     if(rem<=0){beep(988,.3);buzz(300);goWork(nextPos())}}}
-function goWork(n){P.i=n.i;P.set=n.set;P.phase='work';P.workStart=Date.now();P.beeped={};renderPlayer()}
+function goWork(n){P.k=n.k;P.i=n.i;P.set=n.set;P.phase='work';P.workStart=Date.now();P.beeped={};renderPlayer()}
 function completeSet(){P.done++;const n=nextPos();if(!n)return finishWorkout();const it=P.items[P.i];
   if(it.rest>0){P.phase='rest';P.restTotal=it.rest;P.restEnd=Date.now()+it.rest*1000;P.beeped={};renderPlayer()}else goWork(n)}
 $('#s-player').addEventListener('click',async e=>{ensureAudio();const a=e.target.closest('[data-act]');if(!a||!P)return;const act=a.dataset.act;
@@ -1205,7 +1281,7 @@ const SIC={eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
   users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.7c1.9.7 3.1 2.5 3.5 5.3"/></svg>'};
 let myShared={};// sourcePlanId -> shared info (views/adds)
 async function refreshMyShared(){try{const r=await Api.call('GET','/api/shared?sort=new');myShared={};r.plans.filter(p=>p.isMine).forEach(p=>myShared[p.sourcePlanId]=p);if($('#s-home').classList.contains('active'))renderHome()}catch(e){}}
-async function publishShared(p){return Api.call('POST','/api/shared',{planId:p.id,name:p.name,category:p.category,items:p.items})}
+async function publishShared(p){return Api.call('POST','/api/shared',{planId:p.id,name:p.name,category:p.category,mode:p.mode||'straight',items:p.items})}
 async function unpublishShared(p){return Api.call('DELETE','/api/shared/by-plan/'+encodeURIComponent(p.id))}
 // keep the shared copy in sync with the owner's plan
 async function syncShare(p,wasShared){
@@ -1246,20 +1322,20 @@ function renderSharedList(){const ps=SH.data.plans;
     const th=sp.items.slice(0,5).map(it=>`<div class="t">${exFig(it.exId,{anim:false})}</div>`).join('')+(sp.items.length>5?`<div class="t more">+${sp.items.length-5}</div>`:'');
     return`<div class="plan shp" data-sp="${sp.id}">
       <div class="plan-h"><h3>${esc(sp.name)}</h3><span class="chip acc">${CATS[sp.category]||sp.category}</span></div>
-      <div class="plan-meta"><span>by <b>${esc(sp.ownerName)}</b></span><span><b>${sp.items.length}</b> exercises</span><span>~<b>${est}</b> min</span></div>
+      <div class="plan-meta"><span>by <b>${esc(sp.ownerName)}</b></span>${sp.mode==='circuit'?'<span><b>Circuit</b></span>':''}<span><b>${sp.items.length}</b> exercises</span><span>~<b>${est}</b> min</span></div>
       <div class="thumbs">${th}</div>
       <div class="plan-f"><div class="shstats">${shStats(sp)}</div>${shAction(sp)}</div></div>`}).join('')}
 $('#sh-list').addEventListener('click',e=>{const a=e.target.closest('[data-add]');if(a){e.stopPropagation();addShared(a.dataset.add,a);return}
   const c=e.target.closest('[data-sp]');if(c)sharedDetail(c.dataset.sp)});
 async function addShared(id,btn){if(btn)btn.disabled=true;
   try{const r=await Api.call('POST',`/api/shared/${id}/add`);const sp=r.plan;
-    if(!sp.isMine){ws.plans.push({id:uid(),name:sp.name,category:sp.category,items:JSON.parse(JSON.stringify(sp.items)),created:Date.now(),updated:Date.now(),fromShared:sp.id,fromOwner:sp.ownerName});saveWS()}
+    if(!sp.isMine){ws.plans.push({id:uid(),name:sp.name,category:sp.category,mode:sp.mode||'straight',items:JSON.parse(JSON.stringify(sp.items)),created:Date.now(),updated:Date.now(),fromShared:sp.id,fromOwner:sp.ownerName});saveWS()}
     const i=SH.data?.plans.findIndex(x=>x.id===id);if(i>=0)SH.data.plans[i]=sp;renderSharedList();toast(`"${sp.name}" added to your plans`);return sp}
   catch(e){toast(e.message);if(btn)btn.disabled=false}}
 async function sharedDetail(id){const sp=SH.data.plans.find(x=>x.id===id);if(!sp)return;
   if(!sp.isMine)Api.call('POST',`/api/shared/${id}/view`).then(()=>{loadSharedQuiet()}).catch(()=>{});
   sheet(`<div class="chips" style="margin-bottom:8px"><span class="chip acc">${CATS[sp.category]||sp.category}</span></div><h3>${esc(sp.name)}</h3>
-    <p>by ${esc(sp.ownerName)} · ${sp.items.length} exercises · ~${Math.max(1,Math.round(planEst(sp)/60))} min</p>
+    <p>by ${esc(sp.ownerName)} · ${sp.items.length} exercises · ~${Math.max(1,Math.round(planEst(sp)/60))} min${sp.mode==='circuit'?' · Circuit':''}</p>
     <div class="shstats" style="margin:-6px 0 12px">${shStats(sp)}</div>
     <div class="rv-list">${sp.items.map((it,i)=>`<div class="rv"><div class="n">${i+1}</div><div class="t">${exFig(it.exId)}</div><div class="info"><b>${esc(EXM[it.exId]?.n||it.exId)}</b><span>${itemLine(it)}</span></div></div>`).join('')}</div>
     <div style="margin-top:16px" id="shd-act">${sp.isMine?'<p style="margin:0">This is your plan. Manage sharing from its ⋯ menu on your home screen.</p>':inMyPlans(sp.id)?'<button class="btn big" disabled>✓ Already in your plans</button>':`<button class="btn primary big" data-a="add">${SIC.add.replace('<svg','<svg width="18" height="18"')}Add to my plans</button>`}</div>`,(el,close)=>{

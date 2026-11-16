@@ -63,6 +63,7 @@ async function migrate() {
       updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
       UNIQUE(owner_id, source_plan_id)
     );
+    ALTER TABLE shared_plans ADD COLUMN IF NOT EXISTS mode TEXT NOT NULL DEFAULT 'straight';
     CREATE TABLE IF NOT EXISTS shared_views (
       shared_id TEXT NOT NULL REFERENCES shared_plans(id) ON DELETE CASCADE,
       user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -251,12 +252,12 @@ function cleanItems(items) {
   }
   return out;
 }
-const SHARED_SELECT = `SELECT s.id, s.name, s.category, s.items, s.created_at, s.updated_at, s.owner_id, s.source_plan_id, u.name AS owner_name,
+const SHARED_SELECT = `SELECT s.id, s.name, s.category, s.mode, s.items, s.created_at, s.updated_at, s.owner_id, s.source_plan_id, u.name AS owner_name,
     (SELECT count(*)::int FROM shared_views v WHERE v.shared_id=s.id) AS views,
     (SELECT count(*)::int FROM shared_adds a WHERE a.shared_id=s.id) AS adds,
     EXISTS(SELECT 1 FROM shared_adds a WHERE a.shared_id=s.id AND a.user_id=$1) AS added_by_me
   FROM shared_plans s JOIN users u ON u.id=s.owner_id`;
-const sharedOut = (r, me) => ({ id: r.id, name: r.name, category: r.category, items: r.items, ownerName: r.owner_name || 'Someone', isMine: r.owner_id === me, sourcePlanId: r.owner_id === me ? r.source_plan_id : undefined,
+const sharedOut = (r, me) => ({ id: r.id, name: r.name, category: r.category, mode: r.mode || 'straight', items: r.items, ownerName: r.owner_name || 'Someone', isMine: r.owner_id === me, sourcePlanId: r.owner_id === me ? r.source_plan_id : undefined,
   views: r.views, adds: r.adds, addedByMe: r.added_by_me, createdAt: r.created_at, updatedAt: r.updated_at });
 
 app.get('/api/shared', wrap(auth), wrap(async (req, res) => {
@@ -273,13 +274,13 @@ app.get('/api/shared', wrap(auth), wrap(async (req, res) => {
 app.post('/api/shared', wrap(auth), wrap(async (req, res) => {
   const b = req.body || {};
   const name = String(b.name || '').trim().slice(0, 40), category = String(b.category || ''), src = String(b.planId || '').slice(0, 40);
-  const items = cleanItems(b.items);
+  const items = cleanItems(b.items), mode = b.mode === 'circuit' ? 'circuit' : 'straight';
   if (!name || !src || !items) return res.status(400).json({ error: 'This plan can\'t be shared — it needs a name and at least one exercise.' });
   if (!CATEGORIES.includes(category)) return res.status(400).json({ error: 'Choose a category before sharing.' });
   const id = crypto.randomBytes(9).toString('base64url');
-  const r = await q(`INSERT INTO shared_plans(id,owner_id,source_plan_id,name,category,items) VALUES($1,$2,$3,$4,$5,$6)
-     ON CONFLICT(owner_id,source_plan_id) DO UPDATE SET name=EXCLUDED.name, category=EXCLUDED.category, items=EXCLUDED.items, updated_at=now()
-     RETURNING id, (xmax = 0) AS inserted`, [id, req.user.id, src, name, category, JSON.stringify(items)]);
+  const r = await q(`INSERT INTO shared_plans(id,owner_id,source_plan_id,name,category,items,mode) VALUES($1,$2,$3,$4,$5,$6,$7)
+     ON CONFLICT(owner_id,source_plan_id) DO UPDATE SET name=EXCLUDED.name, category=EXCLUDED.category, items=EXCLUDED.items, mode=EXCLUDED.mode, updated_at=now()
+     RETURNING id, (xmax = 0) AS inserted`, [id, req.user.id, src, name, category, JSON.stringify(items), mode]);
   if (r.rows[0].inserted) await logEvent(req.user.id, 'plan_shared', { sharedId: r.rows[0].id });
   res.json({ id: r.rows[0].id });
 }));
