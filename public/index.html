@@ -13,7 +13,7 @@
 <link rel="manifest" href="/manifest.webmanifest">
 <title>FitForge — Workout Planner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#0d0f13;--panel:#151920;--panel2:#1c212a;--line:#272d38;--text:#eef1f5;--mute:#8b94a5;
@@ -25,7 +25,7 @@
 html{touch-action:manipulation;-webkit-text-size-adjust:100%}
 body{overflow-x:hidden}
 html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.45;min-height:100%}
-body{padding-left:var(--sl);padding-right:var(--sr);overscroll-behavior-y:none}
+body{padding-inline-start:var(--sl);padding-inline-end:var(--sr);overscroll-behavior-y:none}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 input,textarea,select{font:inherit;color:inherit}
 h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
@@ -72,7 +72,7 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .fld>span{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#c7cdd8}
 .fld input,.inp{font-size:16px;width:100%;height:50px;border-radius:12px;background:var(--panel);border:1px solid var(--line);padding:0 14px;outline:none;transition:border-color .15s,box-shadow .15s}
 .fld input:focus,.inp:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(200,255,46,.15)}
-.pw{position:relative}.pw input{padding-right:68px}
+.pw{position:relative}.pw input{padding-inline-end:68px}
 .pw button{position:absolute;right:8px;top:8px;height:34px;padding:0 10px;border-radius:8px;font-size:13px;color:var(--mute);font-weight:600}
 .err{color:var(--bad);font-size:13.5px;min-height:20px;margin:-2px 0 10px}
 .err a{color:var(--acc);cursor:pointer;text-decoration:underline}
@@ -106,7 +106,7 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px}
 .stat .v{font-family:var(--disp);font-size:30px;font-weight:700;line-height:1}
 .stat .l{font-size:12px;color:var(--mute);margin-top:6px}
-.cta-new{width:100%;display:flex;align-items:center;gap:16px;padding:18px;border-radius:20px;background:linear-gradient(120deg,var(--acc),#9be84a);color:var(--acc-ink);text-align:left;position:relative;overflow:hidden;transition:transform .15s}
+.cta-new{width:100%;display:flex;align-items:center;gap:16px;padding:18px;border-radius:20px;background:linear-gradient(120deg,var(--acc),#9be84a);color:var(--acc-ink);text-align:start;position:relative;overflow:hidden;transition:transform .15s}
 .cta-new:active{transform:scale(.985)}
 .cta-new .plus{width:52px;height:52px;border-radius:15px;background:rgba(0,0,0,.12);display:grid;place-items:center;flex:none}
 .cta-new .plus svg{width:26px;height:26px}
@@ -133,7 +133,7 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .plan-f .last{font-size:12.5px;color:var(--mute)}
 .plan-f .last b{color:var(--text)}
 .play{width:46px;height:46px;border-radius:50%;background:var(--acc);display:grid;place-items:center;flex:none}
-.play svg{width:20px;height:20px;margin-left:3px}
+.play svg{width:20px;height:20px;margin-inline-start:3px}
 .empty{border:1.5px dashed var(--line);border-radius:20px;padding:34px 20px;text-align:center;color:var(--mute)}
 .empty .fig{width:110px;height:110px;margin:0 auto 8px;display:block}
 .empty b{display:block;color:var(--text);font-family:var(--disp);font-size:22px;margin-bottom:4px}
@@ -178,7 +178,7 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .body-side h2{font-size:30px;margin-bottom:6px}
 .body-side p{margin:0 0 16px}
 .mgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.mbtn{display:flex;align-items:center;justify-content:space-between;gap:8px;height:48px;padding:0 14px;border-radius:12px;background:var(--panel);border:1px solid var(--line);font-weight:600;font-size:14px;text-align:left;transition:all .15s}
+.mbtn{display:flex;align-items:center;justify-content:space-between;gap:8px;height:48px;padding:0 14px;border-radius:12px;background:var(--panel);border:1px solid var(--line);font-weight:600;font-size:14px;text-align:start;transition:all .15s}
 .mbtn small{font-size:11.5px;color:var(--mute);font-weight:600}
 .mbtn:hover{border-color:#3d4654}
 .mbtn.on{background:rgba(200,255,46,.12);border-color:var(--acc);color:var(--acc)}
@@ -188,14 +188,14 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .step-h p{margin:2px 0 0;color:var(--mute);font-size:13.5px}
 .exgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(165px,100%),1fr));gap:12px}
 .exgrid>*,.mgrid>*,.plans>*,.stats>*{min-width:0}
-.excard{width:100%;min-width:0;overflow:hidden;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:10px;text-align:left;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,transform .15s}
+.excard{width:100%;min-width:0;overflow:hidden;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:10px;text-align:start;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,transform .15s}
 .excard:hover{border-color:var(--acc)}.excard:active{transform:scale(.98)}
 .excard .pic{display:block;width:100%;border-radius:13px;background:linear-gradient(160deg,#1f2530,#161a21);padding:8px}
 .excard b{font-size:14.5px;line-height:1.25;padding:0 2px}
 .excard .tags{display:flex;gap:4px;flex-wrap:wrap;padding:0 2px 2px}
 .fig-hint{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--mute);margin:0 0 10px}
 .fh-line{display:inline-block;width:16px;height:3px;border-radius:2px;background:var(--acc2)}
-.fh-eye{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--fig);box-shadow:inset 0 0 0 2.5px var(--fig);position:relative;margin-left:8px}
+.fh-eye{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--fig);box-shadow:inset 0 0 0 2.5px var(--fig);position:relative;margin-inline-start:8px}
 .fh-eye::after{content:"";position:absolute;left:2.5px;top:2.5px;width:3px;height:3px;border-radius:50%;background:#0d0f13}
 .excard .tags span.homet{color:var(--good);background:rgba(61,220,132,.12)}
 .excard .tags span{font-size:10.5px;font-weight:600;color:var(--mute);background:var(--panel2);padding:3px 7px;border-radius:6px}
@@ -282,7 +282,7 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .ring-lbl{font-size:13px;letter-spacing:.3em;color:var(--mute);font-weight:700}
 .ring-t{font-family:var(--disp);font-size:clamp(64px,18vw,96px);font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
 .r-btns{display:flex;gap:10px;margin:22px 0}
-.upnext{display:flex;align-items:center;gap:14px;background:#151920;border:1px solid var(--line);border-radius:20px;padding:10px 16px 10px 10px;text-align:left;max-width:420px;width:100%}
+.upnext{display:flex;align-items:center;gap:14px;background:#151920;border:1px solid var(--line);border-radius:20px;padding:10px 16px 10px 10px;text-align:start;max-width:420px;width:100%}
 .un-fig{width:76px;height:76px;border-radius:14px;background:#1c212a;padding:6px;flex:none}
 .un-name{font-family:var(--disp);font-size:22px;font-weight:700;margin:2px 0}
 
@@ -312,13 +312,13 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .histbox .hl{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mute)}
 
 /* ---------- SHARED / CATEGORIES ---------- */
-.cta-sec{width:100%;display:flex;align-items:center;gap:14px;margin-top:10px;padding:14px 16px;border-radius:18px;background:var(--panel);border:1px solid var(--line);text-align:left;transition:border-color .15s,transform .15s}
+.cta-sec{width:100%;display:flex;align-items:center;gap:14px;margin-top:10px;padding:14px 16px;border-radius:18px;background:var(--panel);border:1px solid var(--line);text-align:start;transition:border-color .15s,transform .15s}
 .cta-sec:hover{border-color:#3a4250}.cta-sec:active{transform:scale(.99)}
 .cta-sec .ic{width:44px;height:44px;border-radius:13px;background:rgba(200,255,46,.12);color:var(--acc);display:grid;place-items:center;flex:none}.cta-sec .ic svg{width:22px;height:22px}
 .cta-sec b{display:block;font-family:var(--disp);font-size:21px;letter-spacing:.02em}.cta-sec span span{font-size:13px;color:var(--mute)}
-.cta-sec .arr{margin-left:auto;color:var(--mute);transform:rotate(180deg)}.cta-sec .arr svg{width:20px;height:20px}
+.cta-sec .arr{margin-inline-start:auto;color:var(--mute);transform:rotate(180deg)}.cta-sec .arr svg{width:20px;height:20px}
 .catgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.catopt{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:11px 12px;border-radius:12px;background:var(--panel2);border:1.5px solid var(--line);min-width:0;transition:border-color .15s,background .15s}
+.catopt{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:start;padding:11px 12px;border-radius:12px;background:var(--panel2);border:1.5px solid var(--line);min-width:0;transition:border-color .15s,background .15s}
 .catopt b{font-size:14.5px}.catopt small{font-size:11.5px;color:var(--mute);line-height:1.3}
 .catopt:hover{border-color:#3d4654}.catopt.on{border-color:var(--acc);background:rgba(200,255,46,.08)}.catopt.on b{color:var(--acc)}
 .catopt .sug{font-size:10px;font-weight:700;color:var(--acc);letter-spacing:.06em;text-transform:uppercase}
@@ -327,7 +327,7 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .rv-sec h4{margin:0 0 10px;font-size:15px;display:flex;justify-content:space-between;align-items:baseline}.rv-sec h4 small{font-weight:500;color:var(--mute);font-size:12.5px}
 @media(min-width:700px){.rv-sec .catgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .ordgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.ordopt{display:flex;flex-direction:column;gap:3px;text-align:left;padding:12px;border-radius:12px;background:var(--panel2);border:1.5px solid var(--line);min-width:0}
+.ordopt{display:flex;flex-direction:column;gap:3px;text-align:start;padding:12px;border-radius:12px;background:var(--panel2);border:1.5px solid var(--line);min-width:0}
 .ordopt b{font-size:14.5px}.ordopt small{font-size:12px;color:var(--mute);line-height:1.35}
 .ordopt .seq{margin-top:6px;font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.02em;white-space:nowrap;color:#9aa3b3}
 .ordopt.on{border-color:var(--acc);background:rgba(200,255,46,.08)}.ordopt.on b,.ordopt.on .seq{color:var(--acc)}
@@ -339,7 +339,7 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .fchips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .fchips::-webkit-scrollbar{display:none}
 .fchip{height:36px;padding:0 14px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-weight:600;font-size:13.5px;white-space:nowrap;color:#c7cdd8;flex:none}
-.fchip i{font-style:normal;color:var(--mute);font-weight:500;margin-left:3px}
+.fchip i{font-style:normal;color:var(--mute);font-weight:500;margin-inline-start:3px}
 .fchip.on{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}.fchip.on i{color:rgba(18,22,0,.6)}
 .sh-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .sh-bar .seg{margin:0}
@@ -347,19 +347,19 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .shstats span{display:inline-flex;align-items:center;gap:5px}.shstats svg{width:16px;height:16px}.shstats b{color:var(--text);font-weight:600}
 .sh-tag{font-size:12.5px;font-weight:700;padding:7px 11px;border-radius:9px;background:var(--panel2);color:var(--mute);white-space:nowrap}
 .sh-tag.ok{color:var(--good);background:rgba(61,220,132,.1)}.sh-tag.mine{color:var(--acc);background:rgba(200,255,46,.1)}
-.shp .plan-f{flex-wrap:wrap;row-gap:10px}.shp .plan-f .btn{white-space:nowrap;margin-left:auto}.shp .plan-f .btn svg{margin-right:-2px}
+.shp .plan-f{flex-wrap:wrap;row-gap:10px}.shp .plan-f .btn{white-space:nowrap;margin-inline-start:auto}.shp .plan-f .btn svg{margin-inline-end:-2px}
 @media(max-width:520px){.shstats{gap:10px;font-size:12.5px}}
 .shared-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--acc)}
 .shared-badge svg{width:14px;height:14px}
 .from-line{font-size:12px;color:var(--mute);margin-top:-6px}
 /* ---------- PROFILE & WEIGHT ---------- */
 .pf-top{display:flex;align-items:center;justify-content:space-between}
-.pf-bul{margin:0 0 22px;padding-left:20px;color:#c7cdd8}.pf-bul li{margin:6px 0}
+.pf-bul{margin:0 0 22px;padding-inline-start:20px;color:#c7cdd8}.pf-bul li{margin:6px 0}
 .pf-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .co-opts.two{grid-template-columns:repeat(2,minmax(0,1fr))}
 .co-pre{display:flex;align-items:center;gap:12px;justify-content:space-between;background:rgba(200,255,46,.06);border:1px solid rgba(200,255,46,.25);border-radius:14px;padding:12px 14px;margin-bottom:16px}
 .co-pre b{display:block;font-size:14px}.co-pre span{font-size:13px;color:#c7cdd8}
-.wcard{position:relative;width:100%;margin:0 0 4px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px 16px;text-align:left;display:block}
+.wcard{position:relative;width:100%;margin:0 0 4px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px 16px;text-align:start;display:block}
 .wcard.empty{display:flex;align-items:center;gap:14px}
 .wcard.empty .ic{width:40px;height:40px;border-radius:12px;background:var(--panel2);display:grid;place-items:center;color:var(--acc);flex:none}.wcard.empty .ic svg{width:20px;height:20px}
 .wcard.empty b{display:block}.wcard.empty span span{font-size:13px;color:var(--mute)}
@@ -371,7 +371,7 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .wc-dots{position:absolute;left:16px;right:16px;bottom:14px;height:70px;pointer-events:none}
 .wc-dots i{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;pointer-events:auto;cursor:default}
 .wc-dots i::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 2px var(--panel)}
-.wdel{width:28px;height:28px;border-radius:8px;display:inline-grid;place-items:center;color:var(--mute);vertical-align:middle;margin-left:4px}.wdel svg{width:14px;height:14px}.wdel:hover{background:var(--panel2);color:var(--bad)}
+.wdel{width:28px;height:28px;border-radius:8px;display:inline-grid;place-items:center;color:var(--mute);vertical-align:middle;margin-inline-start:4px}.wdel svg{width:14px;height:14px}.wdel:hover{background:var(--panel2);color:var(--bad)}
 /* ---------- STRETCHING ---------- */
 .seg3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:var(--panel2);border-radius:12px;padding:4px}
 .seg3 button{height:38px;border-radius:9px;font-size:13px;font-weight:600;color:var(--mute);padding:0 4px}
@@ -392,20 +392,20 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .co-q{font-size:34px;margin:6px 0 16px}
 .co-opts{display:grid;gap:8px;grid-template-columns:minmax(0,1fr)}
 @media(min-width:700px){.co-opts{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.co-opt{position:relative;display:flex;flex-direction:column;gap:2px;text-align:left;padding:15px 16px;border-radius:16px;background:var(--panel);border:1.5px solid var(--line);transition:border-color .15s,background .15s,transform .1s}
+.co-opt{position:relative;display:flex;flex-direction:column;gap:2px;text-align:start;padding:15px 16px;border-radius:16px;background:var(--panel);border:1.5px solid var(--line);transition:border-color .15s,background .15s,transform .1s}
 .co-opt:active{transform:scale(.99)}.co-opt:hover{border-color:#3d4654}
 .co-opt b{font-size:16px}.co-opt small{color:var(--mute);font-size:13px}
 .co-opt.on{border-color:var(--acc);background:rgba(200,255,46,.08)}.co-opt.on b{color:var(--acc)}
 .co-ck{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:7px;border:1.5px solid #3d4654;display:grid;place-items:center;font-weight:800;color:var(--acc-ink)}
 .co-opt.on .co-ck{background:var(--acc);border-color:var(--acc)}
 .co-why{background:rgba(200,255,46,.06);border:1px solid rgba(200,255,46,.25);border-radius:16px;padding:14px 16px;margin-bottom:16px;font-size:14px}
-.co-why ul{margin:6px 0 0;padding-left:18px}.co-why li{margin:4px 0;color:#d5dae2}
+.co-why ul{margin:6px 0 0;padding-inline-start:18px}.co-why li{margin:4px 0;color:#d5dae2}
 .co-plan{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:14px;margin-bottom:12px}
 .co-ph{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}.co-ph h3{font-size:24px}
 .co-plan .rv{background:var(--panel2)}
 .co-acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
 /* ---------- FEEDBACK ---------- */
-.fb-cta{width:100%;display:flex;align-items:center;gap:14px;margin-top:22px;padding:14px 16px;border-radius:18px;border:1.5px dashed #343c49;text-align:left;color:var(--text)}
+.fb-cta{width:100%;display:flex;align-items:center;gap:14px;margin-top:22px;padding:14px 16px;border-radius:18px;border:1.5px dashed #343c49;text-align:start;color:var(--text)}
 .fb-cta:hover{border-color:var(--acc)}.fb-cta>span:first-child{width:40px;height:40px;border-radius:12px;background:var(--panel2);display:grid;place-items:center;color:var(--acc);flex:none}.fb-cta svg{width:20px;height:20px}
 .fb-cta b{display:block}.fb-cta small{color:var(--mute);font-size:13px}
 .fb-types{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
@@ -432,9 +432,9 @@ textarea.inp.fb-msg{height:130px;padding:12px 14px;resize:vertical;line-height:1
 .fb-reply{margin-top:10px;padding:10px 12px;border-radius:10px;background:rgba(200,255,46,.06);border-left:3px solid var(--acc);font-size:14px;white-space:pre-wrap}
 .fb-reply b{display:block;font-size:12px;color:var(--acc);margin-bottom:2px}
 .fb-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.nbadge{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;margin-left:6px;border-radius:10px;background:var(--bad);color:#fff;font-style:normal;font-size:11.5px;font-weight:800;font-family:var(--body)}
+.nbadge{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;margin-inline-start:6px;border-radius:10px;background:var(--bad);color:#fff;font-style:normal;font-size:11.5px;font-weight:800;font-family:var(--body)}
 .admin-pill{position:relative;display:inline-flex;align-items:center}
-.nbadge-inline:not(:empty){margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--bad);color:#fff;font-size:12px;font-weight:800;display:inline-grid;place-items:center}
+.nbadge-inline:not(:empty){margin-inline-start:auto;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--bad);color:#fff;font-size:12px;font-weight:800;display:inline-grid;place-items:center}
 .ad-tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:16px;width:max-content;max-width:100%}
 .ad-tabs button{height:36px;padding:0 16px;border-radius:9px;font-weight:600;color:var(--mute);display:inline-flex;align-items:center}
 .ad-tabs button.on{background:var(--panel2);color:var(--text)}
@@ -460,7 +460,7 @@ textarea.inp.fb-msg{height:130px;padding:12px 14px;resize:vertical;line-height:1
 .bc-total{font-size:13px;color:var(--mute);margin-bottom:8px}.bc-total b{color:var(--text);font-family:var(--disp);font-size:22px}
 .bc{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:180px auto;column-gap:8px}
 .bc.mini{grid-template-rows:90px auto}
-.bc-y{display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:var(--mute);text-align:right;font-variant-numeric:tabular-nums;margin:-6px 0}
+.bc-y{display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:var(--mute);text-align:end;font-variant-numeric:tabular-nums;margin:-6px 0}
 .bc-plot{position:relative}
 .bc-grid{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}
 .bc-grid i{height:1px;background:#232933}
@@ -474,14 +474,14 @@ textarea.inp.fb-msg{height:130px;padding:12px 14px;resize:vertical;line-height:1
 .hb{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) 34px;align-items:center;gap:10px;padding:5px 0;font-size:13.5px}
 .hb-l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hb-t{height:10px;background:#1c212a;border-radius:5px;overflow:hidden}.hb-t i{display:block;height:100%;background:var(--acc);border-radius:0 4px 4px 0}
-.hb-v{text-align:right;font-variant-numeric:tabular-nums;color:#c7cdd8;font-weight:600}
+.hb-v{text-align:end;font-variant-numeric:tabular-nums;color:#c7cdd8;font-weight:600}
 .ad-tools{display:flex;gap:8px;flex-wrap:wrap}
 .inp.sm{height:38px;font-size:16px;padding:0 10px;width:auto;min-width:0}
 #ad-q{width:220px;max-width:100%}
 select.inp{appearance:auto;color:var(--text);background:var(--panel)}
 select.inp option{background:var(--panel);color:var(--text)}
 .ut{display:flex;flex-direction:column}
-.ut-h,.ut-r{display:grid;grid-template-columns:minmax(0,2.2fr) .8fr .9fr .55fr 1fr .8fr .7fr;gap:10px;align-items:center;text-align:left}
+.ut-h,.ut-r{display:grid;grid-template-columns:minmax(0,2.2fr) .8fr .9fr .55fr 1fr .8fr .7fr;gap:10px;align-items:center;text-align:start}
 .ut-h{font-size:11.5px;color:var(--mute);font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:0 10px 8px;border-bottom:1px solid var(--line)}
 .ut-r{padding:10px;border-bottom:1px solid var(--line);font-size:13.5px;border-radius:10px;width:100%}
 .ut-r:hover{background:var(--panel2)}
@@ -518,7 +518,7 @@ select.inp option{background:var(--panel);color:var(--text)}
 .sheet h3{font-size:26px;margin-bottom:6px}
 .sheet p{color:var(--mute);margin:0 0 16px}
 .menu{display:grid;gap:4px}
-.menu button{display:flex;align-items:center;gap:12px;height:52px;padding:0 12px;border-radius:12px;font-weight:600;text-align:left}
+.menu button{display:flex;align-items:center;gap:12px;height:52px;padding:0 12px;border-radius:12px;font-weight:600;text-align:start}
 .menu button:hover{background:var(--panel2)}
 .menu button svg{width:20px;height:20px;color:var(--mute)}
 .menu button.red,.menu button.red svg{color:var(--bad)}
@@ -543,6 +543,28 @@ select.inp option{background:var(--panel);color:var(--text)}
   .cfg-pic{max-width:300px;padding:14px}
   .rv{gap:9px;padding:8px}.rv .t{width:52px;height:52px}.rv .acts{gap:0}.rv .acts button{width:30px}
 }
+
+/* ---------- LANGUAGE / RTL ---------- */
+.lang-sw{position:absolute;top:0;inset-inline-end:0;display:flex;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;z-index:2}
+.lang-sw button{height:30px;padding:0 10px;border-radius:7px;font-size:12.5px;font-weight:600;color:var(--mute)}
+.lang-sw button.on{background:var(--panel2);color:var(--text)}
+.lang-dot{width:16px;height:16px;border-radius:50%;border:2px solid #3d4654;flex:none}
+.menu button.on .lang-dot{border-color:var(--acc);background:radial-gradient(circle,var(--acc) 0 4px,transparent 5px)}
+html.lang-he{--disp:'Heebo',system-ui,sans-serif;--body:'Heebo',system-ui,sans-serif}
+html.lang-he h1,html.lang-he h2,html.lang-he h3{letter-spacing:0;line-height:1.15}
+html.lang-he .brand{letter-spacing:.04em}
+html.lang-he .eyebrow,html.lang-he .ring-lbl,html.lang-he .p-set,html.lang-he .side-lbl{letter-spacing:.02em}
+[dir=rtl] .icon-btn svg,[dir=rtl] .back-link svg{transform:scaleX(-1)}
+[dir=rtl] .cta-sec .arr{transform:none}
+[dir=rtl] .b-tog{left:auto;right:12px}[dir=rtl] .b-hint{right:auto;left:14px}
+[dir=rtl] .pw input{padding-right:14px;padding-left:68px}[dir=rtl] .pw button{right:auto;left:8px}
+[dir=rtl] .co-ck{right:auto;left:14px}
+[dir=rtl] input[type=email],[dir=rtl] input[type=password],[dir=rtl] .otp{direction:ltr}
+[dir=rtl] input[type=email],[dir=rtl] input[type=password]{text-align:end}
+[dir=rtl] .fb-reply{border-left:0;border-right:3px solid var(--acc)}
+[dir=rtl] .fb-item.isnew{box-shadow:inset -3px 0 0 var(--acc)}
+[dir=rtl] .hb-t i{border-radius:4px 0 0 4px}
+[dir=rtl] .sec small,[dir=rtl] .wc-v small{direction:rtl}
 </style>
 </head>
 <body>
@@ -552,6 +574,7 @@ select.inp option{background:var(--panel);color:var(--text)}
 <!-- LOGIN -->
 <section id="s-login" class="screen auth">
   <div class="auth-card">
+    <div class="lang-sw" data-notr><button data-lang="en">English</button><button data-lang="he">עברית</button></div>
     <div class="brand"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#121600" stroke-width="2.6" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg></span>FITFORGE</div>
     <h1 id="auth-title">Welcome back</h1>
     <p class="sub" id="auth-sub">Sign in to build and run your workout plans.</p>
@@ -567,7 +590,7 @@ select.inp option{background:var(--panel);color:var(--text)}
       <div id="g-btn" class="g-btn"></div>
     </div>
     <p class="fine" id="auth-fine"></p>
-    <p class="fine" style="margin-top:6px"><a href="/privacy" style="color:var(--mute)">Privacy Policy</a> · <a href="/terms" style="color:var(--mute)">Terms</a></p>
+    <p class="fine" style="margin-top:6px"><a id="lnk-priv" href="/privacy" style="color:var(--mute)">Privacy Policy</a> · <a id="lnk-terms" href="/terms" style="color:var(--mute)">Terms</a></p>
   </div>
 </section>
 
@@ -577,7 +600,7 @@ select.inp option{background:var(--panel);color:var(--text)}
     <button class="back-link" id="v-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to sign in</button>
     <div class="mail-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#c8ff2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg></div>
     <h1>Verify your email</h1>
-    <p class="sub">We sent a 6-digit code to <b id="v-email" style="color:var(--text)"></b>. Enter it below to unlock your account.</p>
+    <p class="sub">We sent a 6-digit code to <b id="v-email" data-notr style="color:var(--text)"></b>. Enter it below to unlock your account.</p>
     <div class="otp" id="otp"></div>
     <div class="err" id="v-err"></div>
     <button class="btn primary big" id="v-submit">Verify &amp; continue</button>
@@ -701,7 +724,7 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const withTimeout=(p,ms)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),ms))]);
 const fmt=s=>{s=Math.max(0,Math.round(s));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return h?`${h}:${String(m).padStart(2,'0')}:${String(x).padStart(2,'0')}`:`${m}:${String(x).padStart(2,'0')}`};
 const DAY=864e5;
-function ago(t){const d=Math.floor((startOfDay(Date.now())-startOfDay(t))/DAY);if(d<=0)return'today';if(d===1)return'yesterday';if(d<7)return d+' days ago';if(d<30)return Math.floor(d/7)+' wk ago';return new Date(t).toLocaleDateString(undefined,{month:'short',day:'numeric'})}
+function ago(x){const d=Math.floor((startOfDay(Date.now())-startOfDay(x))/DAY);if(d<=0)return t('today');if(d===1)return t('yesterday');if(d<7)return t('{n} days ago',{n:d});if(d<30)return t('{n} wk ago',{n:Math.floor(d/7)});return new Date(x).toLocaleDateString(LOC(),{month:'short',day:'numeric'})}
 function startOfDay(t){const d=new Date(t);d.setHours(0,0,0,0);return d.getTime()}
 let toastT;function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2600)}
 const ICON={
@@ -736,12 +759,104 @@ const Sync={timer:null,busy:false,again:false,
   pending:false,
   async now(){clearTimeout(this.timer);if(this.pending||this.busy)await this.flush()},
   async flush(){if(this.busy){this.again=true;return}this.busy=true;this.pending=false;setSync('saving');
-    try{await Api.call('PUT','/api/data',{plans:ws.plans,sessions:ws.sessions,profile:ws.profile||null,weights:ws.weights||[],profileSkipped:ws.profileSkipped||null});setSync('saved')}
+    try{await Api.call('PUT','/api/data',{plans:ws.plans,sessions:ws.sessions,profile:ws.profile||null,weights:ws.weights||[],profileSkipped:ws.profileSkipped||null,settings:ws.settings||null});setSync('saved')}
     catch(e){if(e.status===401){toast('Your session expired — please sign in again');logout(true)}else{setSync('error');this.pending=true;toast('Couldn\'t save to the server — will retry');clearTimeout(this.timer);this.timer=setTimeout(()=>this.flush(),5000)}}
     this.busy=false;if(this.again){this.again=false;this.flush()}}
 };
 function setSync(st){const el=document.getElementById('h-sync');if(!el)return;el.dataset.st=st;el.textContent=st==='saving'?'Saving…':st==='error'?'Not saved yet — retrying':'All changes saved'}
-window.addEventListener('pagehide',()=>{if(Sync.pending&&Api.token){try{fetch('/api/data',{method:'PUT',keepalive:true,headers:{'Content-Type':'application/json',Authorization:'Bearer '+Api.token},body:JSON.stringify({plans:ws.plans,sessions:ws.sessions,profile:ws.profile||null,weights:ws.weights||[],profileSkipped:ws.profileSkipped||null})})}catch(e){}}});
+window.addEventListener('pagehide',()=>{if(Sync.pending&&Api.token){try{fetch('/api/data',{method:'PUT',keepalive:true,headers:{'Content-Type':'application/json',Authorization:'Bearer '+Api.token},body:JSON.stringify({plans:ws.plans,sessions:ws.sessions,profile:ws.profile||null,weights:ws.weights||[],profileSkipped:ws.profileSkipped||null,settings:ws.settings||null})})}catch(e){}}});
+/* ================= I18N ================= */
+const LANGS={en:{n:'English',dir:'ltr'},he:{n:'עברית',dir:'rtl'}};
+let LANG=(()=>{const l=LS.get('ff_lang',null);if(l&&LANGS[l])return l;return /^he|^iw/i.test(navigator.language||'')?'he':'en'})();
+const I18N={en:{},he:{}},I18P={en:[],he:[]};
+const LOC=()=>LANG==='he'?'he-IL':undefined;
+function t(s,vars){let r=(LANG!=='en'&&I18N[LANG][s])||s;if(vars)r=r.replace(/\{(\w+)\}/g,(_,k)=>vars[k]??'');return r}
+function trText(raw){if(LANG==='en')return null;const m=raw.match(/^(\s*)([\s\S]*?)(\s*)$/),core=m[2];
+  if(!core||!/[A-Za-z]/.test(core))return null;
+  let tr=I18N[LANG][core];
+  if(tr==null)for(const[re,rep]of I18P[LANG]){const mm=core.match(re);if(mm){tr=typeof rep==='function'?rep(...mm):core.replace(re,rep);break}}
+  if(tr==null){if(window.__miss)window.__miss.add(core);return null}
+  return m[1]+tr+m[3]}
+const TR_ATTRS=['placeholder','aria-label','title'];
+const trSeen=new WeakMap();
+function trAttrs(el){for(const a of TR_ATTRS){const v=el.getAttribute(a);if(v){const tv=trText(v);if(tv!=null&&tv!==v)el.setAttribute(a,tv)}}}
+function trNode(n){if(LANG==='en')return;
+  if(n.nodeType===3){if(trSeen.get(n)===n.nodeValue)return;const p=n.parentElement;if(!p||p.closest('[data-notr],script,style,textarea,svg'))return;
+    const v=trText(n.nodeValue);if(v!=null&&v!==n.nodeValue)n.nodeValue=v;trSeen.set(n,n.nodeValue);return}
+  if(n.nodeType!==1||n.closest('[data-notr],script,style'))return;
+  trAttrs(n);const w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT|NodeFilter.SHOW_ELEMENT,{acceptNode:x=>x.nodeType===1&&(x.hasAttribute('data-notr')||x.tagName==='SCRIPT'||x.tagName==='STYLE'||x.tagName==='svg')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});
+  let x;while((x=w.nextNode())){if(x.nodeType===3)trNode(x);else trAttrs(x)}}
+function applyLangChrome(){const h=document.documentElement;h.lang=LANG;h.dir=LANGS[LANG].dir;h.classList.toggle('lang-he',LANG==='he');
+  $$('[data-lang]').forEach(b=>b.classList.toggle('on',b.dataset.lang===LANG))}
+function initI18n(){applyLangChrome();if(LANG==='en')return;trNode(document.body);
+  new MutationObserver(muts=>{for(const m of muts){if(m.type==='characterData')trNode(m.target);else m.addedNodes.forEach(trNode)}}).observe(document.body,{childList:true,subtree:true,characterData:true})}
+async function setLang(l){if(!LANGS[l]||l===LANG)return;LS.set('ff_lang',l);
+  if(me){ws.settings={...(ws.settings||{}),lang:l};try{await Api.call('PUT','/api/data',{plans:ws.plans,sessions:ws.sessions,profile:ws.profile||null,weights:ws.weights||[],profileSkipped:ws.profileSkipped||null,settings:ws.settings})}catch(e){}}
+  location.reload()}
+function langSheet(){sheet(`<h3>${t('Language')}</h3><div class="menu" data-notr>${Object.entries(LANGS).map(([k,v])=>`<button data-lang="${k}" class="${k===LANG?'on':''}"><span class="lang-dot"></span>${v.n}</button>`).join('')}</div>`,(el,close)=>el.addEventListener('click',e=>{const b=e.target.closest('[data-lang]');if(b){close();setLang(b.dataset.lang)}}))}
+const legal=p=>LANG==='he'?`/${p}-he`:`/${p}`;
+/* Hebrew dictionary */
+Object.assign(I18N.he,{"FITFORGE":"FITFORGE","AAA → BBB → CCC":"AAA → BBB → CCC","ABC → ABC → ABC":"ABC → ABC → ABC","Welcome back": "ברוכים השבים", "Create your account": "יצירת חשבון", "Sign in to build and run your workout plans.": "התחברו כדי לבנות ולהפעיל את תוכניות האימון שלכם.", "Sign up with your email — we'll ask you to verify it next.": "הירשמו עם האימייל שלכם — בשלב הבא נבקש לאמת אותו.", "Sign in": "התחברות", "Create account": "יצירת חשבון", "Email": "אימייל", "Password": "סיסמה", "At least 6 characters": "לפחות 6 תווים", "Show": "הצג", "Hide": "הסתר", "or": "או", "Privacy Policy": "מדיניות פרטיות", "Terms": "תנאי שימוש", "Beta: email verification codes are shown on screen until email sending is switched on.": "גרסת בטא: קודי האימות מוצגים על המסך עד שתופעל שליחת אימיילים.", "Please enter a valid email address.": "נא להזין כתובת אימייל תקינה.", "Password must be at least 6 characters.": "הסיסמה חייבת להכיל לפחות 6 תווים.", "This email already has an account.": "לאימייל הזה כבר יש חשבון.", "Sign in instead": "להתחברות", "No account found for this email.": "לא נמצא חשבון עם האימייל הזה.", "Create one": "ליצירת חשבון", "Incorrect password. Please try again.": "סיסמה שגויה. נסו שוב.", "Can't reach the server. Check your connection and try again.": "אין חיבור לשרת. בדקו את החיבור ונסו שוב.", "Can't reach the server right now. Please try again in a moment.": "אין חיבור לשרת כרגע. נסו שוב בעוד רגע.", "Back to sign in": "חזרה להתחברות", "Verify your email": "אימות האימייל", "We sent a 6-digit code to": "שלחנו קוד בן 6 ספרות אל", ". Enter it below to unlock your account.": ". הזינו אותו למטה כדי לפתוח את החשבון.", "Verify & continue": "אימות והמשך", "Didn't get it? Resend code": "לא קיבלתם? שליחת קוד חדש", "Demo inbox": "תיבת דואר לדוגמה", "Enter all 6 digits.": "הזינו את כל 6 הספרות.", "Email verified — welcome!": "האימייל אומת — ברוכים הבאים!", "New code sent": "נשלח קוד חדש", "Signed in with Google": "התחברתם עם Google", "No pending verification for this email.": "אין אימות ממתין לאימייל הזה.", "No pending verification. Please sign in again.": "אין אימות ממתין. נא להתחבר שוב.", "This code has expired. Tap resend to get a new one.": "פג תוקף הקוד. הקישו על שליחה חוזרת כדי לקבל קוד חדש.", "Too many wrong tries. Tap resend to get a new code.": "יותר מדי ניסיונות שגויים. הקישו על שליחה חוזרת לקבלת קוד חדש.", "That code is not right. Check it and try again.": "הקוד שגוי. בדקו ונסו שוב.", "Too many attempts. Please wait a minute and try again.": "יותר מדי ניסיונות. המתינו דקה ונסו שוב.", "Google sign-in failed. Please try again.": "ההתחברות עם Google נכשלה. נסו שוב.", "Your Google account email is not verified.": "האימייל בחשבון Google שלכם לא מאומת.", "Google sign-in is not set up yet.": "התחברות עם Google עוד לא הוגדרה.", "Server error. Please try again.": "שגיאת שרת. נסו שוב.", "Session expired": "פג תוקף ההתחברות", "Not signed in": "לא מחוברים", "Admins only": "למנהלים בלבד", "Not found": "לא נמצא", "Bad data": "נתונים שגויים", "Bad request": "בקשה שגויה", "Your session expired — please sign in again": "פג תוקף ההתחברות — נא להתחבר שוב", "Couldn't save to the server — will retry": "השמירה בשרת נכשלה — ננסה שוב", "Offline — showing saved copy": "אין חיבור — מוצג עותק שמור", "Ready to train?": "מוכנים להתאמן?", "Workouts this week": "אימונים השבוע", "Trained this month": "זמן אימון החודש", "Current streak": "רצף נוכחי", "day": "יום", "days": "ימים", "min": "דק׳", "CREATE NEW WORKOUT PLAN": "יצירת תוכנית אימון חדשה", "Pick muscles on the 3D body, choose exercises, set reps & rest": "בחרו שרירים על גוף התלת־ממד, בחרו תרגילים וקבעו חזרות ומנוחה", "PLAN HELPER": "עוזר התוכניות", "Plan helper": "עוזר התוכניות", "Answer a few questions, get a ready-made plan": "ענו על כמה שאלות וקבלו תוכנית מוכנה", "BROWSE SHARED PLANS": "תוכניות משותפות", "Find plans from other users by category": "מצאו תוכניות של משתמשים אחרים לפי קטגוריה", "Your workout plans": "תוכניות האימון שלכם", "All changes saved": "כל השינויים נשמרו", "Saving…": "שומר…", "Not saved yet — retrying": "עוד לא נשמר — מנסה שוב", "No plans yet": "אין עדיין תוכניות", "Create your first workout plan and it will show up here.": "צרו את תוכנית האימון הראשונה שלכם והיא תופיע כאן.", "Not started yet": "עוד לא התחלתם", "Last done": "בוצע לאחרונה", "Best": "שיא", "No category": "ללא קטגוריה", "Shared": "משותפת", "Circuit": "סבב", "Help us improve FitForge": "עזרו לנו לשפר את FitForge", "Share an idea, report a bug or tell us what you like": "שתפו רעיון, דווחו על תקלה או ספרו לנו מה אהבתם", "Plan options": "אפשרויות התוכנית", "Account": "חשבון", "Admin": "ניהול", "exercises": "תרגילים", "exercise": "תרגיל", "Track your body weight": "מעקב משקל גוף", "Log your weight to see your progress over time": "רשמו את המשקל שלכם כדי לראות התקדמות לאורך זמן", "Body weight": "משקל גוף", "History": "היסטוריה", "Log": "רישום", "kg": "ק״ג", "Log your weight": "רישום משקל", "Weight (kg)": "משקל (ק״ג)", "Weight history": "היסטוריית משקל", "Weight logged": "המשקל נרשם", "Enter a weight between 25 and 350 kg.": "הזינו משקל בין 25 ל־350 ק״ג.", "e.g. 72.5": "לדוגמה 72.5", "e.g. 175": "לדוגמה 175", "Save": "שמירה", "Cancel": "ביטול", "Delete": "מחיקה", "Start workout": "התחלת אימון", "Edit plan": "עריכת תוכנית", "History & times": "היסטוריה וזמנים", "Delete plan": "מחיקת תוכנית", "Share with everyone": "שיתוף עם כולם", "Stop sharing": "הפסקת שיתוף", "Delete this plan?": "למחוק את התוכנית?", "Plan deleted": "התוכנית נמחקה", "No completed workouts yet.": "עדיין אין אימונים שהושלמו.", "Log out": "התנתקות", "Send feedback": "שליחת משוב", "My profile": "הפרופיל שלי", "Admin dashboard": "לוח ניהול", "Language": "שפה", "Language ·": "שפה ·", "Delete my account": "מחיקת החשבון שלי", "Delete your account?": "למחוק את החשבון?", "This permanently deletes your account, all workout plans and your workout history. This cannot be undone.": "פעולה זו מוחקת לצמיתות את החשבון, את כל תוכניות האימון ואת היסטוריית האימונים. לא ניתן לבטל.", "Delete forever": "מחיקה לצמיתות", "Your account was deleted": "החשבון נמחק", "Google": "Google", "Google user": "משתמש Google", "Apple user": "משתמש Apple", "Facebook user": "משתמש Facebook", "Google sign-in": "התחברות Google", "Apple (test)": "Apple (בדיקה)", "Facebook (test)": "Facebook (בדיקה)", "Save plan": "שמירת תוכנית", "Plan name": "שם התוכנית", "Back": "חזרה", "Muscle": "שריר", "Exercise": "תרגיל", "Reps & rest": "חזרות ומנוחה", "Which muscle do you want to train?": "איזה שריר תרצו לאמן?", "Tap a muscle on the 3D body, or pick one from the list.": "הקישו על שריר בגוף התלת־ממד או בחרו מהרשימה.", "Tap a muscle": "הקישו על שריר", "Front": "קדימה", "Drag to rotate": "גררו כדי לסובב", "3D view isn't available on this device — choose a muscle from the list.": "תצוגת התלת־ממד לא זמינה במכשיר הזה — בחרו שריר מהרשימה.", "All exercises": "כל התרגילים", "At home · no weights": "בבית · בלי משקולות", "At home": "בבית", "Timed": "לפי זמן", "Bodyweight exercises you can do at home — at most you'll need a sturdy chair, table or a step.": "תרגילים במשקל גוף שאפשר לעשות בבית — לכל היותר תצטרכו כיסא יציב, שולחן או מדרגה.", "Orange line = front of the body (chest & belly)": "קו כתום = חזית הגוף (חזה ובטן)", "dot = eyes": "נקודה = עיניים", "No exercises here — see below.": "אין כאן תרגילים — ראו למטה.", "Set your reps & rest": "קביעת חזרות ומנוחה", "Edit exercise": "עריכת תרגיל", "Update this exercise in your plan": "עדכון התרגיל בתוכנית", "Sets": "סטים", "How many rounds of this exercise": "כמה סבבים של התרגיל", "Reps": "חזרות", "Repetitions per set": "חזרות בכל סט", "Duration (seconds)": "משך (שניות)", "Hold or work time per set": "זמן החזקה או עבודה בכל סט", "Count reps": "ספירת חזרות", "Rest (seconds)": "מנוחה (שניות)", "Countdown after each set": "ספירה לאחור אחרי כל סט", "Optional — 0 = bodyweight": "אופציונלי — 0 = משקל גוף", "Add to plan": "הוספה לתוכנית", "Save changes": "שמירת שינויים", "Decrease": "הפחתה", "Increase": "הגדלה", "Exercise updated": "התרגיל עודכן", "Your workout plan": "תוכנית האימון שלכם", "Reorder, edit, or keep adding exercises. Pick a category and save when you're done.": "סדרו, ערכו או הוסיפו תרגילים. בחרו קטגוריה ושמרו בסיום.", "sets": "סטים", "Add next exercise": "הוספת התרגיל הבא", "Move up": "הזזה למעלה", "Move down": "הזזה למטה", "Edit": "עריכה", "Remove": "הסרה", "Swap": "החלפה", "Category": "קטגוריה", "required": "חובה", "Suggested": "מומלץ", "Workout order": "סדר האימון", "One exercise at a time": "תרגיל אחד בכל פעם", "All sets of exercise 1, then all sets of exercise 2…": "כל הסטים של תרגיל 1, ואז כל הסטים של תרגיל 2…", "Circuit (rounds)": "סבב (סבבים)", "One set of every exercise per round, then repeat": "סט אחד מכל תרגיל בכל סבב, ואז חוזרים", "Review plan": "סקירת התוכנית", "Save workout plan": "שמירת תוכנית האימון", "Add at least one exercise first": "הוסיפו קודם לפחות תרגיל אחד", "Choose a category for this plan": "בחרו קטגוריה לתוכנית", "Workout plan saved": "תוכנית האימון נשמרה", "Plan saved": "התוכנית נשמרה", "Plan saved and shared": "התוכנית נשמרה ושותפה", "Leave without saving?": "לצאת בלי לשמור?", "Your changes to this plan will be lost.": "השינויים בתוכנית יאבדו.", "Discard": "ביטול שינויים", "Warm-up & stretching": "חימום ומתיחות", "matched to this plan's muscles": "מותאם לשרירי התוכנית", "Off": "כבוי", "Stretch after": "מתיחות בסוף", "Warm-up + stretch": "חימום + מתיחות", "About": "בערך", "Warm-up before": "חימום לפני", "Stretching after": "מתיחות אחרי", "Turn it on to add a short warm-up before and stretches after your workout.": "הפעילו כדי להוסיף חימום קצר לפני האימון ומתיחות אחריו.", "↻ Suggest again": "↻ הצעה מחדש", "No other moves to swap in": "אין תרגילים אחרים להחלפה", "No warm-up moves.": "אין תרגילי חימום.", "No stretches.": "אין מתיחות.", "Share this plan?": "לשתף את התוכנית?", "Share plan": "שיתוף התוכנית", "Shared with everyone on FitForge": "שותף עם כל משתמשי FitForge", "Plan is no longer shared": "התוכנית כבר לא משותפת", "Choose a category": "בחירת קטגוריה", "Every plan needs a category so others can find it on the Shared plans page.": "לכל תוכנית צריכה להיות קטגוריה כדי שאחרים ימצאו אותה בעמוד התוכניות המשותפות.", "Upper body": "פלג גוף עליון", "Lower body": "פלג גוף תחתון", "Full body": "כל הגוף", "Push": "דחיפה", "Pull": "משיכה", "Core & abs": "ליבה ובטן", "Arms": "ידיים", "Mixed": "משולב", "Chest, back, shoulders, arms": "חזה, גב, כתפיים, ידיים", "Legs & glutes": "רגליים ועכוז", "Upper + lower body": "פלג עליון + תחתון", "Chest, shoulders, triceps": "חזה, כתפיים, טרייספס", "Back, biceps, rear delts": "גב, ביספס, כתף אחורית", "Abs, obliques, lower back": "בטן, אלכסוניים, גב תחתון", "Biceps, triceps, forearms": "ביספס, טרייספס, אמות", "A bit of everything": "קצת מהכול", "Chest": "חזה", "Shoulders": "כתפיים", "Biceps": "ביספס", "Forearms": "אמות", "Abs": "בטן", "Obliques": "אלכסוני בטן", "Quads": "ארבע־ראשי", "Traps": "טרפזים", "Back / Lats": "גב רחב", "Triceps": "טרייספס", "Lower back": "גב תחתון", "Glutes": "עכוז", "Hamstrings": "המסטרינג", "Calves": "שוקיים", "Barbell": "מוט", "Dumbbell": "משקולת יד", "Kettlebell": "קטלבל", "Cable": "כבל", "Med ball": "כדור כוח", "Bodyweight": "משקל גוף", "Chair": "כיסא", "Sturdy table": "שולחן יציב", "Step / stair": "מדרגה", "Barbell Bench Press": "לחיצת חזה עם מוט", "Dumbbell Bench Press": "לחיצת חזה עם משקולות", "Push-Up": "שכיבת סמיכה", "Cable Fly": "פרפר בכבלים", "Chest Dip": "מקבילים לחזה", "Overhead Press": "לחיצת כתפיים עם מוט", "Dumbbell Shoulder Press": "לחיצת כתפיים עם משקולות", "Lateral Raise": "הרחקה לצדדים", "Front Raise": "הרמה קדמית", "Reverse Fly": "פרפר הפוך", "Barbell Curl": "כפיפת מרפקים עם מוט", "Dumbbell Curl": "כפיפת מרפקים עם משקולות", "Hammer Curl": "כפיפת פטיש", "Cable Curl": "כפיפת מרפקים בכבל", "Chin-Up": "מתח באחיזה הפוכה", "Triceps Pushdown": "פשיטת מרפקים בכבל", "Overhead Triceps Extension": "פשיטת מרפקים מעל הראש", "Triceps Dip": "מקבילים לטרייספס", "Close-Grip Bench Press": "לחיצת חזה באחיזה צרה", "Diamond Push-Up": "שכיבת סמיכה יהלום", "Wrist Curl": "כפיפת שורש כף היד", "Reverse Curl": "כפיפה באחיזה עליונה", "Farmer's Walk": "הליכת חקלאי", "Dead Hang": "תלייה חופשית", "Crunch": "כפיפות בטן", "Plank": "פלאנק", "Hanging Leg Raise": "הרמת רגליים בתלייה", "Mountain Climber": "מטפס הרים", "Russian Twist": "פיתול רוסי", "Dumbbell Side Bend": "כפיפה צידית עם משקולת", "Side Plank": "פלאנק צידי", "Bicycle Crunch": "כפיפות בטן אופניים", "Barbell Shrug": "הרמת כתפיים עם מוט", "Dumbbell Shrug": "הרמת כתפיים עם משקולות", "Upright Row": "חתירה לסנטר", "Face Pull": "משיכה לפנים", "Pull-Up": "מתח", "Lat Pulldown": "פולי עליון", "Bent-Over Row": "חתירה בהטיה עם מוט", "Dumbbell Row": "חתירה עם משקולת", "Seated Cable Row": "חתירה בישיבה בכבל", "Deadlift": "דדליפט", "Back Extension": "פשיטת גב", "Superman": "סופרמן", "Good Morning": "גוד מורנינג", "Barbell Hip Thrust": "היפ ת׳ראסט עם מוט", "Glute Bridge": "גשר עכוז", "Bulgarian Split Squat": "סקוואט בולגרי", "Kettlebell Sumo Squat": "סקוואט סומו עם קטלבל", "Back Squat": "סקוואט עם מוט", "Goblet Squat": "סקוואט גביע", "Leg Extension": "פשיטת ברכיים במכונה", "Walking Lunge": "מכרעים בהליכה", "Romanian Deadlift": "דדליפט רומני", "Dumbbell RDL": "דדליפט רומני עם משקולות", "Lying Leg Curl": "כפיפת ברכיים בשכיבה", "Standing Calf Raise": "הרמת עקבים בעמידה", "Single-Leg Calf Raise": "הרמת עקבים על רגל אחת", "Seated Calf Raise": "הרמת עקבים בישיבה", "Incline Push-Up": "שכיבת סמיכה בשיפוע (ידיים על כיסא)", "Decline Push-Up": "שכיבת סמיכה עם רגליים על כיסא", "Wide Push-Up": "שכיבת סמיכה רחבה", "Pike Push-Up": "שכיבת סמיכה פייק", "Plank Shoulder Taps": "פלאנק עם נגיעות בכתפיים", "Underhand Table Row": "חתירה מתחת לשולחן באחיזה הפוכה", "Chair Dip": "מקבילים על כיסא", "Fingertip Plank": "פלאנק על קצות האצבעות", "Reverse Crunch": "כפיפות בטן הפוכות", "Chair Knee Tuck": "קירוב ברכיים על כיסא", "Hollow Body Hold": "החזקת סירה (Hollow)", "Lying Leg Raise": "הרמת רגליים בשכיבה", "Heel Taps": "נגיעות בעקבים", "Side Plank Hip Dips": "פלאנק צידי עם הורדות אגן", "Prone Y-T Raise": "הרמות Y-T בשכיבה על הבטן", "Wide Table Row": "חתירה רחבה מתחת לשולחן", "Inverted Table Row": "חתירה הפוכה מתחת לשולחן", "Superman Lat Pull": "סופרמן עם משיכה", "Bird Dog": "בירד דוג", "Single-Leg Glute Bridge": "גשר עכוז על רגל אחת", "Donkey Kick": "בעיטת חמור", "Chair Bulgarian Split Squat": "סקוואט בולגרי עם כיסא", "Bodyweight Squat": "סקוואט במשקל גוף", "Chair Squat": "סקוואט לכיסא", "Wall Sit": "ישיבה על הקיר", "Chair Step-Up": "עלייה על כיסא", "Jump Squat": "סקוואט קפיצה", "Single-Leg RDL (bodyweight)": "דדליפט רומני על רגל אחת (משקל גוף)", "Chair Hamstring Bridge": "גשר המסטרינג עם כיסא", "Step Calf Raise": "הרמת עקבים על מדרגה", "Pogo Hops": "קפיצות פוגו", "Arm Circles": "סיבובי ידיים", "Arm Swings": "הנפות ידיים", "Shoulder Rolls": "גלגולי כתפיים", "Wrist Circles": "סיבובי שורש כף היד", "Torso Twists": "סיבובי גו", "Hip Circles": "סיבובי אגן", "High-Knee March": "צעידה עם הרמת ברכיים", "Leg Swings": "הנפות רגליים", "Warm-up Squats": "סקוואטים לחימום", "Bodyweight Good Mornings": "גוד מורנינג במשקל גוף", "Calf Raises (warm-up)": "הרמות עקבים (חימום)", "Cat-Cow": "חתול־פרה", "Inchworm": "תולעת (Inchworm)", "Doorway Chest Stretch": "מתיחת חזה במשקוף", "Cross-Body Shoulder Stretch": "מתיחת כתף לרוחב הגוף", "Overhead Triceps Stretch": "מתיחת טרייספס מעל הראש", "Biceps & Chest Opener": "פתיחת חזה וביספס", "Forearm Stretch": "מתיחת אמה", "Standing Side Stretch": "מתיחה צידית בעמידה", "Neck & Trap Stretch": "מתיחת צוואר וטרפז", "Standing Quad Stretch": "מתיחת ארבע־ראשי בעמידה", "Wall Calf Stretch": "מתיחת שוק על הקיר", "Kneeling Hip-Flexor Stretch": "מתיחת מכופפי ירך בכריעה", "Child's Pose": "תנוחת הילד", "Cobra Stretch": "מתיחת קוברה", "Seated Hamstring Stretch": "מתיחת המסטרינג בישיבה", "Figure-4 Glute Stretch": "מתיחת עכוז בתנוחת 4", "Knees-to-Chest": "ברכיים לחזה", "Lying Spinal Twist": "פיתול גב בשכיבה", "End workout": "סיום אימון", "End this workout?": "לסיים את האימון?", "Your progress in this session will not be saved.": "ההתקדמות באימון הזה לא תישמר.", "SET": "סט", "ROUND": "סבב", "REPS": "חזרות", "SEC": "שנ׳", "REST": "מנוחה", "Tap anywhere when you finish the set": "הקישו בכל מקום כשסיימתם את הסט", "Tap the screen when you finish the set": "הקישו על המסך כשסיימתם את הסט", "Click anywhere when you finish the set": "לחצו בכל מקום כשסיימתם את הסט", "Time! Tap to continue": "הזמן נגמר! הקישו להמשך", "Skip rest": "דילוג על המנוחה", "+10s": "+10 שנ׳", "−10s": "−10 שנ׳", "Up next": "הבא בתור", "new exercise": "תרגיל חדש", "WARM-UP": "חימום", "STRETCHING": "מתיחות", "Left side": "צד שמאל", "Right side": "צד ימין", "Switch sides → Right side": "החליפו צד ← צד ימין", "Hold gently — no bouncing. Breathe slowly.": "החזיקו בעדינות — בלי קפיצות. נשמו לאט.", "Move smoothly at an easy pace.": "נועו בתנועה רציפה ובקצב נוח.", "❚❚ Pause": "❚❚ השהיה", "▶ Resume": "▶ המשך", "Next ›": "הבא ›", "Next": "הבא", "Last one!": "אחרון!", "Up next: your workout": "הבא בתור: האימון שלכם", "Skip warm-up": "דילוג על החימום", "Finish workout": "סיום האימון", "💪 Workout done! Now let's stretch it out": "💪 סיימתם את האימון! עכשיו מתיחות", "Workout complete": "האימון הושלם", "Total workout time": "זמן אימון כולל", "Workout time": "זמן אימון", "New personal best": "שיא אישי חדש", "First time completing this plan — this time is now your baseline to beat.": "פעם ראשונה שהשלמתם את התוכנית — הזמן הזה הוא היעד לשבירה.", "vs. last time": "לעומת הפעם הקודמת", "vs. past week": "לעומת השבוע האחרון", "vs. past month": "לעומת החודש האחרון", "vs. your best": "לעומת השיא שלכם", "No previous session": "אין אימון קודם", "No sessions in the last 7 days": "אין אימונים ב־7 הימים האחרונים", "No sessions in the last 30 days": "אין אימונים ב־30 הימים האחרונים", "No data yet": "אין עדיין נתונים", "Same time": "אותו זמן", "Back to my plans": "חזרה לתוכניות שלי", "Do it again": "שוב", "shorter bar = faster": "עמודה קצרה = מהיר יותר", "SHARED PLANS": "תוכניות משותפות", "Community": "קהילה", "Shared plans": "תוכניות משותפות", "Workout plans shared by FitForge users. Tap a plan to see its exercises, then add it to your own plans.": "תוכניות אימון ששיתפו משתמשי FitForge. הקישו על תוכנית כדי לראות את התרגילים ולהוסיף אותה לתוכניות שלכם.", "All": "הכול", "Sort by": "מיון לפי", "Most viewed": "הכי נצפות", "Most added": "הכי נוספות", "Newest": "החדשים ביותר", "by": "מאת", "added": "הוסיפו", "views": "צפיות", "view": "צפייה", "Add to my plans": "הוספה לתוכניות שלי", "✓ In your plans": "✓ בתוכניות שלכם", "Your plan": "התוכנית שלכם", "✓ Already in your plans": "✓ כבר בתוכניות שלכם", "This is your plan. Manage sharing from its ⋯ menu on your home screen.": "זו התוכנית שלכם. ניהול השיתוף דרך תפריט ⋯ במסך הבית.", "People who viewed this plan": "אנשים שצפו בתוכנית", "People who added this plan": "אנשים שהוסיפו את התוכנית", "No shared plans yet": "אין עדיין תוכניות משותפות", "Share one of your plans from its ⋯ menu or when you save it, and it will show up here.": "שתפו אחת מהתוכניות שלכם דרך תפריט ⋯ או בזמן השמירה, והיא תופיע כאן.", "This plan is no longer shared.": "התוכנית כבר לא משותפת.", "Choose a category before sharing.": "בחרו קטגוריה לפני השיתוף.", "This plan can't be shared — it needs a name and at least one exercise.": "אי אפשר לשתף את התוכנית — צריך שם ולפחות תרגיל אחד.", "What's your main goal?": "מה המטרה העיקרית שלכם?", "What's your main goal": "מה המטרה העיקרית שלכם", "Build muscle": "בניית שריר", "Bigger, more defined muscles": "שרירים גדולים ומוגדרים יותר", "Get stronger": "חיזוק וכוח", "Lift heavier with fewer reps": "להרים יותר משקל בפחות חזרות", "Lose fat": "ירידה בשומן", "Burn calories, keep the heart rate up": "שריפת קלוריות ודופק גבוה", "General fitness": "כושר כללי", "Feel fit and healthy overall": "להרגיש בכושר ובריאים", "Endurance & tone": "סיבולת וחיטוב", "Lighter work, more reps": "עבודה קלה יותר, יותר חזרות", "How experienced are you?": "מה רמת הניסיון שלכם?", "How experienced are you": "מה רמת הניסיון שלכם", "Beginner": "מתחילים", "New to training or returning after a break": "חדשים באימונים או חוזרים אחרי הפסקה", "Intermediate": "בינוניים", "Training regularly for 6+ months": "מתאמנים באופן קבוע 6+ חודשים", "Advanced": "מתקדמים", "Several years of consistent training": "כמה שנים של אימונים עקביים", "Where will you train?": "איפה תתאמנו?", "Where do you usually train?": "איפה אתם מתאמנים בדרך כלל?", "Where do you usually train": "איפה אתם מתאמנים בדרך כלל", "Gym": "חדר כושר", "Barbells, dumbbells, cables and machines": "מוטות, משקולות, כבלים ומכונות", "Home with dumbbells": "בבית עם משקולות", "Dumbbells plus a chair or table": "משקולות יד וכיסא או שולחן", "Home, no equipment": "בבית, בלי ציוד", "Bodyweight only — a chair, table or step at most": "משקל גוף בלבד — לכל היותר כיסא, שולחן או מדרגה", "What do you need?": "מה אתם צריכים?", "A single workout": "אימון בודד", "One plan focused on what you choose next": "תוכנית אחת שמתמקדת במה שתבחרו בהמשך", "A weekly program": "תוכנית שבועית", "Several plans that work together through the week": "כמה תוכניות שעובדות יחד לאורך השבוע", "What should the workout focus on?": "על מה האימון יתמקד?", "Everything in one session": "הכול באימון אחד", "Legs and glutes": "רגליים ועכוז", "How many days a week can you train?": "כמה ימים בשבוע תוכלו להתאמן?", "How many days a week can you train": "כמה ימים בשבוע תוכלו להתאמן", "2 days": "יומיים", "3 days": "3 ימים", "4 days": "4 ימים", "5 days": "5 ימים", "Two full-body workouts": "שני אימוני כל הגוף", "Three full-body workouts": "שלושה אימוני כל הגוף", "Upper / lower split": "חלוקה עליון / תחתון", "Push / pull / legs + upper / lower": "דחיפה / משיכה / רגליים + עליון / תחתון", "How long should each workout be?": "כמה זמן יימשך כל אימון?", "How long do you like to work out?": "כמה זמן אתם אוהבים להתאמן?", "How long do you like to work out": "כמה זמן אתם אוהבים להתאמן", "About 20 min": "כ־20 דק׳", "About 30 min": "כ־30 דק׳", "About 45 min": "כ־45 דק׳", "About 60 min": "כ־60 דק׳", "Quick and focused": "קצר וממוקד", "A solid session": "אימון מלא", "Room for more volume": "מקום ליותר נפח", "A full session": "אימון ארוך", "Anything to avoid?": "משהו להימנע ממנו?", "Anything to avoid": "משהו להימנע ממנו", "Choose all that apply.": "בחרו את כל מה שמתאים.", "choose all that apply": "בחרו את כל מה שמתאים", "Sore knees": "כאבי ברכיים", "Skips lunges, jumps and leg extensions": "בלי מכרעים, קפיצות ופשיטות ברכיים", "Skips deadlifts, good mornings, barbell rows": "בלי דדליפט, גוד מורנינג וחתירה עם מוט", "Skips dips, overhead presses, upright rows": "בלי מקבילים, לחיצות מעל הראש וחתירה לסנטר", "Wrists": "שורשי כף היד", "Skips push-ups on hands and wrist work": "בלי שכיבות סמיכה על כפות הידיים ועבודת שורש כף היד", "No jumping": "בלי קפיצות", "Quiet, low-impact only": "שקט ובעצימות נמוכה בלבד", "Nothing — I'm good": "כלום — הכול בסדר", "No restrictions": "בלי הגבלות", "Build my plan": "בניית התוכנית שלי", "Using your profile": "לפי הפרופיל שלכם", "Change": "שינוי", "Tip: fill in your profile": "טיפ: מלאו את הפרופיל", "Then the Plan helper can skip most of these questions.": "כך עוזר התוכניות יוכל לדלג על רוב השאלות.", "Profile": "פרופיל", "Built from your answers. Shuffle for different exercises, or edit anything after saving.": "נבנתה לפי התשובות שלכם. ערבבו לקבלת תרגילים אחרים, או ערכו הכול אחרי השמירה.", "Why this plan": "למה התוכנית הזו", "↻ Shuffle exercises": "↻ ערבוב תרגילים", "Change my answers": "שינוי התשובות", "New exercise mix": "שילוב תרגילים חדש", "Get stronger: heavier compound lifts first with low reps (around 5) and long rests (2–3 min), then lighter accessory work.": "חיזוק: קודם תרגילים מורכבים כבדים עם מעט חזרות (בערך 5) ומנוחות ארוכות (2–3 דק׳), ואחר כך תרגילי עזר קלים יותר.", "Lose fat: a circuit with higher reps and short rests keeps your heart rate up the whole session.": "ירידה בשומן: סבב עם יותר חזרות ומנוחות קצרות שומר על דופק גבוה לאורך כל האימון.", "General fitness: balanced moderate sets of about 12 reps with a minute of rest.": "כושר כללי: סטים מאוזנים של כ־12 חזרות עם דקת מנוחה.", "Endurance & tone: a circuit with high reps and short rests builds stamina.": "סיבולת וחיטוב: סבב עם הרבה חזרות ומנוחות קצרות בונה סיבולת.", "Uses gym equipment — start with a weight you can lift for every rep with good form, then enter it in the plan.": "משתמש בציוד חדר כושר — התחילו במשקל שאפשר להרים בכל החזרות בטכניקה טובה, ורשמו אותו בתוכנית.", "Uses dumbbells and bodyweight — pick a weight that makes the last 2–3 reps hard.": "משקולות יד ומשקל גוף — בחרו משקל ש־2–3 החזרות האחרונות יהיו קשות.", "Bodyweight only — at most you'll need a sturdy chair, table or a step.": "משקל גוף בלבד — לכל היותר תצטרכו כיסא יציב, שולחן או מדרגה.", "Beginner-friendly: harder moves (like pull-ups, dips and jump squats) are left out and reps are a bit lower.": "מותאם למתחילים: בלי תרגילים קשים (כמו מתח, מקבילים וסקוואט קפיצה), ועם קצת פחות חזרות.", "Age 55+: high-impact and very demanding moves (jumps, deadlifts, dips) are left out, reps stay at 8 or more, and rests are a little longer.": "גיל 55+: בלי תרגילים בעצימות גבוהה ותובעניים במיוחד (קפיצות, דדליפט, מקבילים), לפחות 8 חזרות, ומנוחות קצת ארוכות יותר.", "Under 18: no heavy low-rep sets — focus on technique with 8+ reps. Ask a coach or parent to check your form.": "מתחת לגיל 18: בלי סטים כבדים עם מעט חזרות — התמקדו בטכניקה עם 8 חזרות ומעלה. בקשו ממאמן או מהורה לבדוק את הביצוע.", "Since you're mostly sitting day to day, it starts with slightly fewer sets. Add a set after 2–3 weeks.": "מכיוון שאתם יושבים רוב היום, התוכנית מתחילה עם קצת פחות סטים. הוסיפו סט אחרי 2–3 שבועות.", "Add weight or reps a little each week as it gets easier. Warm up for 5 minutes first, and stop if anything hurts.": "הוסיפו מעט משקל או חזרות בכל שבוע כשזה נעשה קל יותר. התחממו 5 דקות לפני, ועצרו אם משהו כואב.", "Rotate A → B → C, e.g. Sun / Tue / Thu.": "החליפו A ← B ← C, למשל א׳ / ג׳ / ה׳.", "Do Full Body A and B on separate days.": "בצעו את כל הגוף A ו־B בימים נפרדים.", "Alternate upper and lower days, e.g. Sun / Mon / Wed / Thu.": "החליפו בין ימי עליון ותחתון, למשל א׳ / ב׳ / ד׳ / ה׳.", "Run Push → Pull → Legs → Upper → Lower, then rest 2 days.": "דחיפה ← משיכה ← רגליים ← עליון ← תחתון, ואז יומיים מנוחה.", "Full Body A": "כל הגוף A", "Full Body B": "כל הגוף B", "Full Body C": "כל הגוף C", "Upper A": "עליון A", "Upper B": "עליון B", "Lower A": "תחתון A", "Lower B": "תחתון B", "Legs": "רגליים", "Upper": "עליון", "Lower": "תחתון", "Build Muscle": "בניית שריר", "Strength": "כוח", "Fat Burn": "שריפת שומן", "Fitness": "כושר", "Endurance": "סיבולת", "ABOUT YOU": "עליכם", "MY PROFILE": "הפרופיל שלי", "Tell us a bit about you": "ספרו לנו קצת על עצמכם", "9 quick taps. The Plan helper uses your answers to suggest better plans, so you won't have to answer the same questions again.": "9 הקשות מהירות. עוזר התוכניות ישתמש בתשובות כדי להציע תוכניות טובות יותר, ולא תצטרכו לענות שוב על אותן שאלות.", "Takes about a minute": "לוקח בערך דקה", "Your age, height and weight are private — only you can see them": "הגיל, הגובה והמשקל שלכם פרטיים — רק אתם רואים אותם", "Change or clear it anytime from your account menu": "אפשר לשנות או למחוק בכל עת מתפריט החשבון", "Let's go": "יאללה", "Skip for now": "דילוג בינתיים", "Skip": "דילוג", "How old are you?": "בני כמה אתם?", "How old are you": "בני כמה אתם", "Used to keep plans safe and suitable — only you can see it.": "משמש כדי שהתוכניות יהיו בטוחות ומתאימות — רק אתם רואים את זה.", "Under 18": "מתחת ל־18", "55 or older": "55 ומעלה", "How active are you day to day?": "כמה אתם פעילים ביום־יום?", "How active are you day to day": "כמה אתם פעילים ביום־יום", "Mostly sitting": "בעיקר יושבים", "Desk job, little exercise": "עבודה משרדית, מעט פעילות", "Lightly active": "פעילים מעט", "Some walking or light exercise": "קצת הליכה או פעילות קלה", "Active": "פעילים", "Exercise 2–4 times a week": "מתאמנים 2–4 פעמים בשבוע", "Very active": "פעילים מאוד", "Hard training or a physical job": "אימונים קשים או עבודה פיזית", "Height and weight": "גובה ומשקל", "Optional — used only for your own weight chart, not for plans. Only you can see it.": "אופציונלי — משמש רק לגרף המשקל שלכם, לא לתוכניות. רק אתם רואים את זה.", "Height (cm)": "גובה (ס״מ)", "Finish": "סיום", "Skip this question": "דילוג על השאלה", "Profile saved — the Plan helper will use it": "הפרופיל נשמר — עוזר התוכניות ישתמש בו", "Profile saved": "הפרופיל נשמר", "You can fill in your profile anytime from your account menu": "אפשר למלא את הפרופיל בכל עת מתפריט החשבון", "The Plan helper uses these answers. Age, height and weight are private — only you can see them.": "עוזר התוכניות משתמש בתשובות האלה. גיל, גובה ומשקל פרטיים — רק אתם רואים אותם.", "Clear profile": "מחיקת הפרופיל", "Save profile": "שמירת הפרופיל", "Clear your profile?": "למחוק את הפרופיל?", "Your answers, height and the weight log will be removed. Your plans and workouts stay.": "התשובות, הגובה ויומן המשקל יימחקו. התוכניות והאימונים יישארו.", "Clear": "מחיקה", "Profile cleared": "הפרופיל נמחק", "Ideas, bugs, praise — it all helps make FitForge better.": "רעיונות, תקלות, מחמאות — הכול עוזר לשפר את FitForge.", "Idea": "רעיון", "Bug": "תקלה", "Praise": "מחמאה", "Other": "אחר", "Suggest a feature or improvement": "הציעו תכונה או שיפור", "Something isn't working right": "משהו לא עובד כמו שצריך", "Tell us what you like": "ספרו לנו מה אהבתם", "Anything else": "כל דבר אחר", "What happened? What did you expect to happen?": "מה קרה? מה ציפיתם שיקרה?", "What would make FitForge better for you?": "מה יהפוך את FitForge לטובה יותר בשבילכם?", "What do you like?": "מה אהבתם?", "Your message": "ההודעה שלכם", "Write here…": "כתבו כאן…", "e.g. On the rest screen, the +10s button didn't add time…": "לדוגמה: במסך המנוחה הכפתור +10 שנ׳ לא הוסיף זמן…", "How do you like FitForge so far?": "איך FitForge עד עכשיו?", "(optional)": "(אופציונלי)", "To help us fix it, we'll include your device and browser type and the screen you were on.": "כדי לעזור לנו לתקן, נצרף את סוג המכשיר והדפדפן ואת המסך שבו הייתם.", "My feedback": "המשוב שלי", "Send": "שליחה", "Please write a few words.": "נא לכתוב כמה מילים.", "Thanks! Your feedback was sent 🙌": "תודה! המשוב נשלח 🙌", "Everything you've sent, and replies from the FitForge team.": "כל מה ששלחתם, ותשובות מצוות FitForge.", "You haven't sent any feedback yet.": "עוד לא שלחתם משוב.", "Reply from FitForge": "תשובה מ־FitForge", "Send new feedback": "שליחת משוב חדש", "New": "חדש", "Seen": "נקרא", "Done": "טופל", "ADMIN": "ניהול", "Refresh": "רענון", "Overview": "סקירה", "Feedback": "משוב", "waiting for you": "ממתינים לכם", "All feedback": "כל המשובים", "Average rating": "דירוג ממוצע", "Mark all as seen": "סימון הכול כנקרא", "Mark seen": "סימון כנקרא", "✓ Done": "✓ טופל", "Reopen": "פתיחה מחדש", "Reply": "תשובה", "Edit reply": "עריכת תשובה", "Your reply": "התשובה שלכם", "They'll see your reply under \"My feedback\".": "התשובה תופיע להם תחת \"המשוב שלי\".", "Write a reply…": "כתבו תשובה…", "Save reply": "שמירת תשובה", "Reply saved": "התשובה נשמרה", "Nothing here.": "אין כאן כלום.", "Deleted user": "משתמש שנמחק", "New feedback received": "התקבל משוב חדש", "Users": "משתמשים", "Active users (7 days)": "משתמשים פעילים (7 ימים)", "Workout plans created": "תוכניות אימון שנוצרו", "Workouts completed": "אימונים שהושלמו", "Total training time": "זמן אימון כולל", "App opens (30 days)": "פתיחות של האפליקציה (30 יום)", "sign-ins + returning visits": "התחברויות + ביקורים חוזרים", "Workout completion rate": "שיעור השלמת אימונים", "Users who trained": "משתמשים שהתאמנו", "Profiles filled in": "פרופילים שמולאו", "Last 30 days": "30 הימים האחרונים", "Workouts": "אימונים", "App opens": "פתיחות", "Active users": "משתמשים פעילים", "Sign-ups": "הרשמות", "workouts in 30 days": "אימונים ב־30 יום", "app opens in 30 days": "פתיחות ב־30 יום", "active-user days in 30 days": "ימי משתמש פעיל ב־30 יום", "new users in 30 days": "משתמשים חדשים ב־30 יום", "Most used exercises in plans": "התרגילים הנפוצים בתוכניות", "Top shared plans": "התוכניות המשותפות המובילות", "Sign-in methods": "שיטות התחברות", "When people train": "מתי מתאמנים", "(UTC hour)": "(שעת UTC)", "Search name or email": "חיפוש לפי שם או אימייל", "Last active": "פעילות אחרונה", "Most workouts": "הכי הרבה אימונים", "Most plans": "הכי הרבה תוכניות", "Most training": "הכי הרבה זמן אימון", "Most app opens": "הכי הרבה פתיחות", "User": "משתמש", "Joined": "הצטרפות", "Plans": "תוכניות", "Training": "זמן אימון", "No users match.": "אין משתמשים תואמים.", "Unverified": "לא מאומת", "Avg workout": "אימון ממוצע", "Ended early": "הסתיימו מוקדם", "Recent workouts": "אימונים אחרונים", "Recent activity": "פעילות אחרונה", "No plans.": "אין תוכניות.", "No workouts yet.": "אין עדיין אימונים.", "No plans created yet.": "עדיין לא נוצרו תוכניות.", "No users yet.": "אין עדיין משתמשים.", "No shared plans yet.": "אין עדיין תוכניות משותפות.", "never run": "לא הופעלה", "login": "התחברות", "signup": "הרשמה", "verified": "אומת", "app open": "פתיחת אפליקציה", "workout start": "תחילת אימון", "workout complete": "סיום אימון", "workout quit": "יציאה מאימון", "plan saved": "שמירת תוכנית", "plan deleted": "מחיקת תוכנית", "plan shared": "שיתוף תוכנית", "plan added from shared": "הוספה מתוכנית משותפת", "helper used": "שימוש בעוזר", "feedback": "משוב", "today": "היום", "yesterday": "אתמול", "Today": "היום", "Updated": "עודכן", "sec": "שנ׳", "{n} days ago": "לפני {n} ימים", "{n} wk ago": "לפני {n} שבועות", "Workout {n}": "אימון {n}", "{n} sets": "{n} סטים"});
+(()=>{const D=I18N.he;const T=x=>{x=String(x).trim();return D[x]??(D[x.charAt(0).toUpperCase()+x.slice(1)])??x};
+const TL=x=>x.split(/,\s*/).map(T).join(', ');
+const plural=(n,one,many)=>+n===1?one:`${n} ${many}`;
+I18P.he=[
+ [/^(\d+) exercises?$/,(m,n)=>plural(n,'תרגיל אחד','תרגילים')],
+ [/^(\d+) exercises? in plan$/,(m,n)=>`${plural(n,'תרגיל אחד','תרגילים')} בתוכנית`],
+ [/^(\d+) plans?$/,(m,n)=>plural(n,'תוכנית אחת','תוכניות')],
+ [/^(\d+) plans saved$/,(m,n)=>`${n} תוכניות נשמרו`],
+ [/^([\d.]+) min$/,'$1 דק׳'],[/^([\d.]+) h$/,'$1 שע׳'],[/^(\d+) days?$/,(m,n)=>+n===1?'יום אחד':`${n} ימים`],
+ [/^(\d+) added$/,'$1 הוסיפו'],[/^(\d+) views?$/,(m,n)=>+n===1?'צפייה אחת':`${n} צפיות`],
+ [/^(\d+) stars?$/,(m,n)=>+n===1?'כוכב אחד':`${n} כוכבים`],
+ [/^(\d+) × (\d+) reps · (\d+)s rest(?: · ([\d.]+) kg)?$/,(m,a,b,c,w)=>`${a} × ${b} חזרות · ${c} שנ׳ מנוחה${w?` · ${w} ק״ג`:''}`],
+ [/^(\d+) × (\d+)s · (\d+)s rest(?: · ([\d.]+) kg)?$/,(m,a,b,c,w)=>`${a} × ${b} שנ׳ · ${c} שנ׳ מנוחה${w?` · ${w} ק״ג`:''}`],
+ [/^([\d.]+) min · moving, easy pace$/,'$1 דק׳ · בתנועה, בקצב נוח'],[/^([\d.]+) min · gentle holds$/,'$1 דק׳ · החזקות עדינות'],
+ [/^(\d+)s each side$/,'$1 שנ׳ לכל צד'],[/^(\d+)s$/,'$1 שנ׳'],[/^(\d+) sec$/,'$1 שנ׳'],
+ [/^([+\-−]?[\d.]+) kg$/,'$1 ק״ג'],[/^(.+): ([\d.]+) kg$/,'$1: $2 ק״ג'],[/^since (.+)$/,'מאז $1'],
+ [/^(\d+) entr(?:y|ies)$/,(m,n)=>+n===1?'רשומה אחת':`${n} רשומות`],
+ [/^(\d+) completed workouts? · best (.+)$/,(m,n,b)=>`${plural(n,'אימון אחד הושלם','אימונים הושלמו')} · שיא ${b}`],
+ [/^(\d+) exercises · ~(\d+) min$/,'$1 תרגילים · ~$2 דק׳'],
+ [/^(\d+) exercises · ~(\d+) min \+ (\d+) min warm-up & stretch · (.+?)( · Circuit)?$/,(m,n,a,b,c,ci)=>`${n} תרגילים · ~${a} דק׳ + ${b} דק׳ חימום ומתיחות · ${T(c)}${ci?' · סבב':''}`],
+ [/^min \+ (\d+) stretch$/,'דק׳ + $1 מתיחות'],
+ [/^by (.+?) · (\d+) exercises · ~(\d+) min( · Circuit)?$/,(m,o,n,a,ci)=>`מאת ${o} · ${n} תרגילים · ~${a} דק׳${ci?' · סבב':''}`],
+ [/^(.+) · by (.+)$/,(m,c,o)=>`${T(c)} · מאת ${o}`],
+ [/^(\d+) views · (\d+) added by others$/,'$1 צפיות · $2 הוספות של אחרים'],
+ [/^(\d+) in the last (\d+) days$/,'$1 ב־$2 הימים האחרונים'],[/^(\d+)% of users · details stay private$/,'$1% מהמשתמשים · הפרטים נשארים פרטיים'],
+ [/^(\d+) users? have a plan$/,(m,n)=>`ל־${n} משתמשים יש תוכנית`],[/^(\d+) started · (\d+) ended early$/,'$1 התחילו · $2 הסתיימו מוקדם'],
+ [/^(\d+) verified · \+(\d+) this week$/,'$1 מאומתים · +$2 השבוע'],[/^(\d+) ideas · (\d+) bugs · (\d+) praise$/,'$1 רעיונות · $2 תקלות · $3 מחמאות'],
+ [/^(\d+) of (\d+) finished a workout$/,'$1 מתוך $2 השלימו אימון'],[/^avg workout (.+) · median (.+)$/,'אימון ממוצע $1 · חציון $2'],
+ [/^from (\d+) ratings?$/,'מתוך $1 דירוגים'],[/^best (.+)$/,'שיא $1'],[/^\((\d+) this wk\)$/,'($1 השבוע)'],
+ [/^(\d+) exercises · (.+)$/,(m,n,l)=>`${n} תרגילים · ${TL(l.replace(/…$/,''))}${l.endsWith('…')?'…':''}`],
+ [/^\+ (.+)$/,(m,x)=>'+ '+T(x)],[/^Also works your (.+)$/,(m,x)=>'עובד גם על: '+T(x)],[/^(.+) exercises$/,(m,x)=>'תרגילי '+T(x)],
+ [/^Exercise (\d+)$/,'תרגיל $1'],[/^Exercise (\d+) of (\d+) in this round$/,'תרגיל $1 מתוך $2 בסבב הזה'],[/^Exercise (\d+) of your plan$/,'תרגיל $1 בתוכנית'],
+ [/^Pick exercise (\d+) for your plan$/,'בחרו את תרגיל $1 לתוכנית'],[/^Question (\d+) of (\d+)$/,'שאלה $1 מתוך $2'],
+ [/^(STRETCHING|WARM-UP) · (\d+) of (\d+)$/,(m,k,a,b)=>`${k==='WARM-UP'?'חימום':'מתיחות'} · ${a} מתוך ${b}`],
+ [/^Round (\d+) of (\d+) · (.+)$/,(m,a,b,r)=>`סבב ${a} מתוך ${b} · ${trRest(r)}`],[/^Set (\d+) of (\d+) · (.+)$/,(m,a,b,r)=>`סט ${a} מתוך ${b} · ${trRest(r)}`],
+ [/^Up next · round (\d+)$/,'הבא בתור · סבב $1'],[/^Up next · new exercise$/,'הבא בתור · תרגיל חדש'],[/^Up next: (.+)$/,(m,x)=>'הבא בתור: '+T(x)],
+ [/^Good (morning|afternoon|evening), (.+)$/,(m,p,n)=>`${{morning:'בוקר טוב',afternoon:'צהריים טובים',evening:'ערב טוב'}[p]}, ${n}`],
+ [/^Logged (.+)$/,'נרשם $1'],[/^Updated (.+)$/,'עודכן $1'],[/^Swapped for (.+)$/,(m,x)=>'הוחלף ב'+T(x)],[/^(.+) added$/,(m,x)=>`${T(x)} נוסף`],
+ [/^"(.+)" added to your plans$/,'"$1" נוספה לתוכניות שלכם'],[/^"(.+)" and its workout history will be removed\.$/,'"$1" והיסטוריית האימונים שלה יימחקו.'],
+ [/^"(.+)" will appear on the Shared plans page for all FitForge users, with your display name \((.+)\)\. You can stop sharing at any time\.$/,'"$1" תופיע בעמוד התוכניות המשותפות לכל משתמשי FitForge, עם השם שלכם ($2). אפשר להפסיק לשתף בכל עת.'],
+ [/^Show this plan on the Shared plans page so other users can view it and add it\. Shown with your name \((.+)\)\.$/,'הציגו את התוכנית בעמוד התוכניות המשותפות כדי שאחרים יוכלו לצפות בה ולהוסיף אותה. תוצג עם השם שלכם ($1).'],
+ [/^Real email sending isn't switched on yet, so here's the message we would have sent to (.+):$/,'שליחת אימיילים עוד לא הופעלה, אז הנה ההודעה שהיינו שולחים אל $1:'],
+ [/^Reply to (.+)$/,'תשובה ל־$1'],[/^Today, (.+)\. Only you can see this\.$/,'היום, $1. רק אתם רואים את זה.'],
+ [/^Workout time · plus (.+) warm-up & stretching$/,'זמן אימון · ועוד $1 חימום ומתיחות'],[/^Your (\d+)-day program$/,'התוכנית שלכם ל־$1 ימים'],[/^Save all (\d+) plans$/,'שמירת כל $1 התוכניות'],
+ [/^Shared · (\d+) views? · (\d+) added$/,'משותפת · $1 צפיות · $2 הוסיפו'],[/^📬 You have (\d+) new feedback messages?$/,(m,n)=>+n===1?'📬 יש לכם הודעת משוב חדשה':`📬 יש לכם ${n} הודעות משוב חדשות`],
+ [/^No shared plans in (.+) yet$/,(m,x)=>`אין עדיין תוכניות משותפות ב${T(x)}`],
+ [/^Build muscle: (\d+) sets of 8–12 reps with about (\d+)s rest — enough volume to grow, with rest to keep quality high\.$/,'בניית שריר: $1 סטים של 8–12 חזרות עם כ־$2 שנ׳ מנוחה — מספיק נפח כדי לגדול, עם מנוחה ששומרת על איכות.'],
+ [/^Leaves out exercises that stress: (.+)\.$/,(m,l)=>'בלי תרגילים שמעמיסים על: '+l.split(/,\s*/).map(x=>({knees:'ברכיים','lower back':'גב תחתון',shoulders:'כתפיים',wrists:'שורשי כף היד',jumping:'קפיצות'}[x]||x)).join(', ')+'.'],
+ [/^Includes about (\d+) minutes of warm-up before and stretching after, matched to the muscles each workout trains( — a little longer to suit you)?\.$/,(m,n,l)=>`כולל כ־${n} דקות חימום לפני ומתיחות אחרי, לפי השרירים שכל אימון מפעיל${l?' — קצת יותר ארוך כדי להתאים לכם':''}.`],
+ [/^Only a few exercises match your answers, so (this workout is|some workouts are) shorter than (\d+) minutes\. You can add more exercises with Edit, or allow more equipment\.$/,(m,w,n)=>`רק מעט תרגילים מתאימים לתשובות שלכם, ולכן ${w==='this workout is'?'האימון קצר':'חלק מהאימונים קצרים'} מ־${n} דקות. אפשר להוסיף תרגילים בעריכה או לאפשר יותר ציוד.`],
+ [/^Train (\d) days a week with at least one rest day between hard sessions on the same muscles\. (.+)$/,(m,n,r)=>`התאמנו ${n} ימים בשבוע, עם לפחות יום מנוחה אחד בין אימונים קשים לאותם שרירים. ${T(r)}`],
+ [/^(.+) · joined (.+) · last active (.+)$/,'$1 · הצטרף $2 · פעילות אחרונה $3'],[/^(.+) · screen: (.+)$/,'$1 · מסך: $2'],[/^(.+) sign-in$/,(m,x)=>'התחברות '+T(x)],
+ [/^· (\d+) sets$/,'· $1 סטים'],[/^· ~(\d+) min$/,'· ~$1 דק׳'],[/^avoid (.+)$/,(m,x)=>'להימנע: '+T(x)],
+];
+function trRest(r){return r.replace(/(\d+) sec/,'$1 שנ׳').replace(/(\d+) reps/,'$1 חזרות').replace(/([\d.]+) kg/,'$1 ק״ג')}
+// generic: segments joined with " · "
+I18P.he.push([/^(.+ · .+)$/,(m,s)=>{const parts=s.split(' · ');const out=parts.map(p=>{if(!/[A-Za-z]/.test(p))return p;let r=D[p];if(r==null)for(const[re,rep]of I18P.he){if(re.source==='^(.+ · .+)$')continue;const mm=p.match(re);if(mm){r=typeof rep==='function'?rep(...mm):p.replace(re,rep);break}}return r??null});return out.every(x=>x!=null)?out.join(' · '):undefined}]);
+})();
+
+
 const deviceId=(()=>{let d=LS.get('ff_device',null);if(!d){d=uid()+uid();LS.set('ff_device',d)}return d})();
 
 /* ================= data: muscles & exercises ================= */
@@ -1143,7 +1258,7 @@ function sheet(html,onMount){const ov=document.createElement('div');ov.className
   const close=()=>{ov.remove();document.removeEventListener('keydown',k)};const k=e=>{if(e.key==='Escape')close()};
   ov.addEventListener('click',e=>{if(e.target===ov)close()});document.addEventListener('keydown',k);document.body.appendChild(ov);onMount&&onMount(ov.firstChild,close);return close}
 function confirmBox(title,text,ok='Confirm',danger=false){return new Promise(res=>{let done=false;
-  const close=sheet(`<h3>${esc(title)}</h3><p>${esc(text)}</p><div class="m-actions"><button class="btn" data-a="no">Cancel</button><button class="btn ${danger?'danger':'primary'}" data-a="yes">${esc(ok)}</button></div>`,(el,cl)=>{
+  const close=sheet(`<h3 data-notr>${esc(title)}</h3><p>${esc(text)}</p><div class="m-actions"><button class="btn" data-a="no">Cancel</button><button class="btn ${danger?'danger':'primary'}" data-a="yes">${esc(ok)}</button></div>`,(el,cl)=>{
     el.addEventListener('click',e=>{const a=e.target.closest('[data-a]');if(!a)return;done=true;cl();res(a.dataset.a==='yes')})});
   const obs=new MutationObserver(()=>{if(!done&&!document.querySelector('.ov')){obs.disconnect();res(false)}});obs.observe(document.body,{childList:true})})}
 
@@ -1160,6 +1275,7 @@ function setAuthMode(m){authMode=m;$$('#auth-seg button').forEach(b=>b.classList
   $('#auth-sub').textContent=m==='signin'?'Sign in to build and run your workout plans.':'Sign up with your email — we\'ll ask you to verify it next.';
   $('#auth-submit').textContent=m==='signin'?'Sign in':'Create account';
   $('#in-pass').autocomplete=m==='signin'?'current-password':'new-password';$('#auth-err').textContent=''}
+$$('.lang-sw [data-lang]').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
 $('#auth-seg').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setAuthMode(b.dataset.mode)});
 $('#pw-toggle').addEventListener('click',()=>{const i=$('#in-pass');i.type=i.type==='password'?'text':'password';$('#pw-toggle').textContent=i.type==='password'?'Show':'Hide'});
 $('#auth-form').addEventListener('submit',async e=>{e.preventDefault();const err=$('#auth-err');err.textContent='';
@@ -1212,7 +1328,9 @@ $('#v-back').addEventListener('click',()=>{show('s-login')});
 
 async function onAuthed(token,user,isReturn){Api.setToken(token);me=user;
   try{ws=await Api.call('GET','/api/data')}catch(e){if(e.status===401)throw e;ws=LS.get('ff_cache_'+user.id,null)||{plans:[],sessions:[]};toast('Offline — showing saved copy')}
-  ws.plans=ws.plans||[];ws.sessions=ws.sessions||[];delete ws.updatedAt;LS.set('ff_cache_'+me.id,ws);
+  ws.plans=ws.plans||[];ws.sessions=ws.sessions||[];delete ws.updatedAt;
+  if(ws.settings&&ws.settings.lang&&LANGS[ws.settings.lang]&&ws.settings.lang!==LANG&&!LS.get('ff_lang',null)){LS.set('ff_lang',ws.settings.lang);location.reload();return}
+  if(!ws.settings||ws.settings.lang!==LANG){ws.settings={...(ws.settings||{}),lang:LANG}}LS.set('ff_cache_'+me.id,ws);
   if(isReturn)Api.event('app_open');
   myShared={};ws.weights=ws.weights||[];renderHome();if(!maybeOnboard())show('s-home');refreshMyShared();fbNew=0;startFbPolling()}
 async function logout(silent){if(!silent){try{await Sync.now()}catch(e){}Api.call('POST','/api/logout').catch(()=>{})}clearInterval(fbPollT);fbNew=0;Api.setToken(null);me=null;ws={plans:[],sessions:[]};$('#in-pass').value='';setAuthMode('signin');show('s-login');setTimeout(renderGoogleBtn,50)}
@@ -1221,7 +1339,7 @@ async function logout(silent){if(!silent){try{await Sync.now()}catch(e){}Api.cal
 const planEst=p=>p.items.reduce((t,it,i)=>t+it.sets*(it.time?it.secs:it.reps*3.5)+it.rest*it.sets-(i===p.items.length-1?it.rest:0),0);
 function planMuscles(p){const s=[];p.items.forEach(it=>{const m=EXM[it.exId]?.m[0];if(m&&!s.includes(m))s.push(m)});return s}
 function renderHome(){
-  const now=new Date();$('#h-date').textContent=now.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+  const now=new Date();$('#h-date').textContent=now.toLocaleDateString(LOC(),{weekday:'long',month:'long',day:'numeric'});
   const hr=now.getHours(),greet=hr<12?'Good morning':hr<18?'Good afternoon':'Good evening';
   $('#h-greet').textContent=`${greet}, ${me.name}`;$('#h-admin').style.display=me.isAdmin?'':'none';paintFbBadge();$('#btn-account').textContent=(me.name||'A')[0].toUpperCase();
   const t=Date.now(),wk=ws.sessions.filter(s=>t-s.at<7*DAY),mo=ws.sessions.filter(s=>t-s.at<30*DAY);
@@ -1237,7 +1355,7 @@ function renderHome(){
     const ss=ws.sessions.filter(s=>s.planId===p.id).sort((a,b)=>b.at-a.at),last=ss[0],best=ss.length?Math.min(...ss.map(s=>s.dur)):null;
     const th=p.items.slice(0,5).map(it=>`<div class="t">${exFig(it.exId,{anim:false})}</div>`).join('')+(p.items.length>5?`<div class="t more">+${p.items.length-5}</div>`:'');
     return`<div class="plan" data-id="${p.id}">
-      <div class="plan-h"><h3>${esc(p.name)}</h3><button class="icon-btn" data-menu="${p.id}" aria-label="Plan options">${ICON.dots}</button></div>
+      <div class="plan-h"><h3 data-notr>${esc(p.name)}</h3><button class="icon-btn" data-menu="${p.id}" aria-label="Plan options">${ICON.dots}</button></div>
       <div class="plan-meta"><span><b>${p.items.length}</b> exercise${p.items.length>1?'s':''}</span><span>~<b>${Math.max(1,Math.round(planEst(p)/60))}</b> min${p.stretch&&p.stretch.mode!=='off'?` + ${p.stretch.min} stretch`:''}</span>${best!=null?`<span>Best <b>${fmt(best)}</b></span>`:''}</div>
       <div class="thumbs">${th}</div>
       ${p.fromShared?`<div class="from-line">From ${esc(p.fromOwner||'a shared plan')}</div>`:''}
@@ -1252,28 +1370,28 @@ $('#btn-new').addEventListener('click',()=>openBuilder(null));
 $('#btn-shared').addEventListener('click',()=>openShared());
 $('#btn-coach').addEventListener('click',()=>openCoach());
 $('#btn-fb').addEventListener('click',()=>openFeedback());
-$('#btn-account').addEventListener('click',()=>{sheet(`<h3>${esc(me.name)}</h3><p>${me.provider==='email'?esc(me.email):'Signed in with '+me.provider[0].toUpperCase()+me.provider.slice(1)}${me.isAdmin?' · <span style="color:var(--acc)">Admin</span>':''}</p>
-  <div class="menu">${me.isAdmin?`<button data-a="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Admin dashboard<span id="acct-fb-n" class="nbadge-inline">${fbNew||''}</span></button>`:''}<button data-a="feedback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5z"/><path d="M8 9h8M8 12h5"/></svg>Send feedback</button><button data-a="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/></svg>My profile</button><button data-a="out">${ICON.logout}Log out</button><button class="red" data-a="del">${ICON.trash}Delete my account</button></div>
-  <p style="margin:12px 0 0;font-size:12.5px"><a href="/privacy" style="color:var(--mute)">Privacy Policy</a> · <a href="/terms" style="color:var(--mute)">Terms</a></p>`,(el,close)=>{el.addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='out'){close();logout()}if(a==='admin'){close();openAdmin()}if(a==='feedback'){close();openFeedback()}if(a==='profile'){close();openProfile('edit')}
+$('#btn-account').addEventListener('click',()=>{sheet(`<h3 data-notr>${esc(me.name)}</h3><p>${me.provider==='email'?esc(me.email):'Signed in with '+me.provider[0].toUpperCase()+me.provider.slice(1)}${me.isAdmin?' · <span style="color:var(--acc)">Admin</span>':''}</p>
+  <div class="menu">${me.isAdmin?`<button data-a="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Admin dashboard<span id="acct-fb-n" class="nbadge-inline">${fbNew||''}</span></button>`:''}<button data-a="feedback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5z"/><path d="M8 9h8M8 12h5"/></svg>Send feedback</button><button data-a="lang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>Language · <span data-notr>${LANGS[LANG].n}</span></button><button data-a="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/></svg>My profile</button><button data-a="out">${ICON.logout}Log out</button><button class="red" data-a="del">${ICON.trash}Delete my account</button></div>
+  <p style="margin:12px 0 0;font-size:12.5px"><a href="${legal('privacy')}" style="color:var(--mute)">Privacy Policy</a> · <a href="${legal('terms')}" style="color:var(--mute)">Terms</a></p>`,(el,close)=>{el.addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='out'){close();logout()}if(a==='admin'){close();openAdmin()}if(a==='feedback'){close();openFeedback()}if(a==='profile'){close();openProfile('edit')}if(a==='lang'){close();langSheet()}
     if(a==='del'){close();if(await confirmBox('Delete your account?','This permanently deletes your account, all workout plans and your workout history. This cannot be undone.','Delete forever',true)){try{await Api.call('DELETE','/api/me');LS.del('ff_cache_'+me.id);Api.setToken(null);me=null;toast('Your account was deleted');logout(true)}catch(x){toast(x.message)}}}})})});
 $('#h-admin').addEventListener('click',()=>openAdmin());
 function planMenu(id){const p=ws.plans.find(x=>x.id===id);if(!p)return;
-  sheet(`<h3>${esc(p.name)}</h3><p>${p.items.length} exercises · ~${Math.max(1,Math.round(planEst(p)/60))} min</p><div class="menu">
+  sheet(`<h3 data-notr>${esc(p.name)}</h3><p>${p.items.length} exercises · ~${Math.max(1,Math.round(planEst(p)/60))} min</p><div class="menu">
    <button data-a="start">${ICON.play.replace('#121600','currentColor')}Start workout</button><button data-a="edit">${ICON.edit}Edit plan</button>
    <button data-a="hist">${ICON.clock}History &amp; times</button><button data-a="share">${SIC.share}${p.shared?'Stop sharing':'Share with everyone'}</button><button class="red" data-a="del">${ICON.trash}Delete plan</button></div>`,(el,close)=>{
    el.addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(!a)return;close();
      if(a==='start')startWorkout(id);if(a==='edit')openBuilder(p);if(a==='hist')historySheet(p);if(a==='share')togglePlanShare(id);
      if(a==='del'&&await confirmBox('Delete this plan?',`"${p.name}" and its workout history will be removed.`,'Delete',true)){if(p.shared)unpublishShared(p).catch(()=>{});ws.plans=ws.plans.filter(x=>x.id!==id);ws.sessions=ws.sessions.filter(s=>s.planId!==id);saveWS();Api.event('plan_deleted');renderHome();toast('Plan deleted')}})})}
 function historySheet(p){const ss=ws.sessions.filter(s=>s.planId===p.id).sort((a,b)=>b.at-a.at);const best=ss.length?Math.min(...ss.map(s=>s.dur)):0;
-  sheet(`<h3>${esc(p.name)}</h3><p>${ss.length?`${ss.length} completed workout${ss.length>1?'s':''} · best ${fmt(best)}`:'No completed workouts yet.'}</p>
+  sheet(`<h3 data-notr>${esc(p.name)}</h3><p>${ss.length?`${ss.length} completed workout${ss.length>1?'s':''} · best ${fmt(best)}`:'No completed workouts yet.'}</p>
    <div>${ss.slice(0,40).map((s,i)=>{const prev=ss[i+1];const d=prev?s.dur-prev.dur:null;
-     return`<div class="hrow"><span>${new Date(s.at).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})} <span class="mute">${new Date(s.at).toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})}</span></span><span>${d!=null&&d!==0?`<span class="delta ${d<0?'up':'down'}" style="font-size:13px;padding:3px 8px;margin-right:8px">${d<0?'▼':'▲'} ${fmt(Math.abs(d))}</span>`:''}<b>${fmt(s.dur)}</b>${s.dur===best?' <span style="color:var(--acc)">★</span>':''}</span></div>`}).join('')}</div>`)}
+     return`<div class="hrow"><span>${new Date(s.at).toLocaleDateString(LOC(),{weekday:'short',month:'short',day:'numeric'})} <span class="mute">${new Date(s.at).toLocaleTimeString(LOC(),{hour:'numeric',minute:'2-digit'})}</span></span><span>${d!=null&&d!==0?`<span class="delta ${d<0?'up':'down'}" style="font-size:13px;padding:3px 8px;margin-right:8px">${d<0?'▼':'▲'} ${fmt(Math.abs(d))}</span>`:''}<b>${fmt(s.dur)}</b>${s.dur===best?' <span style="color:var(--acc)">★</span>':''}</span></div>`}).join('')}</div>`)}
 
 /* ================= BUILDER ================= */
 const Bd={plan:null,step:'body',muscle:null,ex:null,edit:null,dirty:false,orig:null};
 function defStretch(on){return{mode:on?'both':'off',min:5,auto:true}}
 function openBuilder(p){
-  Bd.plan=p?JSON.parse(JSON.stringify(p)):{id:uid(),name:'Workout '+(ws.plans.length+1),items:[],created:Date.now(),stretch:defStretch(true)};
+  Bd.plan=p?JSON.parse(JSON.stringify(p)):{id:uid(),name:t('Workout {n}',{n:ws.plans.length+1}),items:[],created:Date.now(),stretch:defStretch(true)};
   if(!Bd.plan.stretch)Bd.plan.stretch=defStretch(false);
   Bd.orig=p?p.id:null;Bd.dirty=false;Bd.muscle=null;Bd.ex=null;Bd.edit=null;
   $('#b-name').value=Bd.plan.name;show('s-builder');setStep(p&&p.items.length?'review':'body')}
@@ -1301,7 +1419,7 @@ async function savePlan(){const p=Bd.plan;if(!p.items.length){toast('Add at leas
   if(!p.category){if(Bd.step!=='review')setStep('review');toast('Choose a category for this plan');setTimeout(()=>{const c=$('#rv-cat');if(c){c.classList.add('need');c.scrollIntoView({behavior:'smooth',block:'center'})}},60);return}
   if(p.stretch&&p.stretch.mode!=='off')refreshStretch(p);
   const prev=ws.plans.find(x=>x.id===p.id),wasShared=!!(prev&&prev.shared);
-  p.name=(p.name||'').trim()||'Workout '+(ws.plans.length+1);p.updated=Date.now();
+  p.name=(p.name||'').trim()||t('Workout {n}',{n:ws.plans.length+1});p.updated=Date.now();
   const i=ws.plans.findIndex(x=>x.id===p.id);if(i>=0)ws.plans[i]=p;else ws.plans.push(p);
   saveWS();Api.event('plan_saved',{items:p.items.length,category:p.category});Bd.dirty=false;renderHome();show('s-home');toast(p.shared?'Plan saved and shared':'Workout plan saved');
   if(p.shared||wasShared){await syncShare(p,wasShared);refreshMyShared()}}
@@ -1449,7 +1567,7 @@ function renderPlayer(){const it=P.items[P.i],ex=EXM[it.exId],el=$('#s-player');
   const W=P.warm.length,S=P.steps.length,gi=P.phase==='warm'?P.si:P.phase==='cool'?W+S+P.si:W+P.k;
   const segs=[...P.warm.map(()=>'sw'),...P.steps.map(()=>''),...P.cool.map(()=>'sw')].map((c,k)=>`<i class="${c} ${k<gi?'d':k===gi?'c':''}"></i>`).join('');
   const isStr=P.phase==='warm'||P.phase==='cool';
-  const top=`<header class="ptop"><button class="icon-btn" data-act="quit" aria-label="End workout">${ICON.x}</button><div class="pt-mid"><div class="pt-name">${esc(P.plan.name)}</div><div class="pt-clock" id="p-clock">${fmt((Date.now()-P.startAt)/1000)}</div></div><div class="pt-count">${isStr?(P.si+1)+'/'+stretchList().length:(P.k+1)+'/'+S}</div></header><div class="pbar">${segs}</div>`;
+  const top=`<header class="ptop"><button class="icon-btn" data-act="quit" aria-label="End workout">${ICON.x}</button><div class="pt-mid"><div class="pt-name" data-notr>${esc(P.plan.name)}</div><div class="pt-clock" id="p-clock">${fmt((Date.now()-P.startAt)/1000)}</div></div><div class="pt-count">${isStr?(P.si+1)+'/'+stretchList().length:(P.k+1)+'/'+S}</div></header><div class="pbar">${segs}</div>`;
   if(isStr){const r=stretchList()[P.si],x=STRM[r.id],warm=P.phase==='warm',nxt=stretchList()[P.si+1];
     el.innerHTML=top+`<div class="stage stretch">
       ${!warm&&P.si===0?'<div class="cool-banner">💪 Workout done! Now let\'s stretch it out</div>':''}
@@ -1528,7 +1646,7 @@ function renderSummary(cur,plan){
   else if(cur.dur>prev.dur)head=`${fmt(cur.dur-prev.dur)} slower than last time — consistency counts, keep it up.`;else head='Exactly the same time as last time.';
   const recent=[...prior.slice(0,9).reverse(),cur],mx=Math.max(...recent.map(s=>s.dur));
   $('#s-summary').innerHTML=`<div class="wrap" style="padding-top:calc(18px + var(--st))">
-    <div class="sum-hero"><div class="medal">${ICON.trophy}</div><div class="eyebrow">${esc(plan.name)} · ${cur.sets} sets</div><h1>Workout complete</h1>
+    <div class="sum-hero"><div class="medal">${ICON.trophy}</div><div class="eyebrow"><span data-notr>${esc(plan.name)}</span> · ${t('{n} sets',{n:cur.sets})}</div><h1>Workout complete</h1>
       <div class="sum-time">${fmt(cur.dur)}</div><div class="mute">Workout time${cur.stretch?` · plus ${fmt(cur.stretch)} warm-up &amp; stretching`:''}</div>
       ${isPB?`<div class="pb">${ICON.bolt} New personal best</div>`:''}<p class="sum-head">${head}</p></div>
     <div class="cmp">
@@ -1612,7 +1730,7 @@ function weightCard(){const w=ws.weights||[];
    ${pts.length>1?`<svg class="wc-chart" viewBox="0 0 300 70" preserveAspectRatio="none"><path d="${path}" fill="none" stroke="var(--acc)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg>
    <div class="wc-dots">${pts.map(p=>`<i style="left:${(X(p.at)/300*100).toFixed(2)}%;top:${(Y(p.kg)/70*100).toFixed(2)}%" title="${shortDate(p.at)}: ${p.kg} kg"></i>`).join('')}</div>`:''}</div>`}
 function logWeightSheet(){const lw=lastWeight();
-  sheet(`<h3>Log your weight</h3><p>Today, ${new Date().toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'})}. Only you can see this.</p>
+  sheet(`<h3>Log your weight</h3><p>Today, ${new Date().toLocaleDateString(LOC(),{weekday:'long',month:'short',day:'numeric'})}. Only you can see this.</p>
    <label class="fld"><span>Weight (kg)</span><input class="inp" type="number" inputmode="decimal" id="lw-in" placeholder="e.g. 72.5" value="${lw?lw.kg:''}"></label>
    <div class="err" id="lw-err"></div><div class="m-actions"><button class="btn" data-a="no">Cancel</button><button class="btn primary" data-a="save">Save</button></div>`,(el,close)=>{
    setTimeout(()=>{const i=$('#lw-in');i&&i.focus();i&&i.select()},100);
@@ -1620,7 +1738,7 @@ function logWeightSheet(){const lw=lastWeight();
      if(a==='save'){const v=parseFloat($('#lw-in').value);if(!(v>=25&&v<=350)){$('#lw-err').textContent='Enter a weight between 25 and 350 kg.';return}addWeight(v);close();renderHome();toast('Weight logged')}})})}
 function weightHistory(){const w=[...(ws.weights||[])].reverse();
   sheet(`<h3>Weight history</h3><p>${w.length} entr${w.length===1?'y':'ies'}</p><div>${w.slice(0,60).map((x,i)=>{const prev=w[i+1];const d=prev?Math.round((x.kg-prev.kg)*10)/10:null;
-    return`<div class="hrow"><span>${new Date(x.at).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'})}</span><span>${d?`<small class="mute" style="margin-right:8px">${d>0?'+':''}${d}</small>`:''}<b>${x.kg} kg</b> <button class="wdel" data-del="${x.at}" aria-label="Delete">${ICON.x}</button></span></div>`}).join('')}</div>`,(el,close)=>{
+    return`<div class="hrow"><span>${new Date(x.at).toLocaleDateString(LOC(),{weekday:'short',month:'short',day:'numeric',year:'numeric'})}</span><span>${d?`<small class="mute" style="margin-right:8px">${d>0?'+':''}${d}</small>`:''}<b>${x.kg} kg</b> <button class="wdel" data-del="${x.at}" aria-label="Delete">${ICON.x}</button></span></div>`}).join('')}</div>`,(el,close)=>{
    el.addEventListener('click',e=>{const d=e.target.closest('[data-del]');if(!d)return;ws.weights=ws.weights.filter(x=>String(x.at)!==d.dataset.del);saveWS();close();renderHome();weightHistory()})})}
 $('#h-weight').addEventListener('click',e=>{const a=e.target.closest('[data-w]')?.dataset.w;if(a==='log')logWeightSheet();if(a==='hist')weightHistory()});
 
@@ -1735,7 +1853,7 @@ function generate(a,seed){const rnd=seeded(seed),used=new Set();const time=+a.ti
   const list=a.kind==='program'?PROGRAMS[a.days]:[[a.focus,CATS[a.focus]]];
   const smin=(a.age==='55+'||a.level==='beginner')?8:5;
   return list.map(([focus,label])=>{const items=buildOne(focus,a,used,rnd,time);const g=genStretch(items,'both',smin,a.avoid);
-    return{id:uid(),name:(label+' · '+GOALN[a.goal]).slice(0,40),category:focus,mode,items,stretch:{mode:'both',min:smin,auto:true,warm:g.warm,cool:g.cool},created:Date.now(),fromHelper:true}});
+    return{id:uid(),name:(t(label)+' · '+t(GOALN[a.goal])).slice(0,40),category:focus,mode,items,stretch:{mode:'both',min:smin,auto:true,warm:g.warm,cool:g.cool},created:Date.now(),fromHelper:true}});
 }
 function explain(a,plans){const L=[];const p=plans[0],it=p.items.find(i=>!i.time)||p.items[0];
   const g={muscle:`Build muscle: ${it.sets} sets of 8–12 reps with about ${it.rest}s rest — enough volume to grow, with rest to keep quality high.`,
@@ -1789,7 +1907,7 @@ function renderCoachResult(){const ps=CH.plans,a=CH.a;
   $('#co-body').innerHTML=`<div class="eyebrow">Plan helper</div><h1 class="co-q" style="margin-bottom:6px">${ps.length>1?`Your ${ps.length}-day program`:'Your workout plan'}</h1>
    <p class="mute" style="margin:0 0 14px">Built from your answers. Shuffle for different exercises, or edit anything after saving.</p>
    <div class="co-why"><b>Why this plan</b><ul>${explain(a,ps).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
-   ${ps.map((p,pi)=>`<div class="co-plan"><div class="co-ph"><div><h3>${esc(p.name)}</h3><div class="mute" style="font-size:13px">${p.items.length} exercises · ~${Math.max(1,Math.round(planEst(p)/60))} min + ${p.stretch.min} min warm-up &amp; stretch · ${CATS[p.category]}${p.mode==='circuit'?' · Circuit':''}</div></div>${ps.length===1?`<button class="btn sm" data-edit="${pi}">Edit</button>`:''}</div>
+   ${ps.map((p,pi)=>`<div class="co-plan"><div class="co-ph"><div><h3 data-notr>${esc(p.name)}</h3><div class="mute" style="font-size:13px">${p.items.length} exercises · ~${Math.max(1,Math.round(planEst(p)/60))} min + ${p.stretch.min} min warm-up &amp; stretch · ${CATS[p.category]}${p.mode==='circuit'?' · Circuit':''}</div></div>${ps.length===1?`<button class="btn sm" data-edit="${pi}">Edit</button>`:''}</div>
      <div class="rv-list">${p.items.map((it,i)=>`<div class="rv"><div class="n">${i+1}</div><div class="t">${exFig(it.exId)}</div><div class="info"><b>${esc(EXM[it.exId].n)}</b><span>${itemLine(it)}</span></div></div>`).join('')}</div></div>`).join('')}
    <div class="co-acts"><button class="btn big" data-a="shuffle">↻ Shuffle exercises</button><button class="btn primary big" data-a="save">${ps.length>1?`Save all ${ps.length} plans`:'Save plan'}</button></div>
    <div style="text-align:center;margin-top:8px"><button class="btn ghost sm" data-a="restart">Change my answers</button></div>`}
@@ -1854,7 +1972,7 @@ function renderSharedList(){const ps=SH.data.plans;
   $('#sh-list').innerHTML=ps.map(sp=>{const est=Math.max(1,Math.round(planEst(sp)/60));
     const th=sp.items.slice(0,5).map(it=>`<div class="t">${exFig(it.exId,{anim:false})}</div>`).join('')+(sp.items.length>5?`<div class="t more">+${sp.items.length-5}</div>`:'');
     return`<div class="plan shp" data-sp="${sp.id}">
-      <div class="plan-h"><h3>${esc(sp.name)}</h3><span class="chip acc">${CATS[sp.category]||sp.category}</span></div>
+      <div class="plan-h"><h3 data-notr>${esc(sp.name)}</h3><span class="chip acc">${CATS[sp.category]||sp.category}</span></div>
       <div class="plan-meta"><span>by <b>${esc(sp.ownerName)}</b></span>${sp.mode==='circuit'?'<span><b>Circuit</b></span>':''}<span><b>${sp.items.length}</b> exercises</span><span>~<b>${est}</b> min</span></div>
       <div class="thumbs">${th}</div>
       <div class="plan-f"><div class="shstats">${shStats(sp)}</div>${shAction(sp)}</div></div>`}).join('')}
@@ -1867,7 +1985,7 @@ async function addShared(id,btn){if(btn)btn.disabled=true;
   catch(e){toast(e.message);if(btn)btn.disabled=false}}
 async function sharedDetail(id){const sp=SH.data.plans.find(x=>x.id===id);if(!sp)return;
   if(!sp.isMine)Api.call('POST',`/api/shared/${id}/view`).then(()=>{loadSharedQuiet()}).catch(()=>{});
-  sheet(`<div class="chips" style="margin-bottom:8px"><span class="chip acc">${CATS[sp.category]||sp.category}</span></div><h3>${esc(sp.name)}</h3>
+  sheet(`<div class="chips" style="margin-bottom:8px"><span class="chip acc">${CATS[sp.category]||sp.category}</span></div><h3 data-notr>${esc(sp.name)}</h3>
     <p>by ${esc(sp.ownerName)} · ${sp.items.length} exercises · ~${Math.max(1,Math.round(planEst(sp)/60))} min${sp.mode==='circuit'?' · Circuit':''}</p>
     <div class="shstats" style="margin:-6px 0 12px">${shStats(sp)}</div>
     <div class="rv-list">${sp.items.map((it,i)=>`<div class="rv"><div class="n">${i+1}</div><div class="t">${exFig(it.exId)}</div><div class="info"><b>${esc(EXM[it.exId]?.n||it.exId)}</b><span>${itemLine(it)}</span></div></div>`).join('')}</div>
@@ -1907,8 +2025,8 @@ function openFeedback(prefType){const st={type:prefType||'idea',rating:0};const 
 async function myFeedback(){const close=sheet('<div class="spin" style="margin:30px auto"></div>');
   try{const r=await Api.call('GET','/api/feedback/mine');close();
     sheet(`<h3>My feedback</h3><p>${r.items.length?'Everything you\'ve sent, and replies from the FitForge team.':'You haven\'t sent any feedback yet.'}</p>
-      <div class="fb-list">${r.items.map(f=>`<div class="fb-item"><div class="fb-ih"><span class="fb-badge t-${f.type}">${fbIcon(f.type)}${FBT[f.type][0]}</span><span class="fb-st st-${f.status}">${FBS[f.status]}</span><span class="mute" style="margin-left:auto;font-size:12px">${shortDate(f.created_at)}</span></div>
-        <div class="fb-msgv">${esc(f.message)}</div>${f.reply?`<div class="fb-reply"><b>Reply from FitForge</b>${esc(f.reply)}</div>`:''}</div>`).join('')}</div>
+      <div class="fb-list">${r.items.map(f=>`<div class="fb-item"><div class="fb-ih"><span class="fb-badge t-${f.type}">${fbIcon(f.type)}${FBT[f.type][0]}</span><span class="fb-st st-${f.status}">${FBS[f.status]}</span><span class="mute" style="margin-inline-start:auto;font-size:12px">${shortDate(f.created_at)}</span></div>
+        <div class="fb-msgv" data-notr>${esc(f.message)}</div>${f.reply?`<div class="fb-reply"><b>Reply from FitForge</b><span data-notr>${esc(f.reply)}</span></div>`:''}</div>`).join('')}</div>
       <div class="m-actions"><button class="btn primary" data-a="new">Send new feedback</button></div>`,(el,cl)=>el.addEventListener('click',e=>{if(e.target.closest('[data-a=new]')){cl();openFeedback()}}))}
   catch(e){close();toast(e.message)}}
 
@@ -1931,10 +2049,10 @@ function renderAdminFeedback(){const d=FA.data,c=d.counts;
    <div class="sh-bar"><div class="fchips" style="padding:0">${[['new','New'],['read','Seen'],['done','Done'],['all','All']].map(([k,l])=>`<button class="fchip ${FA.status===k?'on':''}" data-fs="${k}">${l} <i>${k==='all'?c.all:c[k]||0}</i></button>`).join('')}</div>
     ${c.new?'<button class="btn sm" data-fa="allread">Mark all as seen</button>':''}</div>
    <div class="fb-list">${d.items.length?d.items.map(f=>`<div class="fb-item ${f.status==='new'?'isnew':''}" data-id="${f.id}">
-     <div class="fb-ih"><span class="fb-badge t-${f.type}">${fbIcon(f.type)}${FBT[f.type][0]}</span><span class="fb-st st-${f.status}">${FBS[f.status]}</span>${f.rating?`<span class="fb-stars">${'★'.repeat(f.rating)}<span>${'★'.repeat(5-f.rating)}</span></span>`:''}<span class="mute" style="margin-left:auto;font-size:12px">${new Date(f.created_at).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}</span></div>
-     <div class="fb-msgv">${esc(f.message)}</div>
+     <div class="fb-ih"><span class="fb-badge t-${f.type}">${fbIcon(f.type)}${FBT[f.type][0]}</span><span class="fb-st st-${f.status}">${FBS[f.status]}</span>${f.rating?`<span class="fb-stars">${'★'.repeat(f.rating)}<span>${'★'.repeat(5-f.rating)}</span></span>`:''}<span class="mute" style="margin-inline-start:auto;font-size:12px">${new Date(f.created_at).toLocaleString(LOC(),{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}</span></div>
+     <div class="fb-msgv" data-notr>${esc(f.message)}</div>
      <div class="fb-meta">${esc(f.user_name||'Deleted user')}${f.user_email?' · '+esc(f.user_email):f.user_provider?' · '+esc(provLabel(f.user_provider)):''}${f.context?' · screen: '+esc(f.context):''}${f.device?`<br><small>${esc(f.device.slice(0,140))}</small>`:''}</div>
-     ${f.reply?`<div class="fb-reply"><b>Your reply</b>${esc(f.reply)}</div>`:''}
+     ${f.reply?`<div class="fb-reply"><b>Your reply</b><span data-notr>${esc(f.reply)}</span></div>`:''}
      <div class="fb-acts">${f.status!=='read'?`<button class="btn sm" data-fset="read">Mark seen</button>`:''}${f.status!=='done'?`<button class="btn sm" data-fset="done">✓ Done</button>`:`<button class="btn sm" data-fset="new">Reopen</button>`}<button class="btn sm" data-freply>${f.reply?'Edit reply':'Reply'}</button></div></div>`).join(''):'<div class="empty">Nothing here.</div>'}</div>`}
 $('#ad-body').addEventListener('click',async e=>{
   const fs=e.target.closest('[data-fs]');if(fs){FA.status=fs.dataset.fs;loadAdminFeedback();return}
@@ -1951,7 +2069,7 @@ $('#ad-body').addEventListener('click',async e=>{
 /* ================= ADMIN ================= */
 const AD={data:null,metric:'workouts',q:'',sort:'lastSeenAt'};
 const hrs=s=>{const h=s/3600;return h>=10?Math.round(h)+' h':h>=1?h.toFixed(1)+' h':Math.round(s/60)+' min'};
-const shortDate=t=>t?new Date(t).toLocaleDateString(undefined,{month:'short',day:'numeric'}):'—';
+const shortDate=t=>t?new Date(t).toLocaleDateString(LOC(),{month:'short',day:'numeric'}):'—';
 const provLabel=p=>({email:'Email',google:'Google',facebook:'Facebook (test)',apple:'Apple (test)'}[p]||p);
 async function openAdmin(tab){show('s-admin');adTab(tab||(fbNew?'fb':'ov'));$('#ad-ov').innerHTML='<div class="spin" style="margin:60px auto"></div>';
   try{AD.data=await Api.call('GET','/api/admin/overview');renderAdmin()}
@@ -1964,7 +2082,7 @@ setInterval(()=>{if($('#s-admin').classList.contains('active')&&document.visibil
 function kpi(v,l,sub){return`<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div>${sub?`<div class="s">${sub}</div>`:''}</div>`}
 function renderAdmin(){const d=AD.data,t=d.totals;
   $('#ad-ov').innerHTML=`
-   <div class="ad-head"><div><div class="eyebrow">Updated ${new Date(d.generatedAt).toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})}</div><h1>Admin dashboard</h1></div></div>
+   <div class="ad-head"><div><div class="eyebrow">Updated ${new Date(d.generatedAt).toLocaleTimeString(LOC(),{hour:'numeric',minute:'2-digit'})}</div><h1>Admin dashboard</h1></div></div>
    <div class="kpis">
     ${kpi(t.users,'Users',`${t.verified} verified · +${t.newUsers7d} this week`)}
     ${kpi(t.active7d,'Active users (7 days)',`${t.active30d} in the last 30 days`)}
@@ -1983,7 +2101,7 @@ function renderAdmin(){const d=AD.data,t=d.totals;
    </div>
    <div class="ad-two">
     <div class="card"><div class="card-h"><h3>Most used exercises in plans</h3></div><div id="ad-top"></div></div>
-    <div class="card"><div class="card-h"><h3>Top shared plans</h3></div><div id="ad-shared">${(d.topShared||[]).length?d.topShared.map(x=>`<div class="hrow"><span><b style="font-family:var(--body);font-size:14px">${esc(x.name)}</b><br><small class="mute">${CATS[x.category]||x.category} · by ${esc(x.owner)}</small></span><span class="mute" style="text-align:right;font-size:13px">${x.views} views<br>${x.adds} added</span></div>`).join(''):'<p class="mute">No shared plans yet.</p>'}</div>
+    <div class="card"><div class="card-h"><h3>Top shared plans</h3></div><div id="ad-shared">${(d.topShared||[]).length?d.topShared.map(x=>`<div class="hrow"><span><b data-notr style="font-family:var(--body);font-size:14px">${esc(x.name)}</b><br><small class="mute">${CATS[x.category]||x.category} · by ${esc(x.owner)}</small></span><span class="mute" style="text-align:end;font-size:13px">${x.views} views<br>${x.adds} added</span></div>`).join(''):'<p class="mute">No shared plans yet.</p>'}</div>
       <div class="card-h" style="margin-top:18px"><h3>Sign-in methods</h3></div><div id="ad-prov"></div>
       <div class="card-h" style="margin-top:18px"><h3>When people train <small>(UTC hour)</small></h3></div><div id="ad-hours"></div></div>
    </div>
@@ -2004,7 +2122,7 @@ function barChart(vals,labels,fmtV,opts={}){
    <div class="bc-plot"><div class="bc-grid"><i></i><i></i><i></i></div><div class="bc-bars">${vals.map((v,i)=>`<div class="bc-b" tabindex="0" data-tip="${esc(labels[i])}: ${esc(fmtV(v))}"><i style="height:${v/nice*100}%"></i></div>`).join('')}</div></div>
    <div class="bc-x">${opts.xl||''}</div></div>`}
 function renderChart(){const d=AD.data.daily,k=AD.metric;
-  const L=d.map(x=>new Date(x.day+'T12:00:00Z').toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'}));
+  const L=d.map(x=>new Date(x.day+'T12:00:00Z').toLocaleDateString(LOC(),{weekday:'short',month:'short',day:'numeric'}));
   const xl=`<span>${shortDate(d[0].day+'T12:00:00Z')}</span><span>${shortDate(d[15].day+'T12:00:00Z')}</span><span>Today</span>`;
   const total=d.reduce((a,x)=>a+x[k],0);
   $('#ad-chart').innerHTML=`<div class="bc-total"><b>${total}</b> ${({workouts:'workouts',opens:'app opens',activeUsers:'active-user days',signups:'new users'})[k]} in 30 days</div>`+barChart(d.map(x=>x[k]),L,v=>String(Math.round(v)),{xl});
@@ -2032,16 +2150,16 @@ function renderUsers(){const d=AD.data;const q=AD.q.trim().toLowerCase();
   $('#ad-users').onclick=e=>{const r=e.target.closest('[data-u]');if(r)userDetail(+r.dataset.u)}}
 async function userDetail(id){let close=sheet('<div class="spin" style="margin:30px auto"></div>');
   try{const d=await Api.call('GET','/api/admin/users/'+id);close();const u=d.user;
-    sheet(`<h3>${esc(u.name)}</h3><p>${esc(u.email||provLabel(u.provider)+' sign-in')} · joined ${shortDate(u.createdAt)} · last active ${ago(new Date(u.lastSeenAt).getTime())}</p>
+    sheet(`<h3 data-notr>${esc(u.name)}</h3><p>${esc(u.email||provLabel(u.provider)+' sign-in')} · joined ${shortDate(u.createdAt)} · last active ${ago(new Date(u.lastSeenAt).getTime())}</p>
      <div class="kpis mini">${kpi(u.plans,'Plans')}${kpi(u.workouts,'Workouts')}${kpi(hrs(u.trainingSec),'Training')}${kpi(u.avgWorkoutSec?fmt(u.avgWorkoutSec):'—','Avg workout')}${kpi(u.appOpens,'App opens')}${kpi(u.quits,'Ended early')}</div>
-     <h4 class="sh">Plans</h4>${d.plans.length?d.plans.map(p=>`<div class="hrow"><span><b style="font-family:var(--body);font-size:14px">${esc(p.name)}</b><br><small class="mute">${p.items.length} exercises · ${p.items.slice(0,3).map(x=>esc(EXM[x]?.n||x)).join(', ')}${p.items.length>3?'…':''}</small></span><span style="text-align:right"><b>${p.runs}×</b><br><small class="mute">${p.best!=null?'best '+fmt(p.best):'never run'}</small></span></div>`).join(''):'<p class="mute">No plans.</p>'}
+     <h4 class="sh">Plans</h4>${d.plans.length?d.plans.map(p=>`<div class="hrow"><span><b data-notr style="font-family:var(--body);font-size:14px">${esc(p.name)}</b><br><small class="mute">${p.items.length} exercises · ${p.items.slice(0,3).map(x=>esc(EXM[x]?.n||x)).join(', ')}${p.items.length>3?'…':''}</small></span><span style="text-align:end"><b>${p.runs}×</b><br><small class="mute">${p.best!=null?'best '+fmt(p.best):'never run'}</small></span></div>`).join(''):'<p class="mute">No plans.</p>'}
      <h4 class="sh">Recent workouts</h4>${d.sessions.length?d.sessions.slice(0,10).map(s=>`<div class="hrow"><span>${esc(s.planName)} <span class="mute">· ${shortDate(s.at)}</span></span><b>${fmt(s.dur)}</b></div>`).join(''):'<p class="mute">No workouts yet.</p>'}
-     <h4 class="sh">Recent activity</h4>${d.recentEvents.slice(0,12).map(e=>`<div class="hrow"><span>${esc(e.type.replace(/_/g,' '))}</span><span class="mute">${new Date(e.at).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}</span></div>`).join('')}`)}
+     <h4 class="sh">Recent activity</h4>${d.recentEvents.slice(0,12).map(e=>`<div class="hrow"><span>${esc(e.type.replace(/_/g,' '))}</span><span class="mute">${new Date(e.at).toLocaleString(LOC(),{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}</span></div>`).join('')}`)}
   catch(e){close();toast(e.message)}}
 
 /* ================= boot ================= */
 (async()=>{
-  setAuthMode('signin');loadConfig();
+  initI18n();$('#lnk-priv').href=legal('privacy');$('#lnk-terms').href=legal('terms');setAuthMode('signin');loadConfig();
   if(Api.token){try{const r=await Api.call('GET','/api/me');await onAuthed(Api.token,r.user,true)}
     catch(e){if(e.status===401){Api.setToken(null);show('s-login')}else{const c=LS.get('ff_me',null);show('s-login');$('#auth-err').textContent='Can\'t reach the server right now. Please try again in a moment.'}}}
   else show('s-login');

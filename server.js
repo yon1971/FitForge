@@ -245,6 +245,7 @@ app.put('/api/data', wrap(auth), wrap(async (req, res) => {
   if (b.profile && typeof b.profile === 'object' && JSON.stringify(b.profile).length < 4000) data.profile = b.profile;
   if (Array.isArray(b.weights)) data.weights = b.weights.filter(w => w && Number.isFinite(+w.at) && +w.kg >= 25 && +w.kg <= 350).slice(-1000).map(w => ({ at: +w.at, kg: Math.round(+w.kg * 10) / 10 }));
   if (b.profileSkipped) data.profileSkipped = +b.profileSkipped || Date.now();
+  if (b.settings && typeof b.settings === 'object') data.settings = { lang: ['en', 'he'].includes(b.settings.lang) ? b.settings.lang : 'en' };
   await q(`INSERT INTO workspaces(user_id,data,updated_at) VALUES($1,$2,now())
            ON CONFLICT(user_id) DO UPDATE SET data=EXCLUDED.data, updated_at=now()`, [req.user.id, JSON.stringify(data)]);
   res.json({ ok: true });
@@ -486,6 +487,8 @@ app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: '5m' }));
 app.get('/privacy', (req, res) => res.sendFile(path.join(__dirname, 'public', 'privacy.html')));
 app.get('/terms', (req, res) => res.sendFile(path.join(__dirname, 'public', 'terms.html')));
+app.get('/privacy-he', (req, res) => res.sendFile(path.join(__dirname, 'public', 'privacy-he.html')));
+app.get('/terms-he', (req, res) => res.sendFile(path.join(__dirname, 'public', 'terms-he.html')));
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 app.use((err, req, res, next) => { console.error(err); res.status(500).json({ error: 'Server error. Please try again.' }); });
 
