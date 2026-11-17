@@ -27,7 +27,7 @@ body{overflow-x:hidden}
 html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.45;min-height:100%}
 body{padding-left:var(--sl);padding-right:var(--sr);overscroll-behavior-y:none}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
-input{font:inherit;color:inherit}
+input,textarea,select{font:inherit;color:inherit}
 h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .mute{color:var(--mute)}
 .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:600}
@@ -389,6 +389,40 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .co-ph{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}.co-ph h3{font-size:24px}
 .co-plan .rv{background:var(--panel2)}
 .co-acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+/* ---------- FEEDBACK ---------- */
+.fb-cta{width:100%;display:flex;align-items:center;gap:14px;margin-top:22px;padding:14px 16px;border-radius:18px;border:1.5px dashed #343c49;text-align:left;color:var(--text)}
+.fb-cta:hover{border-color:var(--acc)}.fb-cta>span:first-child{width:40px;height:40px;border-radius:12px;background:var(--panel2);display:grid;place-items:center;color:var(--acc);flex:none}.fb-cta svg{width:20px;height:20px}
+.fb-cta b{display:block}.fb-cta small{color:var(--mute);font-size:13px}
+.fb-types{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.fb-type{display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 4px;border-radius:12px;background:var(--panel2);border:1.5px solid var(--line);font-size:13px;color:var(--mute)}
+.fb-type svg{width:22px;height:22px}.fb-type b{font-weight:600}
+.fb-type.on{border-color:var(--acc);color:var(--acc);background:rgba(200,255,46,.08)}
+textarea.inp.fb-msg{height:130px;padding:12px 14px;resize:vertical;line-height:1.45;font-size:16px}
+.fb-rate{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:2px 0 8px;font-size:13.5px;color:#c7cdd8}
+.fb-rate small{color:var(--mute)}
+.stars{display:flex;gap:2px}.stars button{font-size:26px;line-height:1;color:#3a4250;padding:2px}.stars button.on{color:#ffc93d}
+.fb-list{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.fb-item{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+#ad-fb .fb-item{background:var(--panel)}
+.fb-item.isnew{border-color:rgba(200,255,46,.45);box-shadow:inset 3px 0 0 var(--acc)}
+.fb-ih{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.fb-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:3px 8px;border-radius:7px;background:#262c37}
+.fb-badge svg{width:14px;height:14px}
+.fb-badge.t-idea{color:#ffc93d}.fb-badge.t-bug{color:var(--bad)}.fb-badge.t-praise{color:#ff7aa8}.fb-badge.t-other{color:#9fb4ff}
+.fb-st{font-size:11.5px;font-weight:700;padding:3px 7px;border-radius:6px;background:#262c37;color:var(--mute)}
+.fb-st.st-new{background:rgba(200,255,46,.14);color:var(--acc)}.fb-st.st-done{background:rgba(61,220,132,.12);color:var(--good)}
+.fb-stars{color:#ffc93d;font-size:13px;letter-spacing:1px}.fb-stars span{color:#3a4250}
+.fb-msgv{white-space:pre-wrap;word-break:break-word;font-size:14.5px;line-height:1.5}
+.fb-meta{font-size:12.5px;color:var(--mute);margin-top:8px}.fb-meta small{font-size:11px;opacity:.8}
+.fb-reply{margin-top:10px;padding:10px 12px;border-radius:10px;background:rgba(200,255,46,.06);border-left:3px solid var(--acc);font-size:14px;white-space:pre-wrap}
+.fb-reply b{display:block;font-size:12px;color:var(--acc);margin-bottom:2px}
+.fb-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.nbadge{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;margin-left:6px;border-radius:10px;background:var(--bad);color:#fff;font-style:normal;font-size:11.5px;font-weight:800;font-family:var(--body)}
+.admin-pill{position:relative;display:inline-flex;align-items:center}
+.nbadge-inline:not(:empty){margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--bad);color:#fff;font-size:12px;font-weight:800;display:inline-grid;place-items:center}
+.ad-tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:16px;width:max-content;max-width:100%}
+.ad-tabs button{height:36px;padding:0 16px;border-radius:9px;font-weight:600;color:var(--mute);display:inline-flex;align-items:center}
+.ad-tabs button.on{background:var(--panel2);color:var(--text)}
 /* ---------- ADMIN ---------- */
 .ad-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
 .ad-head h1{font-size:40px;margin-top:4px}
@@ -558,6 +592,7 @@ select.inp option{background:var(--panel);color:var(--text)}
     <h2 class="sec">Your workout plans <small id="h-count"></small></h2>
     <div class="sync-line"><span id="h-sync" class="sync" data-st="saved">All changes saved</span></div>
     <div class="plans" id="h-plans"></div>
+    <button class="fb-cta" id="btn-fb"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5z"/><path d="M8 9h8M8 12h5"/></svg></span><span><b>Help us improve FitForge</b><small>Share an idea, report a bug or tell us what you like</small></span></button>
   </div>
 </section>
 
@@ -635,7 +670,7 @@ select.inp option{background:var(--panel);color:var(--text)}
     <div class="brand sm" style="flex:1">ADMIN</div>
     <button class="btn sm" id="ad-refresh">Refresh</button>
   </header>
-  <div class="wrap" id="ad-body"></div>
+  <div class="wrap" id="ad-body"><div class="ad-tabs"><button id="ad-tab-ov" class="on" data-tab="ov">Overview</button><button id="ad-tab-fb" data-tab="fb">Feedback</button></div><div id="ad-ov"></div><div id="ad-fb" style="display:none"></div></div>
 </section>
 
 <div id="toast"></div>
@@ -1079,8 +1114,8 @@ async function onAuthed(token,user,isReturn){Api.setToken(token);me=user;
   try{ws=await Api.call('GET','/api/data')}catch(e){if(e.status===401)throw e;ws=LS.get('ff_cache_'+user.id,null)||{plans:[],sessions:[]};toast('Offline — showing saved copy')}
   ws.plans=ws.plans||[];ws.sessions=ws.sessions||[];delete ws.updatedAt;LS.set('ff_cache_'+me.id,ws);
   if(isReturn)Api.event('app_open');
-  myShared={};ws.weights=ws.weights||[];renderHome();if(!maybeOnboard())show('s-home');refreshMyShared()}
-async function logout(silent){if(!silent){try{await Sync.now()}catch(e){}Api.call('POST','/api/logout').catch(()=>{})}Api.setToken(null);me=null;ws={plans:[],sessions:[]};$('#in-pass').value='';setAuthMode('signin');show('s-login');setTimeout(renderGoogleBtn,50)}
+  myShared={};ws.weights=ws.weights||[];renderHome();if(!maybeOnboard())show('s-home');refreshMyShared();fbNew=0;startFbPolling()}
+async function logout(silent){if(!silent){try{await Sync.now()}catch(e){}Api.call('POST','/api/logout').catch(()=>{})}clearInterval(fbPollT);fbNew=0;Api.setToken(null);me=null;ws={plans:[],sessions:[]};$('#in-pass').value='';setAuthMode('signin');show('s-login');setTimeout(renderGoogleBtn,50)}
 
 /* ================= HOME ================= */
 const planEst=p=>p.items.reduce((t,it,i)=>t+it.sets*(it.time?it.secs:it.reps*3.5)+it.rest*it.sets-(i===p.items.length-1?it.rest:0),0);
@@ -1088,7 +1123,7 @@ function planMuscles(p){const s=[];p.items.forEach(it=>{const m=EXM[it.exId]?.m[
 function renderHome(){
   const now=new Date();$('#h-date').textContent=now.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
   const hr=now.getHours(),greet=hr<12?'Good morning':hr<18?'Good afternoon':'Good evening';
-  $('#h-greet').textContent=`${greet}, ${me.name}`;$('#h-admin').style.display=me.isAdmin?'':'none';$('#btn-account').textContent=(me.name||'A')[0].toUpperCase();
+  $('#h-greet').textContent=`${greet}, ${me.name}`;$('#h-admin').style.display=me.isAdmin?'':'none';paintFbBadge();$('#btn-account').textContent=(me.name||'A')[0].toUpperCase();
   const t=Date.now(),wk=ws.sessions.filter(s=>t-s.at<7*DAY),mo=ws.sessions.filter(s=>t-s.at<30*DAY);
   let streak=0;{const days=new Set(ws.sessions.map(s=>startOfDay(s.at)));let d=startOfDay(t);if(!days.has(d))d-=DAY;while(days.has(d)){streak++;d-=DAY}}
   $('#h-stats').innerHTML=`<div class="stat"><div class="v">${wk.length}</div><div class="l">Workouts this week</div></div>
@@ -1116,11 +1151,12 @@ $('#h-plans').addEventListener('click',e=>{const m=e.target.closest('[data-menu]
 $('#btn-new').addEventListener('click',()=>openBuilder(null));
 $('#btn-shared').addEventListener('click',()=>openShared());
 $('#btn-coach').addEventListener('click',()=>openCoach());
+$('#btn-fb').addEventListener('click',()=>openFeedback());
 $('#btn-account').addEventListener('click',()=>{sheet(`<h3>${esc(me.name)}</h3><p>${me.provider==='email'?esc(me.email):'Signed in with '+me.provider[0].toUpperCase()+me.provider.slice(1)}${me.isAdmin?' · <span style="color:var(--acc)">Admin</span>':''}</p>
-  <div class="menu">${me.isAdmin?`<button data-a="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Admin dashboard</button>`:''}<button data-a="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/></svg>My profile</button><button data-a="out">${ICON.logout}Log out</button><button class="red" data-a="del">${ICON.trash}Delete my account</button></div>
-  <p style="margin:12px 0 0;font-size:12.5px"><a href="/privacy" style="color:var(--mute)">Privacy Policy</a> · <a href="/terms" style="color:var(--mute)">Terms</a></p>`,(el,close)=>{el.addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='out'){close();logout()}if(a==='admin'){close();openAdmin()}if(a==='profile'){close();openProfile('edit')}
+  <div class="menu">${me.isAdmin?`<button data-a="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Admin dashboard<span id="acct-fb-n" class="nbadge-inline">${fbNew||''}</span></button>`:''}<button data-a="feedback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5z"/><path d="M8 9h8M8 12h5"/></svg>Send feedback</button><button data-a="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/></svg>My profile</button><button data-a="out">${ICON.logout}Log out</button><button class="red" data-a="del">${ICON.trash}Delete my account</button></div>
+  <p style="margin:12px 0 0;font-size:12.5px"><a href="/privacy" style="color:var(--mute)">Privacy Policy</a> · <a href="/terms" style="color:var(--mute)">Terms</a></p>`,(el,close)=>{el.addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='out'){close();logout()}if(a==='admin'){close();openAdmin()}if(a==='feedback'){close();openFeedback()}if(a==='profile'){close();openProfile('edit')}
     if(a==='del'){close();if(await confirmBox('Delete your account?','This permanently deletes your account, all workout plans and your workout history. This cannot be undone.','Delete forever',true)){try{await Api.call('DELETE','/api/me');LS.del('ff_cache_'+me.id);Api.setToken(null);me=null;toast('Your account was deleted');logout(true)}catch(x){toast(x.message)}}}})})});
-$('#h-admin').addEventListener('click',openAdmin);
+$('#h-admin').addEventListener('click',()=>openAdmin());
 function planMenu(id){const p=ws.plans.find(x=>x.id===id);if(!p)return;
   sheet(`<h3>${esc(p.name)}</h3><p>${p.items.length} exercises · ~${Math.max(1,Math.round(planEst(p)/60))} min</p><div class="menu">
    <button data-a="start">${ICON.play.replace('#121600','currentColor')}Start workout</button><button data-a="edit">${ICON.edit}Edit plan</button>
@@ -1354,7 +1390,7 @@ const PQ=[
 ];
 const PF={mode:'wizard',step:0,d:{}};
 const profileDone=()=>!!(ws.profile&&ws.profile.completedAt);
-function maybeOnboard(){if(!ws.profile&&!ws.profileSkipped){openProfile('wizard');return true}return false}
+function maybeOnboard(){const fresh=me&&me.createdAt&&Date.now()-new Date(me.createdAt).getTime()<36*36e5&&!ws.plans.length&&!ws.sessions.length;if(fresh&&!ws.profile&&!ws.profileSkipped){openProfile('wizard');return true}return false}
 function openProfile(mode){PF.mode=mode;PF.step=mode==='wizard'?-1:0;PF.d=JSON.parse(JSON.stringify(ws.profile||{}));
   if(!PF.d.avoid)PF.d.avoid=[];const w=lastWeight();if(w&&!PF.d.weight)PF.d.weight=w.kg;show('s-profile');renderProfile()}
 $('#pf-back').addEventListener('click',()=>{if(PF.mode==='wizard'&&PF.step>0){PF.step--;renderProfile();return}if(PF.mode==='wizard'&&PF.step===0){PF.step=-1;renderProfile();return}renderHome();show('s-home')});
@@ -1671,20 +1707,95 @@ async function sharedDetail(id){const sp=SH.data.plans.find(x=>x.id===id);if(!sp
     el.addEventListener('click',async e=>{if(e.target.closest('[data-a=add]')){const b=e.target.closest('[data-a=add]');const r=await addShared(id,b);if(r){close()}}})})}
 let quietT;function loadSharedQuiet(){clearTimeout(quietT);quietT=setTimeout(async()=>{try{const d=await Api.call('GET',`/api/shared?sort=${SH.sort}${SH.cat?'&category='+SH.cat:''}`);if($('#s-shared').classList.contains('active')&&!document.querySelector('.ov')){SH.data=d;renderSharedFrame();renderSharedList()}else SH.data=d}catch(e){}},400)}
 
+/* ================= FEEDBACK ================= */
+const FBT={idea:['Idea','Suggest a feature or improvement','<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V17h5v-1.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/>'],
+  bug:['Bug','Something isn\'t working right','<path d="M8 6.5a4 4 0 0 1 8 0M7 10h10v4a5 5 0 0 1-10 0v-4zM12 10v9M3 13h4M17 13h4M4 7l3 2M20 7l-3 2M4 19l3-2M20 19l-3-2"/>'],
+  praise:['Praise','Tell us what you like','<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>'],
+  other:['Other','Anything else','<path d="M4 5h16v11H8l-4 4V5z"/>']};
+const fbIcon=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${FBT[k][2]}</svg>`;
+const FBS={new:'New',read:'Seen',done:'Done'};
+function currentScreen(){const a=document.querySelector('.screen.active');return a?a.id.replace('s-',''):''}
+function openFeedback(prefType){const st={type:prefType||'idea',rating:0};const ctx=currentScreen();
+  const render=el=>{el.innerHTML=`<div class="grab"></div><h3>Send feedback</h3><p>Ideas, bugs, praise — it all helps make FitForge better.</p>
+    <div class="fb-types">${Object.entries(FBT).map(([k,[n,d]])=>`<button class="fb-type ${st.type===k?'on':''}" data-t="${k}">${fbIcon(k)}<b>${n}</b></button>`).join('')}</div>
+    <label class="fld" style="margin-top:12px"><span>${st.type==='bug'?'What happened? What did you expect to happen?':st.type==='idea'?'What would make FitForge better for you?':st.type==='praise'?'What do you like?':'Your message'}</span>
+     <textarea class="inp fb-msg" id="fb-msg" maxlength="3000" placeholder="${st.type==='bug'?'e.g. On the rest screen, the +10s button didn\'t add time…':'Write here…'}">${esc(st.msg||'')}</textarea></label>
+    <div class="fb-rate"><span>How do you like FitForge so far? <small>(optional)</small></span><div class="stars">${[1,2,3,4,5].map(n=>`<button data-r="${n}" class="${n<=st.rating?'on':''}" aria-label="${n} star${n>1?'s':''}">★</button>`).join('')}</div></div>
+    ${st.type==='bug'?'<p class="fine" style="text-align:left;margin:4px 0 10px">To help us fix it, we\'ll include your device and browser type and the screen you were on.</p>':''}
+    <div class="err" id="fb-err"></div>
+    <div class="m-actions"><button class="btn" data-a="mine">My feedback</button><button class="btn primary" data-a="send">Send</button></div>`;
+    const ta=$('#fb-msg',el);ta.addEventListener('input',()=>st.msg=ta.value)};
+  const ov=document.createElement('div');ov.className='ov';ov.innerHTML='<div class="sheet"></div>';const el=ov.firstChild;document.body.appendChild(ov);render(el);
+  const close=()=>ov.remove();ov.addEventListener('click',e=>{if(e.target===ov)close()});
+  el.addEventListener('click',async e=>{const t=e.target.closest('[data-t]'),r=e.target.closest('[data-r]'),a=e.target.closest('[data-a]')?.dataset.a;
+    if(t){st.type=t.dataset.t;render(el);return}
+    if(r){st.rating=+r.dataset.r===st.rating?0:+r.dataset.r;render(el);return}
+    if(a==='mine'){close();myFeedback();return}
+    if(a==='send'){const msg=(st.msg||'').trim();if(msg.length<3){$('#fb-err',el).textContent='Please write a few words.';return}
+      const b=e.target.closest('[data-a]');b.disabled=true;
+      try{await Api.call('POST','/api/feedback',{type:st.type,message:msg,rating:st.rating||null,context:ctx+' · '+innerWidth+'×'+innerHeight});close();toast('Thanks! Your feedback was sent 🙌')}
+      catch(x){$('#fb-err',el).textContent=x.message;b.disabled=false}}});
+}
+async function myFeedback(){const close=sheet('<div class="spin" style="margin:30px auto"></div>');
+  try{const r=await Api.call('GET','/api/feedback/mine');close();
+    sheet(`<h3>My feedback</h3><p>${r.items.length?'Everything you\'ve sent, and replies from the FitForge team.':'You haven\'t sent any feedback yet.'}</p>
+      <div class="fb-list">${r.items.map(f=>`<div class="fb-item"><div class="fb-ih"><span class="fb-badge t-${f.type}">${fbIcon(f.type)}${FBT[f.type][0]}</span><span class="fb-st st-${f.status}">${FBS[f.status]}</span><span class="mute" style="margin-left:auto;font-size:12px">${shortDate(f.created_at)}</span></div>
+        <div class="fb-msgv">${esc(f.message)}</div>${f.reply?`<div class="fb-reply"><b>Reply from FitForge</b>${esc(f.reply)}</div>`:''}</div>`).join('')}</div>
+      <div class="m-actions"><button class="btn primary" data-a="new">Send new feedback</button></div>`,(el,cl)=>el.addEventListener('click',e=>{if(e.target.closest('[data-a=new]')){cl();openFeedback()}}))}
+  catch(e){close();toast(e.message)}}
+
+/* ---- admin: new feedback indicator + inbox ---- */
+let fbNew=0,fbPollT=null;
+async function checkFeedbackCount(announce){if(!me||!me.isAdmin)return;
+  try{const r=await Api.call('GET','/api/admin/feedback/count');const prev=fbNew;fbNew=r.new;paintFbBadge();
+    if(announce&&fbNew>0)toast(`📬 You have ${fbNew} new feedback message${fbNew>1?'s':''}`);
+    else if(!announce&&fbNew>prev)toast(`📬 New feedback received`)}catch(e){}}
+function paintFbBadge(){const b=$('#h-admin');if(!b)return;b.innerHTML=`Admin${fbNew?`<i class="nbadge">${fbNew>99?'99+':fbNew}</i>`:''}`;
+  const t=$('#ad-tab-fb');if(t)t.innerHTML=`Feedback${fbNew?` <i class="nbadge">${fbNew}</i>`:''}`;
+  const m=$('#acct-fb-n');if(m)m.textContent=fbNew?fbNew:''}
+function startFbPolling(){clearInterval(fbPollT);if(!me||!me.isAdmin)return;checkFeedbackCount(true);
+  fbPollT=setInterval(()=>{if(document.visibilityState==='visible'&&me&&me.isAdmin)checkFeedbackCount(false)},60000)}
+const FA={status:'new',data:null};
+async function loadAdminFeedback(){const box=$('#ad-fb');if(!box)return;box.innerHTML='<div class="spin" style="margin:40px auto"></div>';
+  try{FA.data=await Api.call('GET','/api/admin/feedback'+(FA.status==='all'?'':'?status='+FA.status));renderAdminFeedback()}catch(e){box.innerHTML=`<div class="empty">${esc(e.message)}</div>`}}
+function renderAdminFeedback(){const d=FA.data,c=d.counts;
+  $('#ad-fb').innerHTML=`<div class="kpis">${kpi(c.new,'New','waiting for you')}${kpi(c.all,'All feedback',`${c.types.idea||0} ideas · ${c.types.bug||0} bugs · ${c.types.praise||0} praise`)}${kpi(d.rating.n?d.rating.a+' ★':'—','Average rating',`from ${d.rating.n} rating${d.rating.n===1?'':'s'}`)}</div>
+   <div class="sh-bar"><div class="fchips" style="padding:0">${[['new','New'],['read','Seen'],['done','Done'],['all','All']].map(([k,l])=>`<button class="fchip ${FA.status===k?'on':''}" data-fs="${k}">${l} <i>${k==='all'?c.all:c[k]||0}</i></button>`).join('')}</div>
+    ${c.new?'<button class="btn sm" data-fa="allread">Mark all as seen</button>':''}</div>
+   <div class="fb-list">${d.items.length?d.items.map(f=>`<div class="fb-item ${f.status==='new'?'isnew':''}" data-id="${f.id}">
+     <div class="fb-ih"><span class="fb-badge t-${f.type}">${fbIcon(f.type)}${FBT[f.type][0]}</span><span class="fb-st st-${f.status}">${FBS[f.status]}</span>${f.rating?`<span class="fb-stars">${'★'.repeat(f.rating)}<span>${'★'.repeat(5-f.rating)}</span></span>`:''}<span class="mute" style="margin-left:auto;font-size:12px">${new Date(f.created_at).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}</span></div>
+     <div class="fb-msgv">${esc(f.message)}</div>
+     <div class="fb-meta">${esc(f.user_name||'Deleted user')}${f.user_email?' · '+esc(f.user_email):f.user_provider?' · '+esc(provLabel(f.user_provider)):''}${f.context?' · screen: '+esc(f.context):''}${f.device?`<br><small>${esc(f.device.slice(0,140))}</small>`:''}</div>
+     ${f.reply?`<div class="fb-reply"><b>Your reply</b>${esc(f.reply)}</div>`:''}
+     <div class="fb-acts">${f.status!=='read'?`<button class="btn sm" data-fset="read">Mark seen</button>`:''}${f.status!=='done'?`<button class="btn sm" data-fset="done">✓ Done</button>`:`<button class="btn sm" data-fset="new">Reopen</button>`}<button class="btn sm" data-freply>${f.reply?'Edit reply':'Reply'}</button></div></div>`).join(''):'<div class="empty">Nothing here.</div>'}</div>`}
+$('#ad-body').addEventListener('click',async e=>{
+  const fs=e.target.closest('[data-fs]');if(fs){FA.status=fs.dataset.fs;loadAdminFeedback();return}
+  if(e.target.closest('[data-fa=allread]')){await Api.call('POST','/api/admin/feedback/mark-all-read');fbNew=0;paintFbBadge();loadAdminFeedback();return}
+  const it=e.target.closest('.fb-item[data-id]');if(!it)return;const id=it.dataset.id;
+  const set=e.target.closest('[data-fset]');if(set){await Api.call('PATCH','/api/admin/feedback/'+id,{status:set.dataset.fset});checkFeedbackCount(false);loadAdminFeedback();return}
+  if(e.target.closest('[data-freply]')){const f=FA.data.items.find(x=>String(x.id)===id);
+    sheet(`<h3>Reply to ${esc(f.user_name||'user')}</h3><p>They'll see your reply under "My feedback".</p><div class="fb-msgv" style="margin-bottom:12px">${esc(f.message)}</div>
+      <textarea class="inp fb-msg" id="fr-msg" maxlength="2000" placeholder="Write a reply…">${esc(f.reply||'')}</textarea>
+      <div class="m-actions" style="margin-top:12px"><button class="btn" data-a="no">Cancel</button><button class="btn primary" data-a="send">Save reply</button></div>`,(el,cl)=>{
+      el.addEventListener('click',async ev=>{const a=ev.target.closest('[data-a]')?.dataset.a;if(a==='no')cl();
+        if(a==='send'){await Api.call('PATCH','/api/admin/feedback/'+id,{reply:$('#fr-msg').value});cl();toast('Reply saved');checkFeedbackCount(false);loadAdminFeedback()}})})}});
+
 /* ================= ADMIN ================= */
 const AD={data:null,metric:'workouts',q:'',sort:'lastSeenAt'};
 const hrs=s=>{const h=s/3600;return h>=10?Math.round(h)+' h':h>=1?h.toFixed(1)+' h':Math.round(s/60)+' min'};
 const shortDate=t=>t?new Date(t).toLocaleDateString(undefined,{month:'short',day:'numeric'}):'—';
 const provLabel=p=>({email:'Email',google:'Google',facebook:'Facebook (test)',apple:'Apple (test)'}[p]||p);
-async function openAdmin(){show('s-admin');$('#ad-body').innerHTML='<div class="spin" style="margin:60px auto"></div>';
+async function openAdmin(tab){show('s-admin');adTab(tab||(fbNew?'fb':'ov'));$('#ad-ov').innerHTML='<div class="spin" style="margin:60px auto"></div>';
   try{AD.data=await Api.call('GET','/api/admin/overview');renderAdmin()}
-  catch(e){$('#ad-body').innerHTML=`<div class="empty">${esc(e.message)}</div>`}}
+  catch(e){$('#ad-ov').innerHTML=`<div class="empty">${esc(e.message)}</div>`}}
+function adTab(t){$('#ad-ov').style.display=t==='ov'?'':'none';$('#ad-fb').style.display=t==='fb'?'':'none';$$('.ad-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));if(t==='fb')loadAdminFeedback();paintFbBadge()}
+document.querySelector('.ad-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)adTab(b.dataset.tab)});
 $('#ad-back').addEventListener('click',()=>{renderHome();show('s-home')});
-$('#ad-refresh').addEventListener('click',openAdmin);
+$('#ad-refresh').addEventListener('click',()=>{if($('#ad-fb').style.display!=='none'){loadAdminFeedback();checkFeedbackCount(false)}else openAdmin('ov')});
 setInterval(()=>{if($('#s-admin').classList.contains('active')&&document.visibilityState==='visible'&&!document.querySelector('.ov')&&document.activeElement?.id!=='ad-q')Api.call('GET','/api/admin/overview').then(d=>{AD.data=d;renderAdmin()}).catch(()=>{})},30000);
 function kpi(v,l,sub){return`<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div>${sub?`<div class="s">${sub}</div>`:''}</div>`}
 function renderAdmin(){const d=AD.data,t=d.totals;
-  $('#ad-body').innerHTML=`
+  $('#ad-ov').innerHTML=`
    <div class="ad-head"><div><div class="eyebrow">Updated ${new Date(d.generatedAt).toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})}</div><h1>Admin dashboard</h1></div></div>
    <div class="kpis">
     ${kpi(t.users,'Users',`${t.verified} verified · +${t.newUsers7d} this week`)}

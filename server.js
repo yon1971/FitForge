@@ -64,6 +64,20 @@ async function migrate() {
       UNIQUE(owner_id, source_plan_id)
     );
     ALTER TABLE shared_plans ADD COLUMN IF NOT EXISTS mode TEXT NOT NULL DEFAULT 'straight';
+    CREATE TABLE IF NOT EXISTS feedback (
+      id SERIAL PRIMARY KEY,
+      user_id INT REFERENCES users(id) ON DELETE CASCADE,
+      type TEXT NOT NULL,
+      message TEXT NOT NULL,
+      rating INT,
+      context TEXT,
+      device TEXT,
+      status TEXT NOT NULL DEFAULT 'new',
+      reply TEXT,
+      replied_at TIMESTAMPTZ,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+    CREATE INDEX IF NOT EXISTS feedback_status_idx ON feedback(status);
     CREATE TABLE IF NOT EXISTS shared_views (
       shared_id TEXT NOT NULL REFERENCES shared_plans(id) ON DELETE CASCADE,
       user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -311,6 +325,49 @@ app.post('/api/shared/:id/add', wrap(auth), wrap(async (req, res) => {
   }
   const fresh = (await q(SHARED_SELECT + ' WHERE s.id=$2', [req.user.id, req.params.id])).rows[0];
   res.json({ plan: sharedOut(fresh, req.user.id) });
+}));
+
+/* ---------- feedback ---------- */
+const FB_TYPES = ['idea', 'bug', 'praise', 'other'], FB_STATUS = ['new', 'read', 'done'];
+app.post('/api/feedback', limit(6, 60000), wrap(auth), wrap(async (req, res) => {
+  const b = req.body || {};
+  const type = FB_TYPES.includes(b.type) ? b.type : 'other';
+  const message = String(b.message || '').trim().slice(0, 3000);
+  if (message.length < 3) return res.status(400).json({ error: 'Please write a few words.' });
+  const rating = Number.isInteger(+b.rating) && +b.rating >= 1 && +b.rating <= 5 ? +b.rating : null;
+  const r = await q('INSERT INTO feedback(user_id,type,message,rating,context,device) VALUES($1,$2,$3,$4,$5,$6) RETURNING id',
+    [req.user.id, type, message, rating, String(b.context || '').slice(0, 200), String(req.headers['user-agent'] || '').slice(0, 300)]);
+  await logEvent(req.user.id, 'feedback', { type });
+  res.json({ id: r.rows[0].id });
+}));
+app.get('/api/feedback/mine', wrap(auth), wrap(async (req, res) => {
+  const r = await q('SELECT id,type,message,rating,status,reply,replied_at,created_at FROM feedback WHERE user_id=$1 ORDER BY created_at DESC LIMIT 50', [req.user.id]);
+  res.json({ items: r.rows });
+}));
+app.get('/api/admin/feedback/count', wrap(auth), adminOnly, wrap(async (req, res) => {
+  const r = await q("SELECT count(*)::int n FROM feedback WHERE status='new'");
+  res.json({ new: r.rows[0].n });
+}));
+app.get('/api/admin/feedback', wrap(auth), adminOnly, wrap(async (req, res) => {
+  const st = String(req.query.status || '');
+  const params = []; let where = '';
+  if (FB_STATUS.includes(st)) { params.push(st); where = 'WHERE f.status=$1'; }
+  const r = await q(`SELECT f.*, u.name AS user_name, u.email AS user_email, u.provider AS user_provider FROM feedback f LEFT JOIN users u ON u.id=f.user_id ${where} ORDER BY f.created_at DESC LIMIT 300`, params);
+  const c = await q('SELECT status, type, count(*)::int n FROM feedback GROUP BY status, type');
+  const counts = { new: 0, read: 0, done: 0, all: 0, types: {} };
+  for (const x of c.rows) { counts[x.status] = (counts[x.status] || 0) + x.n; counts.all += x.n; counts.types[x.type] = (counts.types[x.type] || 0) + x.n; }
+  const avg = (await q('SELECT round(avg(rating)::numeric,1)::float a, count(rating)::int n FROM feedback WHERE rating IS NOT NULL')).rows[0];
+  res.json({ items: r.rows, counts, rating: avg });
+}));
+app.patch('/api/admin/feedback/:id', wrap(auth), adminOnly, wrap(async (req, res) => {
+  const id = parseInt(req.params.id, 10), b = req.body || {};
+  if (b.status && !FB_STATUS.includes(b.status)) return res.status(400).json({ error: 'Bad status' });
+  if (b.status) await q('UPDATE feedback SET status=$1 WHERE id=$2', [b.status, id]);
+  if (typeof b.reply === 'string') await q("UPDATE feedback SET reply=NULLIF($1,''), replied_at=CASE WHEN $1='' THEN NULL ELSE now() END, status=CASE WHEN status='new' THEN 'read' ELSE status END WHERE id=$2", [b.reply.trim().slice(0, 2000), id]);
+  res.json({ ok: true });
+}));
+app.post('/api/admin/feedback/mark-all-read', wrap(auth), adminOnly, wrap(async (req, res) => {
+  await q("UPDATE feedback SET status='read' WHERE status='new'"); res.json({ ok: true });
 }));
 
 /* ---------- admin ---------- */
