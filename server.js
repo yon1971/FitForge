@@ -231,7 +231,7 @@ app.put('/api/data', wrap(auth), wrap(async (req, res) => {
   res.json({ ok: true });
 }));
 
-const EVENT_TYPES = new Set(['app_open', 'workout_start', 'workout_complete', 'workout_quit', 'plan_saved', 'plan_deleted']);
+const EVENT_TYPES = new Set(['app_open', 'helper_used', 'workout_start', 'workout_complete', 'workout_quit', 'plan_saved', 'plan_deleted']);
 app.post('/api/event', wrap(auth), wrap(async (req, res) => {
   const type = String(req.body.type || '');
   if (!EVENT_TYPES.has(type)) return res.status(400).json({ error: 'Unknown event' });

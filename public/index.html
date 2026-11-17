@@ -352,6 +352,23 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .shared-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--acc)}
 .shared-badge svg{width:14px;height:14px}
 .from-line{font-size:12px;color:var(--mute);margin-top:-6px}
+/* ---------- PLAN HELPER ---------- */
+.co-prog{display:flex;gap:4px;margin:4px 0 18px}.co-prog i{flex:1;height:4px;border-radius:2px;background:#232933}.co-prog i.d{background:var(--acc)}.co-prog i.c{background:rgba(200,255,46,.5)}
+.co-q{font-size:34px;margin:6px 0 16px}
+.co-opts{display:grid;gap:8px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:700px){.co-opts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.co-opt{position:relative;display:flex;flex-direction:column;gap:2px;text-align:left;padding:15px 16px;border-radius:16px;background:var(--panel);border:1.5px solid var(--line);transition:border-color .15s,background .15s,transform .1s}
+.co-opt:active{transform:scale(.99)}.co-opt:hover{border-color:#3d4654}
+.co-opt b{font-size:16px}.co-opt small{color:var(--mute);font-size:13px}
+.co-opt.on{border-color:var(--acc);background:rgba(200,255,46,.08)}.co-opt.on b{color:var(--acc)}
+.co-ck{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:7px;border:1.5px solid #3d4654;display:grid;place-items:center;font-weight:800;color:var(--acc-ink)}
+.co-opt.on .co-ck{background:var(--acc);border-color:var(--acc)}
+.co-why{background:rgba(200,255,46,.06);border:1px solid rgba(200,255,46,.25);border-radius:16px;padding:14px 16px;margin-bottom:16px;font-size:14px}
+.co-why ul{margin:6px 0 0;padding-left:18px}.co-why li{margin:4px 0;color:#d5dae2}
+.co-plan{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:14px;margin-bottom:12px}
+.co-ph{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}.co-ph h3{font-size:24px}
+.co-plan .rv{background:var(--panel2)}
+.co-acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
 /* ---------- ADMIN ---------- */
 .ad-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
 .ad-head h1{font-size:40px;margin-top:4px}
@@ -515,6 +532,7 @@ select.inp option{background:var(--panel);color:var(--text)}
       <span class="plus"><svg viewBox="0 0 24 24" fill="none" stroke="#121600" stroke-width="2.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
       <span><b>CREATE NEW WORKOUT PLAN</b><span>Pick muscles on the 3D body, choose exercises, set reps &amp; rest</span></span>
     </button>
+    <button class="cta-sec" id="btn-coach"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l2 2 4-4"/><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8 17h8"/></svg></span><span><b>PLAN HELPER</b><span>Answer a few questions, get a ready-made plan</span></span><span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></span></button>
     <button class="cta-sec" id="btn-shared"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.7c1.9.7 3.1 2.5 3.5 5.3"/></svg></span><span><b>BROWSE SHARED PLANS</b><span>Find plans from other users by category</span></span><span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></span></button>
     <h2 class="sec">Your workout plans <small id="h-count"></small></h2>
     <div class="sync-line"><span id="h-sync" class="sync" data-st="saved">All changes saved</span></div>
@@ -560,6 +578,14 @@ select.inp option{background:var(--panel);color:var(--text)}
 <!-- SUMMARY -->
 <section id="s-summary" class="screen"></section>
 
+<!-- PLAN HELPER -->
+<section id="s-coach" class="screen">
+  <header class="top">
+    <button class="icon-btn" id="co-back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="brand sm" style="flex:1">PLAN HELPER</div>
+  </header>
+  <div class="wrap" id="co-body" style="max-width:760px"></div>
+</section>
 <!-- SHARED PLANS -->
 <section id="s-shared" class="screen">
   <header class="top">
@@ -1059,6 +1085,7 @@ $('#h-plans').addEventListener('click',e=>{const m=e.target.closest('[data-menu]
   const c=e.target.closest('.plan');if(c)startWorkout(c.dataset.id)});
 $('#btn-new').addEventListener('click',()=>openBuilder(null));
 $('#btn-shared').addEventListener('click',()=>openShared());
+$('#btn-coach').addEventListener('click',()=>openCoach());
 $('#btn-account').addEventListener('click',()=>{sheet(`<h3>${esc(me.name)}</h3><p>${me.provider==='email'?esc(me.email):'Signed in with '+me.provider[0].toUpperCase()+me.provider.slice(1)}${me.isAdmin?' · <span style="color:var(--acc)">Admin</span>':''}</p>
   <div class="menu">${me.isAdmin?`<button data-a="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Admin dashboard</button>`:''}<button data-a="out">${ICON.logout}Log out</button><button class="red" data-a="del">${ICON.trash}Delete my account</button></div>
   <p style="margin:12px 0 0;font-size:12.5px"><a href="/privacy" style="color:var(--mute)">Privacy Policy</a> · <a href="/terms" style="color:var(--mute)">Terms</a></p>`,(el,close)=>{el.addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='out'){close();logout()}if(a==='admin'){close();openAdmin()}
@@ -1282,6 +1309,159 @@ function renderSummary(cur,plan){
     ${recent.length>1?`<div class="histbox"><div class="hl"><span>Last ${recent.length} sessions</span><span>shorter bar = faster</span></div><div class="hist">${recent.map(s=>`<div class="${s.id===cur.id?'cur':''}" style="height:${Math.max(6,s.dur/mx*100)}%" title="${fmt(s.dur)}"></div>`).join('')}</div></div>`:''}
     <div class="sum-actions"><button class="btn primary big" data-a="home">Back to my plans</button><button class="btn big" data-a="again">Do it again</button></div></div>`;
   $('#s-summary').onclick=e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='home'){renderHome();show('s-home')}if(a==='again')startWorkout(plan.id)}}
+
+/* ================= PLAN HELPER (rule-based) ================= */
+const CQ=[
+ {k:'goal',t:'What\'s your main goal?',o:[['muscle','Build muscle','Bigger, more defined muscles'],['strength','Get stronger','Lift heavier with fewer reps'],['fatloss','Lose fat','Burn calories, keep the heart rate up'],['fitness','General fitness','Feel fit and healthy overall'],['endurance','Endurance & tone','Lighter work, more reps']]},
+ {k:'level',t:'How experienced are you?',o:[['beginner','Beginner','New to training or returning after a break'],['intermediate','Intermediate','Training regularly for 6+ months'],['advanced','Advanced','Several years of consistent training']]},
+ {k:'where',t:'Where will you train?',o:[['gym','Gym','Barbells, dumbbells, cables and machines'],['homedb','Home with dumbbells','Dumbbells plus a chair or table'],['home','Home, no equipment','Bodyweight only — a chair, table or step at most']]},
+ {k:'kind',t:'What do you need?',o:[['single','A single workout','One plan focused on what you choose next'],['program','A weekly program','Several plans that work together through the week']]},
+ {k:'focus',t:'What should the workout focus on?',when:a=>a.kind==='single',o:[['full','Full body','Everything in one session'],['upper','Upper body','Chest, back, shoulders, arms'],['lower','Lower body','Legs and glutes'],['push','Push','Chest, shoulders, triceps'],['pull','Pull','Back, biceps, rear delts'],['core','Core & abs','Abs, obliques, lower back'],['arms','Arms','Biceps, triceps, forearms']]},
+ {k:'days',t:'How many days a week can you train?',when:a=>a.kind==='program',o:[['2','2 days','Two full-body workouts'],['3','3 days','Three full-body workouts'],['4','4 days','Upper / lower split'],['5','5 days','Push / pull / legs + upper / lower']]},
+ {k:'time',t:'How long should each workout be?',o:[['20','About 20 min','Quick and focused'],['30','About 30 min','A solid session'],['45','About 45 min','Room for more volume'],['60','About 60 min','A full session']]},
+ {k:'avoid',t:'Anything to avoid?',multi:1,o:[['knees','Sore knees','Skips lunges, jumps and leg extensions'],['back','Lower back','Skips deadlifts, good mornings, barbell rows'],['shoulders','Shoulders','Skips dips, overhead presses, upright rows'],['wrists','Wrists','Skips push-ups on hands and wrist work'],['jumping','No jumping','Quiet, low-impact only'],['none','Nothing — I\'m good','No restrictions']]}
+];
+const AVOID={
+ knees:['jumpsquat','lunge','bulgarian','chairbulg','legext','pogo','stepup','wallsit','climber'],
+ back:['deadlift','goodmorning','bbrow','rdl','backext','superman','suppull','ytraise','bbshrug'],
+ shoulders:['ohp','dbsp','uprow','chestdip','tridip','chairdip','pike','decpush','bbbench','cgbench','shtap'],
+ wrists:['pushup','diamond','widepush','decpush','pike','shtap','fingerplank','wristcurl','bbcurl','revcurl','climber','plank'],
+ jumping:['jumpsquat','pogo','climber']};
+const HARD=['pullup','chinup','legraise','deadhang','decpush','pike','chestdip','tridip','jumpsquat','deadlift','goodmorning','dbrow','bbrow','hollow','slrdl','sidedips','diamond'];
+const EASY_SWAP={pushup:'incpush'};
+const COMPOUND=new Set(['bbbench','dbbench','pushup','incpush','decpush','widepush','chestdip','squat','goblet','airsquat','chairsquat','deadlift','rdl','dbrdl','slrdl','pullup','chinup','latpull','bbrow','dbrow','cablerow','tablerow','tablerowu','tablerowwide','ohp','dbsp','pike','hipthrust','lunge','bulgarian','chairbulg','stepup','sumo','tridip','chairdip','cgbench','jumpsquat','bridge','slbridge','chairham']);
+const SLOTS={
+ full:['quads','chest','lats','hamstrings','shoulders','abs','glutes','biceps','triceps','calves','obliques'],
+ upper:['chest','lats','shoulders','chest','lats','biceps','triceps','traps','abs'],
+ lower:['quads','hamstrings','glutes','quads','calves','lowerBack','abs','obliques'],
+ push:['chest','shoulders','triceps','chest','shoulders','triceps','abs'],
+ pull:['lats','lats','traps','biceps','biceps','forearms','lowerBack','abs'],
+ core:['abs','obliques','lowerBack','abs','obliques','abs'],
+ arms:['biceps','triceps','biceps','triceps','forearms','forearms']};
+const PROGRAMS={2:[['full','Full Body A'],['full','Full Body B']],3:[['full','Full Body A'],['full','Full Body B'],['full','Full Body C']],
+ 4:[['upper','Upper A'],['lower','Lower A'],['upper','Upper B'],['lower','Lower B']],5:[['push','Push'],['pull','Pull'],['lower','Legs'],['upper','Upper'],['lower','Lower']]};
+const GOALN={muscle:'Build Muscle',strength:'Strength',fatloss:'Fat Burn',fitness:'Fitness',endurance:'Endurance'};
+function dose(goal,level,ex,isCompound){
+  const bw=ex.eq==='none'||ex.eq==='chair'||ex.eq==='table'||ex.eq==='step';
+  let sets=3,reps=10,rest=75,secs=30;
+  if(goal==='muscle'){sets=level==='advanced'?4:3;reps=isCompound?8:12;rest=isCompound?90:60;secs=40}
+  if(goal==='strength'){sets=level==='beginner'?3:isCompound?5:3;reps=isCompound?(level==='beginner'?8:5):10;rest=isCompound?150:75;secs=40}
+  if(goal==='fatloss'){sets=3;reps=15;rest=20;secs=30}
+  if(goal==='fitness'){sets=3;reps=12;rest=60;secs=35}
+  if(goal==='endurance'){sets=level==='beginner'?2:3;reps=18;rest=40;secs=45}
+  if(bw&&!ex.time&&goal!=='strength')reps=Math.round(reps*1.3);
+  if(bw&&goal==='strength'&&!ex.time)reps=Math.max(reps,8);
+  if(level==='beginner'){reps=Math.max(5,Math.round(reps*0.85));secs=Math.round(secs*0.8/5)*5}
+  if(level==='advanced'&&ex.time)secs+=10;
+  // exercise-specific sanity
+  if(['pullup','chinup'].includes(ex.id))reps=Math.min(reps,level==='advanced'?10:6);
+  if(['legraise','pike','decpush','jumpsquat'].includes(ex.id))reps=Math.min(reps,12);
+  if(['crunch','bicycle','heeltaps','russian','airsquat','donkey','calfraise','slcalf','stepcalf'].includes(ex.id))reps=Math.max(reps,15);
+  return ex.time?{sets,time:true,secs,reps:ex.reps||12,rest}:{sets,reps,secs:ex.secs||30,time:false,rest};
+}
+function candidates(muscle,a){
+  const avoid=new Set((a.avoid||[]).flatMap(k=>AVOID[k]||[]));
+  return EX.filter(e=>{
+    if(!e.m.includes(muscle))return false;
+    if(avoid.has(e.id))return false;
+    if(a.where==='home'&&!e.home)return false;
+    if(a.where==='homedb'&&!(e.home||e.eq==='db'))return false;
+    if(a.level==='beginner'&&HARD.includes(e.id))return false;
+    return true});
+}
+function rankEx(e,muscle,a,idx){let s=0;
+  if(e.m[0]===muscle)s+=10;
+  if(COMPOUND.has(e.id))s+=(a.goal==='strength'||a.goal==='muscle')?6:3;
+  if(a.goal==='fatloss'&&(e.time||e.eq==='none'))s+=3;
+  if(a.where==='gym'&&['bb','db','cable','cablebar'].includes(e.eq))s+=2;
+  if(a.where==='homedb'&&e.eq==='db')s+=3;
+  if(a.level==='beginner'&&['cable','cablebar','db'].includes(e.eq))s+=1;
+  if(a.level==='beginner'&&e.id==='incpush')s+=3;
+  return s+(idx||0);
+}
+function buildOne(focus,a,used,rnd,budgetMin){
+  const slots=SLOTS[focus],budget=budgetMin*60,items=[],taken=new Set();
+  const tgt={20:4,30:5,45:6,60:8}[budgetMin]||6;
+  const estOf=it=>it.sets*((it.time?it.secs:it.reps*3.5)+it.rest);
+  const est=()=>items.reduce((t,it)=>t+estOf(it),0)-(items.length?items[items.length-1].rest:0);
+  let si=0;
+  const addNext=()=>{for(let tries=0;tries<slots.length*2;tries++){const muscle=slots[si++%slots.length];
+      let c=candidates(muscle,a).filter(e=>!taken.has(e.id));if(!c.length)continue;
+      c=c.map(e=>({e,s:rankEx(e,muscle,a,0)-(used.has(e.id)?5:0)+rnd()*4})).sort((x,y)=>y.s-x.s);
+      const e=c[0].e;items.push({exId:e.id,...dose(a.goal,a.level,e,COMPOUND.has(e.id)),weight:0});taken.add(e.id);used.add(e.id);return true}return false};
+  while(items.length<tgt&&addNext());
+  // short sessions: trim sets/rest before dropping exercises
+  const iso=it=>!COMPOUND.has(it.exId);
+  for(let g=0;g<40&&est()>budget*1.1;g++){
+    const it=[...items].reverse().find(x=>iso(x)&&x.sets>2)||[...items].reverse().find(x=>x.sets>2);
+    if(it){it.sets--;continue}
+    const minRest=a.goal==='strength'?90:30,r=items.find(x=>x.rest>minRest);
+    if(r){items.forEach(x=>x.rest=Math.max(minRest,x.rest-15));continue}
+    if(items.length>3){items.pop();continue}break}
+  // long sessions: add exercises, then extra sets
+  for(let g=0;g<40&&est()<budget*0.85;g++){
+    if(items.length<10&&addNext()){if(est()>budget*1.1){items.pop()}else continue}
+    const it=items.filter(x=>x.sets<(COMPOUND.has(x.exId)?5:4)).sort((x,y)=>x.sets-y.sets)[0];if(!it)break;
+    it.sets++;if(est()>budget*1.1){it.sets--;break}}
+  const core=new Set(['abs','obliques']);
+  items.sort((x,y)=>{const ex=EXM[x.exId],ey=EXM[y.exId];const cx=core.has(ex.m[0])?1:0,cy=core.has(ey.m[0])?1:0;if(cx!==cy)return cx-cy;return(COMPOUND.has(y.exId)?1:0)-(COMPOUND.has(x.exId)?1:0)});
+  if(a.goal==='fatloss'||a.goal==='endurance')items.forEach(it=>it.rest=Math.min(it.rest,a.goal==='fatloss'?20:40));
+  return items;
+}
+function seeded(seed){let x=seed||1;return()=>{x=(x*16807)%2147483647;return(x-1)/2147483646}}
+function generate(a,seed){const rnd=seeded(seed),used=new Set();const time=+a.time;
+  const mode=(a.goal==='fatloss'||a.goal==='endurance')?'circuit':'straight';
+  const list=a.kind==='program'?PROGRAMS[a.days]:[[a.focus,CATS[a.focus]]];
+  return list.map(([focus,label])=>({id:uid(),name:(label+' · '+GOALN[a.goal]).slice(0,40),category:focus,mode,items:buildOne(focus,a,used,rnd,time),created:Date.now(),fromHelper:true}));
+}
+function explain(a,plans){const L=[];const p=plans[0],it=p.items.find(i=>!i.time)||p.items[0];
+  const g={muscle:`Build muscle: ${it.sets} sets of 8–12 reps with about ${it.rest}s rest — enough volume to grow, with rest to keep quality high.`,
+    strength:'Get stronger: heavier compound lifts first with low reps (around 5) and long rests (2–3 min), then lighter accessory work.',
+    fatloss:'Lose fat: a circuit with higher reps and short rests keeps your heart rate up the whole session.',
+    fitness:'General fitness: balanced moderate sets of about 12 reps with a minute of rest.',
+    endurance:'Endurance & tone: a circuit with high reps and short rests builds stamina.'}[a.goal];
+  L.push(g);
+  L.push({gym:'Uses gym equipment — start with a weight you can lift for every rep with good form, then enter it in the plan.',homedb:'Uses dumbbells and bodyweight — pick a weight that makes the last 2–3 reps hard.',home:'Bodyweight only — at most you\'ll need a sturdy chair, table or a step.'}[a.where]);
+  if(a.level==='beginner')L.push('Beginner-friendly: harder moves (like pull-ups, dips and jump squats) are left out and reps are a bit lower.');
+  const av=(a.avoid||[]).filter(x=>x!=='none');if(av.length)L.push('Leaves out exercises that stress: '+av.map(x=>({knees:'knees',back:'lower back',shoulders:'shoulders',wrists:'wrists',jumping:'jumping'}[x])).join(', ')+'.');
+  if(a.kind==='program')L.push(`Train ${a.days} days a week with at least one rest day between hard sessions on the same muscles. `+({2:'Do Full Body A and B on separate days.',3:'Rotate A → B → C, e.g. Sun / Tue / Thu.',4:'Alternate upper and lower days, e.g. Sun / Mon / Wed / Thu.',5:'Run Push → Pull → Legs → Upper → Lower, then rest 2 days.'}[a.days]));
+  const short=plans.filter(p=>planEst(p)<+a.time*60*0.7);if(short.length)L.push(`Only a few exercises match your answers, so ${short.length>1?'some workouts are':'this workout is'} shorter than ${a.time} minutes. You can add more exercises with Edit, or allow more equipment.`);
+  L.push('Add weight or reps a little each week as it gets easier. Warm up for 5 minutes first, and stop if anything hurts.');
+  return L}
+
+const CH={a:{},step:0,seed:1,plans:null};
+const qList=()=>CQ.filter(q=>!q.when||q.when(CH.a)||(!CH.a.kind&&q.k==='focus'));
+function openCoach(){CH.a={};CH.step=0;CH.plans=null;CH.seed=Math.floor(Math.random()*1e6)+1;show('s-coach');renderCoach()}
+$('#co-back').addEventListener('click',()=>{if(CH.plans){CH.plans=null;CH.step=qList().length-1;renderCoach();return}if(CH.step>0){CH.step--;renderCoach();return}renderHome();show('s-home')});
+function renderCoach(){const el=$('#co-body');window.scrollTo(0,0);
+  if(CH.plans)return renderCoachResult();
+  const qs=qList(),q=qs[CH.step],val=CH.a[q.k];
+  el.innerHTML=`<div class="co-prog">${qs.map((_,i)=>`<i class="${i<CH.step?'d':i===CH.step?'c':''}"></i>`).join('')}</div>
+   <div class="eyebrow">Question ${CH.step+1} of ${qs.length}</div><h1 class="co-q">${q.t}</h1>${q.multi?'<p class="mute" style="margin:-6px 0 14px">Choose all that apply.</p>':''}
+   <div class="co-opts">${q.o.map(([v,l,d])=>{const on=q.multi?(val||[]).includes(v):val===v;return`<button class="co-opt ${on?'on':''}" data-v="${v}"><b>${l}</b><small>${d}</small>${q.multi?`<span class="co-ck">${on?'✓':''}</span>`:''}</button>`}).join('')}</div>
+   ${q.multi?`<button class="btn primary big" id="co-next" style="margin-top:16px" ${(val||[]).length?'':'disabled'}>Build my plan</button>`:''}`}
+$('#co-body').addEventListener('click',e=>{
+  if(CH.plans)return coachResultClick(e);
+  const qs=qList(),q=qs[CH.step];const b=e.target.closest('.co-opt');
+  if(b){const v=b.dataset.v;
+    if(q.multi){let arr=CH.a[q.k]||[];if(v==='none')arr=arr.includes('none')?[]:['none'];else{arr=arr.filter(x=>x!=='none');arr=arr.includes(v)?arr.filter(x=>x!==v):arr.concat(v)}CH.a[q.k]=arr;renderCoach();return}
+    CH.a[q.k]=v;b.classList.add('on');setTimeout(()=>{CH.step++;if(CH.step>=qList().length)finishCoach();else renderCoach()},180);return}
+  if(e.target.closest('#co-next'))finishCoach()});
+function finishCoach(){CH.plans=generate(CH.a,CH.seed);Api.event('helper_used',{goal:CH.a.goal,where:CH.a.where,kind:CH.a.kind});renderCoach()}
+function renderCoachResult(){const ps=CH.plans,a=CH.a;
+  $('#co-body').innerHTML=`<div class="eyebrow">Plan helper</div><h1 class="co-q" style="margin-bottom:6px">${ps.length>1?`Your ${ps.length}-day program`:'Your workout plan'}</h1>
+   <p class="mute" style="margin:0 0 14px">Built from your answers. Shuffle for different exercises, or edit anything after saving.</p>
+   <div class="co-why"><b>Why this plan</b><ul>${explain(a,ps).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+   ${ps.map((p,pi)=>`<div class="co-plan"><div class="co-ph"><div><h3>${esc(p.name)}</h3><div class="mute" style="font-size:13px">${p.items.length} exercises · ~${Math.max(1,Math.round(planEst(p)/60))} min · ${CATS[p.category]}${p.mode==='circuit'?' · Circuit':''}</div></div>${ps.length===1?`<button class="btn sm" data-edit="${pi}">Edit</button>`:''}</div>
+     <div class="rv-list">${p.items.map((it,i)=>`<div class="rv"><div class="n">${i+1}</div><div class="t">${exFig(it.exId)}</div><div class="info"><b>${esc(EXM[it.exId].n)}</b><span>${itemLine(it)}</span></div></div>`).join('')}</div></div>`).join('')}
+   <div class="co-acts"><button class="btn big" data-a="shuffle">↻ Shuffle exercises</button><button class="btn primary big" data-a="save">${ps.length>1?`Save all ${ps.length} plans`:'Save plan'}</button></div>
+   <div style="text-align:center;margin-top:8px"><button class="btn ghost sm" data-a="restart">Change my answers</button></div>`}
+function coachResultClick(e){const a=e.target.closest('[data-a]')?.dataset.a,ed=e.target.closest('[data-edit]');
+  if(a==='shuffle'){CH.seed=(CH.seed*48271)%2147483647;CH.plans=generate(CH.a,CH.seed);renderCoach();toast('New exercise mix');return}
+  if(a==='restart'){CH.plans=null;CH.step=0;renderCoach();return}
+  if(a==='save'){CH.plans.forEach(p=>{p.updated=Date.now();ws.plans.push(p)});saveWS();CH.plans.forEach(p=>Api.event('plan_saved',{items:p.items.length,category:p.category,helper:1}));
+    const n=CH.plans.length;CH.plans=null;renderHome();show('s-home');toast(n>1?`${n} plans saved`:'Plan saved');return}
+  if(ed){const p=CH.plans[+ed.dataset.edit];openBuilder(null);Bd.plan={...p,items:JSON.parse(JSON.stringify(p.items))};Bd.dirty=true;$('#b-name').value=Bd.plan.name;setStep('review')}}
 
 /* ================= CATEGORIES & SHARED PLANS ================= */
 const CATS={upper:'Upper body',lower:'Lower body',full:'Full body',push:'Push',pull:'Pull',core:'Core & abs',arms:'Arms',mixed:'Mixed'};
