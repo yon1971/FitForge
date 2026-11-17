@@ -226,6 +226,10 @@ app.put('/api/data', wrap(auth), wrap(async (req, res) => {
   const b = req.body || {};
   if (!Array.isArray(b.plans) || !Array.isArray(b.sessions)) return res.status(400).json({ error: 'Bad data' });
   const data = { plans: b.plans.slice(0, 500), sessions: b.sessions.slice(-5000) };
+  // private profile (only ever returned to its owner)
+  if (b.profile && typeof b.profile === 'object' && JSON.stringify(b.profile).length < 4000) data.profile = b.profile;
+  if (Array.isArray(b.weights)) data.weights = b.weights.filter(w => w && Number.isFinite(+w.at) && +w.kg >= 25 && +w.kg <= 350).slice(-1000).map(w => ({ at: +w.at, kg: Math.round(+w.kg * 10) / 10 }));
+  if (b.profileSkipped) data.profileSkipped = +b.profileSkipped || Date.now();
   await q(`INSERT INTO workspaces(user_id,data,updated_at) VALUES($1,$2,now())
            ON CONFLICT(user_id) DO UPDATE SET data=EXCLUDED.data, updated_at=now()`, [req.user.id, JSON.stringify(data)]);
   res.json({ ok: true });
@@ -384,6 +388,7 @@ app.get('/api/admin/overview', wrap(auth), adminOnly, wrap(async (req, res) => {
       completionRate: starts ? Math.round(Math.min(1, (starts - quits) / starts) * 100) : null,
       usersWithPlan: stats.filter(s => s.plans > 0).length,
       usersWithWorkout: stats.filter(s => s.workouts > 0).length,
+      profiles: users.filter(u => u.data && u.data.profile && u.data.profile.completedAt).length,
       sharedPlans: sh.n, sharedViews: sh.views, sharedAdds: sh.adds
     },
     topShared,

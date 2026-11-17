@@ -352,6 +352,26 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .shared-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--acc)}
 .shared-badge svg{width:14px;height:14px}
 .from-line{font-size:12px;color:var(--mute);margin-top:-6px}
+/* ---------- PROFILE & WEIGHT ---------- */
+.pf-top{display:flex;align-items:center;justify-content:space-between}
+.pf-bul{margin:0 0 22px;padding-left:20px;color:#c7cdd8}.pf-bul li{margin:6px 0}
+.pf-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.co-opts.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.co-pre{display:flex;align-items:center;gap:12px;justify-content:space-between;background:rgba(200,255,46,.06);border:1px solid rgba(200,255,46,.25);border-radius:14px;padding:12px 14px;margin-bottom:16px}
+.co-pre b{display:block;font-size:14px}.co-pre span{font-size:13px;color:#c7cdd8}
+.wcard{position:relative;width:100%;margin:0 0 4px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px 16px;text-align:left;display:block}
+.wcard.empty{display:flex;align-items:center;gap:14px}
+.wcard.empty .ic{width:40px;height:40px;border-radius:12px;background:var(--panel2);display:grid;place-items:center;color:var(--acc);flex:none}.wcard.empty .ic svg{width:20px;height:20px}
+.wcard.empty b{display:block}.wcard.empty span span{font-size:13px;color:var(--mute)}
+.wc-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.wc-v{font-family:var(--disp);font-size:34px;font-weight:700;line-height:1.05}.wc-v small{font-size:16px;color:var(--mute)}
+.wc-d{font-size:12.5px;color:var(--mute);margin-top:2px}.wc-d .dn{color:var(--good);font-weight:600}.wc-d .upw{color:var(--acc2);font-weight:600}
+.wc-btns{display:flex;gap:6px}
+.wc-chart{display:block;width:100%;height:70px;margin-top:10px}
+.wc-dots{position:absolute;left:16px;right:16px;bottom:14px;height:70px;pointer-events:none}
+.wc-dots i{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;pointer-events:auto;cursor:default}
+.wc-dots i::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 2px var(--panel)}
+.wdel{width:28px;height:28px;border-radius:8px;display:inline-grid;place-items:center;color:var(--mute);vertical-align:middle;margin-left:4px}.wdel svg{width:14px;height:14px}.wdel:hover{background:var(--panel2);color:var(--bad)}
 /* ---------- PLAN HELPER ---------- */
 .co-prog{display:flex;gap:4px;margin:4px 0 18px}.co-prog i{flex:1;height:4px;border-radius:2px;background:#232933}.co-prog i.d{background:var(--acc)}.co-prog i.c{background:rgba(200,255,46,.5)}
 .co-q{font-size:34px;margin:6px 0 16px}
@@ -528,6 +548,7 @@ select.inp option{background:var(--panel);color:var(--text)}
   <div class="wrap">
     <div class="hello"><div class="eyebrow" id="h-date"></div><h1 id="h-greet">Ready to train?</h1></div>
     <div class="stats" id="h-stats"></div>
+    <div id="h-weight" style="margin-bottom:14px"></div>
     <button class="cta-new" id="btn-new">
       <span class="plus"><svg viewBox="0 0 24 24" fill="none" stroke="#121600" stroke-width="2.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
       <span><b>CREATE NEW WORKOUT PLAN</b><span>Pick muscles on the 3D body, choose exercises, set reps &amp; rest</span></span>
@@ -578,6 +599,14 @@ select.inp option{background:var(--panel);color:var(--text)}
 <!-- SUMMARY -->
 <section id="s-summary" class="screen"></section>
 
+<!-- PROFILE -->
+<section id="s-profile" class="screen">
+  <header class="top">
+    <button class="icon-btn" id="pf-back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="brand sm" style="flex:1" id="pf-title">ABOUT YOU</div>
+  </header>
+  <div class="wrap" id="pf-body" style="max-width:760px"></div>
+</section>
 <!-- PLAN HELPER -->
 <section id="s-coach" class="screen">
   <header class="top">
@@ -657,12 +686,12 @@ const Sync={timer:null,busy:false,again:false,
   pending:false,
   async now(){clearTimeout(this.timer);if(this.pending||this.busy)await this.flush()},
   async flush(){if(this.busy){this.again=true;return}this.busy=true;this.pending=false;setSync('saving');
-    try{await Api.call('PUT','/api/data',{plans:ws.plans,sessions:ws.sessions});setSync('saved')}
+    try{await Api.call('PUT','/api/data',{plans:ws.plans,sessions:ws.sessions,profile:ws.profile||null,weights:ws.weights||[],profileSkipped:ws.profileSkipped||null});setSync('saved')}
     catch(e){if(e.status===401){toast('Your session expired — please sign in again');logout(true)}else{setSync('error');this.pending=true;toast('Couldn\'t save to the server — will retry');clearTimeout(this.timer);this.timer=setTimeout(()=>this.flush(),5000)}}
     this.busy=false;if(this.again){this.again=false;this.flush()}}
 };
 function setSync(st){const el=document.getElementById('h-sync');if(!el)return;el.dataset.st=st;el.textContent=st==='saving'?'Saving…':st==='error'?'Not saved yet — retrying':'All changes saved'}
-window.addEventListener('pagehide',()=>{if(Sync.pending&&Api.token){try{fetch('/api/data',{method:'PUT',keepalive:true,headers:{'Content-Type':'application/json',Authorization:'Bearer '+Api.token},body:JSON.stringify({plans:ws.plans,sessions:ws.sessions})})}catch(e){}}});
+window.addEventListener('pagehide',()=>{if(Sync.pending&&Api.token){try{fetch('/api/data',{method:'PUT',keepalive:true,headers:{'Content-Type':'application/json',Authorization:'Bearer '+Api.token},body:JSON.stringify({plans:ws.plans,sessions:ws.sessions,profile:ws.profile||null,weights:ws.weights||[],profileSkipped:ws.profileSkipped||null})})}catch(e){}}});
 const deviceId=(()=>{let d=LS.get('ff_device',null);if(!d){d=uid()+uid();LS.set('ff_device',d)}return d})();
 
 /* ================= data: muscles & exercises ================= */
@@ -1050,7 +1079,7 @@ async function onAuthed(token,user,isReturn){Api.setToken(token);me=user;
   try{ws=await Api.call('GET','/api/data')}catch(e){if(e.status===401)throw e;ws=LS.get('ff_cache_'+user.id,null)||{plans:[],sessions:[]};toast('Offline — showing saved copy')}
   ws.plans=ws.plans||[];ws.sessions=ws.sessions||[];delete ws.updatedAt;LS.set('ff_cache_'+me.id,ws);
   if(isReturn)Api.event('app_open');
-  myShared={};renderHome();show('s-home');refreshMyShared()}
+  myShared={};ws.weights=ws.weights||[];renderHome();if(!maybeOnboard())show('s-home');refreshMyShared()}
 async function logout(silent){if(!silent){try{await Sync.now()}catch(e){}Api.call('POST','/api/logout').catch(()=>{})}Api.setToken(null);me=null;ws={plans:[],sessions:[]};$('#in-pass').value='';setAuthMode('signin');show('s-login');setTimeout(renderGoogleBtn,50)}
 
 /* ================= HOME ================= */
@@ -1065,6 +1094,7 @@ function renderHome(){
   $('#h-stats').innerHTML=`<div class="stat"><div class="v">${wk.length}</div><div class="l">Workouts this week</div></div>
     <div class="stat"><div class="v">${Math.round(mo.reduce((a,s)=>a+s.dur,0)/60)}<small style="font-size:16px"> min</small></div><div class="l">Trained this month</div></div>
     <div class="stat"><div class="v">${streak}<small style="font-size:16px"> day${streak===1?'':'s'}</small></div><div class="l">Current streak</div></div>`;
+  $('#h-weight').innerHTML=weightCard();
   $('#h-count').textContent=ws.plans.length?`${ws.plans.length} plan${ws.plans.length>1?'s':''}`:'';
   const box=$('#h-plans');
   if(!ws.plans.length){box.innerHTML=`<div class="empty" style="grid-column:1/-1">${fig('squat','bb')}<b>No plans yet</b>Create your first workout plan and it will show up here.</div>`;return}
@@ -1087,8 +1117,8 @@ $('#btn-new').addEventListener('click',()=>openBuilder(null));
 $('#btn-shared').addEventListener('click',()=>openShared());
 $('#btn-coach').addEventListener('click',()=>openCoach());
 $('#btn-account').addEventListener('click',()=>{sheet(`<h3>${esc(me.name)}</h3><p>${me.provider==='email'?esc(me.email):'Signed in with '+me.provider[0].toUpperCase()+me.provider.slice(1)}${me.isAdmin?' · <span style="color:var(--acc)">Admin</span>':''}</p>
-  <div class="menu">${me.isAdmin?`<button data-a="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Admin dashboard</button>`:''}<button data-a="out">${ICON.logout}Log out</button><button class="red" data-a="del">${ICON.trash}Delete my account</button></div>
-  <p style="margin:12px 0 0;font-size:12.5px"><a href="/privacy" style="color:var(--mute)">Privacy Policy</a> · <a href="/terms" style="color:var(--mute)">Terms</a></p>`,(el,close)=>{el.addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='out'){close();logout()}if(a==='admin'){close();openAdmin()}
+  <div class="menu">${me.isAdmin?`<button data-a="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Admin dashboard</button>`:''}<button data-a="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/></svg>My profile</button><button data-a="out">${ICON.logout}Log out</button><button class="red" data-a="del">${ICON.trash}Delete my account</button></div>
+  <p style="margin:12px 0 0;font-size:12.5px"><a href="/privacy" style="color:var(--mute)">Privacy Policy</a> · <a href="/terms" style="color:var(--mute)">Terms</a></p>`,(el,close)=>{el.addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='out'){close();logout()}if(a==='admin'){close();openAdmin()}if(a==='profile'){close();openProfile('edit')}
     if(a==='del'){close();if(await confirmBox('Delete your account?','This permanently deletes your account, all workout plans and your workout history. This cannot be undone.','Delete forever',true)){try{await Api.call('DELETE','/api/me');LS.del('ff_cache_'+me.id);Api.setToken(null);me=null;toast('Your account was deleted');logout(true)}catch(x){toast(x.message)}}}})})});
 $('#h-admin').addEventListener('click',openAdmin);
 function planMenu(id){const p=ws.plans.find(x=>x.id===id);if(!p)return;
@@ -1310,6 +1340,89 @@ function renderSummary(cur,plan){
     <div class="sum-actions"><button class="btn primary big" data-a="home">Back to my plans</button><button class="btn big" data-a="again">Do it again</button></div></div>`;
   $('#s-summary').onclick=e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='home'){renderHome();show('s-home')}if(a==='again')startWorkout(plan.id)}}
 
+/* ================= PROFILE ("About you") ================= */
+const PQ=[
+ {k:'goal',t:'What\'s your main goal?',o:()=>CQ.find(q=>q.k==='goal').o},
+ {k:'level',t:'How experienced are you?',o:()=>CQ.find(q=>q.k==='level').o},
+ {k:'where',t:'Where do you usually train?',o:()=>CQ.find(q=>q.k==='where').o},
+ {k:'age',t:'How old are you?',sub:'Used to keep plans safe and suitable — only you can see it.',o:()=>[['u18','Under 18',''],['18-39','18–39',''],['40-54','40–54',''],['55+','55 or older','']]},
+ {k:'activity',t:'How active are you day to day?',o:()=>[['sedentary','Mostly sitting','Desk job, little exercise'],['light','Lightly active','Some walking or light exercise'],['active','Active','Exercise 2–4 times a week'],['very','Very active','Hard training or a physical job']]},
+ {k:'days',t:'How many days a week can you train?',o:()=>CQ.find(q=>q.k==='days').o},
+ {k:'time',t:'How long do you like to work out?',o:()=>CQ.find(q=>q.k==='time').o},
+ {k:'avoid',t:'Anything to avoid?',multi:1,o:()=>CQ.find(q=>q.k==='avoid').o},
+ {k:'body',t:'Height and weight',sub:'Optional — used only for your own weight chart, not for plans. Only you can see it.',body:1}
+];
+const PF={mode:'wizard',step:0,d:{}};
+const profileDone=()=>!!(ws.profile&&ws.profile.completedAt);
+function maybeOnboard(){if(!ws.profile&&!ws.profileSkipped){openProfile('wizard');return true}return false}
+function openProfile(mode){PF.mode=mode;PF.step=mode==='wizard'?-1:0;PF.d=JSON.parse(JSON.stringify(ws.profile||{}));
+  if(!PF.d.avoid)PF.d.avoid=[];const w=lastWeight();if(w&&!PF.d.weight)PF.d.weight=w.kg;show('s-profile');renderProfile()}
+$('#pf-back').addEventListener('click',()=>{if(PF.mode==='wizard'&&PF.step>0){PF.step--;renderProfile();return}if(PF.mode==='wizard'&&PF.step===0){PF.step=-1;renderProfile();return}renderHome();show('s-home')});
+function optHtml(q,val){return`<div class="co-opts ${q.k==='age'?'two':''}">${q.o().map(([v,l,d])=>{const on=q.multi?(val||[]).includes(v):val===v;return`<button class="co-opt ${on?'on':''}" data-k="${q.k}" data-v="${v}"><b>${l}</b>${d?`<small>${d}</small>`:''}${q.multi?`<span class="co-ck">${on?'✓':''}</span>`:''}</button>`}).join('')}</div>`}
+function bodyHtml(){return`<div class="pf-body"><label class="fld"><span>Height (cm)</span><input class="inp" type="number" inputmode="decimal" id="pf-h" placeholder="e.g. 175" value="${PF.d.height||''}"></label>
+  <label class="fld"><span>Weight (kg)</span><input class="inp" type="number" inputmode="decimal" id="pf-w" placeholder="e.g. 72.5" value="${PF.d.weight||''}"></label></div>`}
+function renderProfile(){const el=$('#pf-body');window.scrollTo(0,0);
+  if(PF.mode==='wizard'&&PF.step===-1){$('#pf-title').textContent='ABOUT YOU';
+    el.innerHTML=`<div class="pf-intro"><div class="medal" style="margin:10px 0 18px">${SIC.users.replace('stroke="currentColor"','stroke="#121600"').replace('<svg','<svg width="44" height="44"')}</div>
+      <h1 class="co-q">Tell us a bit about you</h1><p class="mute" style="font-size:15px;margin:-6px 0 18px">9 quick taps. The Plan helper uses your answers to suggest better plans, so you won't have to answer the same questions again.</p>
+      <ul class="pf-bul"><li>Takes about a minute</li><li>Your age, height and weight are private — only you can see them</li><li>Change or clear it anytime from your account menu</li></ul>
+      <button class="btn primary big" data-a="start">Let's go</button><div style="text-align:center;margin-top:10px"><button class="btn ghost" data-a="skip">Skip for now</button></div></div>`;return}
+  if(PF.mode==='wizard'){const q=PQ[PF.step];$('#pf-title').textContent='ABOUT YOU';
+    el.innerHTML=`<div class="co-prog">${PQ.map((_,i)=>`<i class="${i<PF.step?'d':i===PF.step?'c':''}"></i>`).join('')}</div>
+     <div class="pf-top"><div class="eyebrow">Question ${PF.step+1} of ${PQ.length}</div><button class="btn ghost sm" data-a="skip">Skip</button></div>
+     <h1 class="co-q">${q.t}</h1>${q.sub?`<p class="mute" style="margin:-6px 0 14px">${q.sub}</p>`:q.multi?'<p class="mute" style="margin:-6px 0 14px">Choose all that apply.</p>':''}
+     ${q.body?bodyHtml()+'<button class="btn primary big" data-a="finish" style="margin-top:8px">Finish</button><div style="text-align:center;margin-top:8px"><button class="btn ghost sm" data-a="finish-nobody">Skip this question</button></div>'
+       :optHtml(q,PF.d[q.k])+(q.multi?`<button class="btn primary big" data-a="next" style="margin-top:16px" ${(PF.d.avoid||[]).length?'':'disabled'}>Next</button>`:'')}`;return}
+  // edit mode: everything on one page
+  $('#pf-title').textContent='MY PROFILE';
+  el.innerHTML=`<h1 class="co-q" style="margin-bottom:4px">My profile</h1><p class="mute" style="margin:0 0 16px">The Plan helper uses these answers. Age, height and weight are private — only you can see them.</p>
+   ${PQ.map(q=>`<div class="rv-sec"><h4>${q.t.replace('?','')}${q.multi?' <small>choose all that apply</small>':''}</h4>${q.body?bodyHtml():optHtml(q,PF.d[q.k])}</div>`).join('')}
+   <div class="co-acts"><button class="btn big" data-a="clear">Clear profile</button><button class="btn primary big" data-a="save">Save profile</button></div>`}
+$('#pf-body').addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a,o=e.target.closest('.co-opt');
+  if(o){const k=o.dataset.k,v=o.dataset.v,q=PQ.find(x=>x.k===k);
+    if(q.multi){let arr=PF.d[k]||[];if(v==='none')arr=arr.includes('none')?[]:['none'];else{arr=arr.filter(x=>x!=='none');arr=arr.includes(v)?arr.filter(x=>x!==v):arr.concat(v)}PF.d[k]=arr}
+    else PF.d[k]=v;
+    if(PF.mode==='wizard'&&!q.multi){o.classList.add('on');setTimeout(()=>{PF.step++;renderProfile()},170)}else renderProfile();return}
+  if(a==='start'){PF.step=0;renderProfile()}
+  if(a==='next'){PF.step++;renderProfile()}
+  if(a==='skip'){if(PF.mode==='wizard'&&PF.step>=0&&Object.keys(PF.d).some(k=>k!=='avoid'||PF.d.avoid.length)){saveProfile(false)}else{ws.profileSkipped=Date.now();saveWS()}renderHome();show('s-home');toast('You can fill in your profile anytime from your account menu')}
+  if(a==='finish'||a==='finish-nobody'){saveProfile(a==='finish');renderHome();show('s-home');toast('Profile saved — the Plan helper will use it')}
+  if(a==='save'){saveProfile(true);renderHome();show('s-home');toast('Profile saved')}
+  if(a==='clear'&&await confirmBox('Clear your profile?','Your answers, height and the weight log will be removed. Your plans and workouts stay.','Clear',true)){ws.profile=null;ws.weights=[];ws.profileSkipped=Date.now();saveWS();renderHome();show('s-home');toast('Profile cleared')}});
+function saveProfile(withBody){const d=PF.d;
+  if(withBody){const h=parseFloat($('#pf-h')?.value),w=parseFloat($('#pf-w')?.value);
+    d.height=h>=100&&h<=250?Math.round(h):null;
+    if(w>=25&&w<=350){const lw=lastWeight();if(!lw||Math.abs(lw.kg-w)>0.01||Date.now()-lw.at>DAY)addWeight(w)}}
+  delete d.weight;d.avoid=(d.avoid||[]).filter(Boolean);d.completedAt=d.completedAt||Date.now();d.updatedAt=Date.now();
+  ws.profile=d;saveWS()}
+/* ---- weight log ---- */
+const lastWeight=()=>{const w=ws.weights||[];return w.length?w[w.length-1]:null};
+function addWeight(kg){ws.weights=ws.weights||[];const t=Date.now(),today=startOfDay(t);
+  ws.weights=ws.weights.filter(x=>startOfDay(x.at)!==today);ws.weights.push({at:t,kg:Math.round(kg*10)/10});ws.weights.sort((a,b)=>a.at-b.at);if(ws.weights.length>1000)ws.weights=ws.weights.slice(-1000);saveWS()}
+function weightCard(){const w=ws.weights||[];
+  if(!w.length)return`<button class="wcard empty" data-w="log"><span class="ic">${ICON.plus}</span><span><b>Track your body weight</b><span>Log your weight to see your progress over time</span></span></button>`;
+  const last=w[w.length-1],monthAgo=[...w].reverse().find(x=>last.at-x.at>=28*DAY)||w[0],diff=Math.round((last.kg-monthAgo.kg)*10)/10;
+  const pts=w.slice(-30),mn=Math.min(...pts.map(x=>x.kg)),mx=Math.max(...pts.map(x=>x.kg)),pad=Math.max(0.5,(mx-mn)*0.15),lo=mn-pad,hi=mx+pad,t0=pts[0].at,t1=Math.max(pts[pts.length-1].at,t0+1);
+  const X=t=>pts.length===1?150:6+(t-t0)/(t1-t0)*288,Y=k=>6+(1-(k-lo)/(hi-lo))*58;
+  const path=pts.map((p,i)=>`${i?'L':'M'}${X(p.at).toFixed(1)} ${Y(p.kg).toFixed(1)}`).join(' ');
+  return`<div class="wcard"><div class="wc-h"><div><div class="eyebrow">Body weight</div><div class="wc-v">${last.kg}<small> kg</small></div>
+     <div class="wc-d">${w.length>1&&monthAgo!==last?`<span class="${diff<0?'dn':diff>0?'upw':''}">${diff>0?'+':''}${diff} kg</span> since ${shortDate(monthAgo.at)}`:`Logged ${ago(last.at)}`}</div></div>
+     <div class="wc-btns"><button class="btn sm" data-w="hist">History</button><button class="btn primary sm" data-w="log">${ICON.plus.replace('<svg','<svg width="16" height="16"')}Log</button></div></div>
+   ${pts.length>1?`<svg class="wc-chart" viewBox="0 0 300 70" preserveAspectRatio="none"><path d="${path}" fill="none" stroke="var(--acc)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg>
+   <div class="wc-dots">${pts.map(p=>`<i style="left:${(X(p.at)/300*100).toFixed(2)}%;top:${(Y(p.kg)/70*100).toFixed(2)}%" title="${shortDate(p.at)}: ${p.kg} kg"></i>`).join('')}</div>`:''}</div>`}
+function logWeightSheet(){const lw=lastWeight();
+  sheet(`<h3>Log your weight</h3><p>Today, ${new Date().toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'})}. Only you can see this.</p>
+   <label class="fld"><span>Weight (kg)</span><input class="inp" type="number" inputmode="decimal" id="lw-in" placeholder="e.g. 72.5" value="${lw?lw.kg:''}"></label>
+   <div class="err" id="lw-err"></div><div class="m-actions"><button class="btn" data-a="no">Cancel</button><button class="btn primary" data-a="save">Save</button></div>`,(el,close)=>{
+   setTimeout(()=>{const i=$('#lw-in');i&&i.focus();i&&i.select()},100);
+   el.addEventListener('click',e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='no')close();
+     if(a==='save'){const v=parseFloat($('#lw-in').value);if(!(v>=25&&v<=350)){$('#lw-err').textContent='Enter a weight between 25 and 350 kg.';return}addWeight(v);close();renderHome();toast('Weight logged')}})})}
+function weightHistory(){const w=[...(ws.weights||[])].reverse();
+  sheet(`<h3>Weight history</h3><p>${w.length} entr${w.length===1?'y':'ies'}</p><div>${w.slice(0,60).map((x,i)=>{const prev=w[i+1];const d=prev?Math.round((x.kg-prev.kg)*10)/10:null;
+    return`<div class="hrow"><span>${new Date(x.at).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'})}</span><span>${d?`<small class="mute" style="margin-right:8px">${d>0?'+':''}${d}</small>`:''}<b>${x.kg} kg</b> <button class="wdel" data-del="${x.at}" aria-label="Delete">${ICON.x}</button></span></div>`}).join('')}</div>`,(el,close)=>{
+   el.addEventListener('click',e=>{const d=e.target.closest('[data-del]');if(!d)return;ws.weights=ws.weights.filter(x=>String(x.at)!==d.dataset.del);saveWS();close();renderHome();weightHistory()})})}
+$('#h-weight').addEventListener('click',e=>{const a=e.target.closest('[data-w]')?.dataset.w;if(a==='log')logWeightSheet();if(a==='hist')weightHistory()});
+
 /* ================= PLAN HELPER (rule-based) ================= */
 const CQ=[
  {k:'goal',t:'What\'s your main goal?',o:[['muscle','Build muscle','Bigger, more defined muscles'],['strength','Get stronger','Lift heavier with fewer reps'],['fatloss','Lose fat','Burn calories, keep the heart rate up'],['fitness','General fitness','Feel fit and healthy overall'],['endurance','Endurance & tone','Lighter work, more reps']]},
@@ -1361,6 +1474,7 @@ function dose(goal,level,ex,isCompound){
 }
 function candidates(muscle,a){
   const avoid=new Set((a.avoid||[]).flatMap(k=>AVOID[k]||[]));
+  if(a.age==='55+')['jumpsquat','pogo','climber','deadlift','goodmorning','decpush','pike','chestdip','tridip','legraise'].forEach(x=>avoid.add(x));
   return EX.filter(e=>{
     if(!e.m.includes(muscle))return false;
     if(avoid.has(e.id))return false;
@@ -1379,7 +1493,7 @@ function rankEx(e,muscle,a,idx){let s=0;
   if(a.level==='beginner'&&e.id==='incpush')s+=3;
   return s+(idx||0);
 }
-function buildOne(focus,a,used,rnd,budgetMin){
+function buildOne(focus,a,used,rnd,budgetMin){const doseA=(g,l,e,c)=>adjustDose(dose(g,l,e,c),a,e,c);
   const slots=SLOTS[focus],budget=budgetMin*60,items=[],taken=new Set();
   const tgt={20:4,30:5,45:6,60:8}[budgetMin]||6;
   const estOf=it=>it.sets*((it.time?it.secs:it.reps*3.5)+it.rest);
@@ -1388,7 +1502,7 @@ function buildOne(focus,a,used,rnd,budgetMin){
   const addNext=()=>{for(let tries=0;tries<slots.length*2;tries++){const muscle=slots[si++%slots.length];
       let c=candidates(muscle,a).filter(e=>!taken.has(e.id));if(!c.length)continue;
       c=c.map(e=>({e,s:rankEx(e,muscle,a,0)-(used.has(e.id)?5:0)+rnd()*4})).sort((x,y)=>y.s-x.s);
-      const e=c[0].e;items.push({exId:e.id,...dose(a.goal,a.level,e,COMPOUND.has(e.id)),weight:0});taken.add(e.id);used.add(e.id);return true}return false};
+      const e=c[0].e;items.push({exId:e.id,...doseA(a.goal,a.level,e,COMPOUND.has(e.id)),weight:0});taken.add(e.id);used.add(e.id);return true}return false};
   while(items.length<tgt&&addNext());
   // short sessions: trim sets/rest before dropping exercises
   const iso=it=>!COMPOUND.has(it.exId);
@@ -1408,6 +1522,12 @@ function buildOne(focus,a,used,rnd,budgetMin){
   if(a.goal==='fatloss'||a.goal==='endurance')items.forEach(it=>it.rest=Math.min(it.rest,a.goal==='fatloss'?20:40));
   return items;
 }
+function adjustDose(d,a,e,isC){
+  if((a.age==='u18'||a.age==='55+')&&!d.time)d.reps=Math.max(d.reps,8);
+  if(a.age==='55+'){d.rest=Math.min(180,d.rest+15)}
+  if(a.activity==='sedentary'&&!isC)d.sets=Math.max(2,d.sets-1);
+  if(a.activity==='sedentary'&&isC&&a.level==='beginner')d.sets=Math.max(2,Math.min(d.sets,3));
+  return d}
 function seeded(seed){let x=seed||1;return()=>{x=(x*16807)%2147483647;return(x-1)/2147483646}}
 function generate(a,seed){const rnd=seeded(seed),used=new Set();const time=+a.time;
   const mode=(a.goal==='fatloss'||a.goal==='endurance')?'circuit':'straight';
@@ -1422,6 +1542,9 @@ function explain(a,plans){const L=[];const p=plans[0],it=p.items.find(i=>!i.time
     endurance:'Endurance & tone: a circuit with high reps and short rests builds stamina.'}[a.goal];
   L.push(g);
   L.push({gym:'Uses gym equipment — start with a weight you can lift for every rep with good form, then enter it in the plan.',homedb:'Uses dumbbells and bodyweight — pick a weight that makes the last 2–3 reps hard.',home:'Bodyweight only — at most you\'ll need a sturdy chair, table or a step.'}[a.where]);
+  if(a.age==='55+')L.push('Age 55+: high-impact and very demanding moves (jumps, deadlifts, dips) are left out, reps stay at 8 or more, and rests are a little longer.');
+  if(a.age==='u18')L.push('Under 18: no heavy low-rep sets — focus on technique with 8+ reps. Ask a coach or parent to check your form.');
+  if(a.activity==='sedentary')L.push('Since you\'re mostly sitting day to day, it starts with slightly fewer sets. Add a set after 2–3 weeks.');
   if(a.level==='beginner')L.push('Beginner-friendly: harder moves (like pull-ups, dips and jump squats) are left out and reps are a bit lower.');
   const av=(a.avoid||[]).filter(x=>x!=='none');if(av.length)L.push('Leaves out exercises that stress: '+av.map(x=>({knees:'knees',back:'lower back',shoulders:'shoulders',wrists:'wrists',jumping:'jumping'}[x])).join(', ')+'.');
   if(a.kind==='program')L.push(`Train ${a.days} days a week with at least one rest day between hard sessions on the same muscles. `+({2:'Do Full Body A and B on separate days.',3:'Rotate A → B → C, e.g. Sun / Tue / Thu.',4:'Alternate upper and lower days, e.g. Sun / Mon / Wed / Thu.',5:'Run Push → Pull → Legs → Upper → Lower, then rest 2 days.'}[a.days]));
@@ -1430,24 +1553,34 @@ function explain(a,plans){const L=[];const p=plans[0],it=p.items.find(i=>!i.time
   return L}
 
 const CH={a:{},step:0,seed:1,plans:null};
-const qList=()=>CQ.filter(q=>!q.when||q.when(CH.a)||(!CH.a.kind&&q.k==='focus'));
-function openCoach(){CH.a={};CH.step=0;CH.plans=null;CH.seed=Math.floor(Math.random()*1e6)+1;show('s-coach');renderCoach()}
+const qList=()=>CQ.filter(q=>!(CH.pre||{})[q.k]&&(!q.when||q.when(CH.a)||(!CH.a.kind&&q.k==='focus')));
+function openCoach(){CH.a={};CH.pre={};CH.step=0;CH.plans=null;CH.seed=Math.floor(Math.random()*1e6)+1;
+  const pf=ws.profile;if(pf){['goal','level','where','time','days'].forEach(k=>{if(pf[k]){CH.a[k]=pf[k];CH.pre[k]=1}});if(pf.avoid&&pf.avoid.length){CH.a.avoid=[...pf.avoid];CH.pre.avoid=1}CH.a.age=pf.age;CH.a.activity=pf.activity}
+  show('s-coach');renderCoach()}
+const LBL=(k,v)=>{const q=CQ.find(x=>x.k===k);const o=q&&q.o.find(x=>x[0]===v);return o?o[1]:v};
+function profileSummary(){const a=CH.a,pre=CH.pre||{};const parts=[];['goal','level','where','time','days'].forEach(k=>{if(pre[k])parts.push(LBL(k,a[k]))});
+  if(pre.avoid){const av=a.avoid.filter(x=>x!=='none');parts.push(av.length?'avoid '+av.map(x=>LBL('avoid',x).toLowerCase()).join(', '):'no restrictions')}
+  return parts}
 $('#co-back').addEventListener('click',()=>{if(CH.plans){CH.plans=null;CH.step=qList().length-1;renderCoach();return}if(CH.step>0){CH.step--;renderCoach();return}renderHome();show('s-home')});
 function renderCoach(){const el=$('#co-body');window.scrollTo(0,0);
   if(CH.plans)return renderCoachResult();
   const qs=qList(),q=qs[CH.step],val=CH.a[q.k];
   el.innerHTML=`<div class="co-prog">${qs.map((_,i)=>`<i class="${i<CH.step?'d':i===CH.step?'c':''}"></i>`).join('')}</div>
+   ${CH.step===0&&Object.keys(CH.pre||{}).length?`<div class="co-pre"><div><b>Using your profile</b><span>${esc(profileSummary().join(' · '))}</span></div><button class="btn sm" data-a="askall">Change</button></div>`:''}
+   ${CH.step===0&&!ws.profile?`<div class="co-pre"><div><b>Tip: fill in your profile</b><span>Then the Plan helper can skip most of these questions.</span></div><button class="btn sm" data-a="toprofile">Profile</button></div>`:''}
    <div class="eyebrow">Question ${CH.step+1} of ${qs.length}</div><h1 class="co-q">${q.t}</h1>${q.multi?'<p class="mute" style="margin:-6px 0 14px">Choose all that apply.</p>':''}
    <div class="co-opts">${q.o.map(([v,l,d])=>{const on=q.multi?(val||[]).includes(v):val===v;return`<button class="co-opt ${on?'on':''}" data-v="${v}"><b>${l}</b><small>${d}</small>${q.multi?`<span class="co-ck">${on?'✓':''}</span>`:''}</button>`}).join('')}</div>
    ${q.multi?`<button class="btn primary big" id="co-next" style="margin-top:16px" ${(val||[]).length?'':'disabled'}>Build my plan</button>`:''}`}
 $('#co-body').addEventListener('click',e=>{
   if(CH.plans)return coachResultClick(e);
+  if(e.target.closest('[data-a=askall]')){CH.pre={};CH.step=0;renderCoach();return}
+  if(e.target.closest('[data-a=toprofile]')){openProfile('edit');return}
   const qs=qList(),q=qs[CH.step];const b=e.target.closest('.co-opt');
   if(b){const v=b.dataset.v;
     if(q.multi){let arr=CH.a[q.k]||[];if(v==='none')arr=arr.includes('none')?[]:['none'];else{arr=arr.filter(x=>x!=='none');arr=arr.includes(v)?arr.filter(x=>x!==v):arr.concat(v)}CH.a[q.k]=arr;renderCoach();return}
     CH.a[q.k]=v;b.classList.add('on');setTimeout(()=>{CH.step++;if(CH.step>=qList().length)finishCoach();else renderCoach()},180);return}
   if(e.target.closest('#co-next'))finishCoach()});
-function finishCoach(){CH.plans=generate(CH.a,CH.seed);Api.event('helper_used',{goal:CH.a.goal,where:CH.a.where,kind:CH.a.kind});renderCoach()}
+function finishCoach(){CH.a.avoid=CH.a.avoid||[];if(CH.a.kind==='program'&&!CH.a.days)CH.a.days='3';CH.plans=generate(CH.a,CH.seed);Api.event('helper_used',{goal:CH.a.goal,where:CH.a.where,kind:CH.a.kind});renderCoach()}
 function renderCoachResult(){const ps=CH.plans,a=CH.a;
   $('#co-body').innerHTML=`<div class="eyebrow">Plan helper</div><h1 class="co-q" style="margin-bottom:6px">${ps.length>1?`Your ${ps.length}-day program`:'Your workout plan'}</h1>
    <p class="mute" style="margin:0 0 14px">Built from your answers. Shuffle for different exercises, or edit anything after saving.</p>
@@ -1562,6 +1695,7 @@ function renderAdmin(){const d=AD.data,t=d.totals;
     ${kpi(t.appOpens30d,'App opens (30 days)','sign-ins + returning visits')}
     ${kpi(t.completionRate==null?'—':t.completionRate+'%','Workout completion rate',`${t.workoutStarts} started · ${t.workoutQuits} ended early`)}
     ${kpi(t.users?Math.round(t.usersWithWorkout/t.users*100)+'%':'—','Users who trained',`${t.usersWithWorkout} of ${t.users} finished a workout`)}
+    ${kpi(t.profiles??0,'Profiles filled in',`${t.users?Math.round((t.profiles||0)/t.users*100):0}% of users · details stay private`)}
     ${kpi(t.sharedPlans,'Shared plans',`${t.sharedViews} views · ${t.sharedAdds} added by others`)}
    </div>
    <div class="card">
