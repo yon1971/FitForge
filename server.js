@@ -121,10 +121,13 @@ async function newSession(userId) {
 async function logEvent(userId, type, meta) {
   try { await q('INSERT INTO events(user_id,type,meta) VALUES($1,$2,$3)', [userId, type, meta ? JSON.stringify(meta) : null]); } catch (e) { console.error('event', e.message); }
 }
-function codeEmail(code, lang) {
-  const he = lang === 'he';
-  const subject = he ? `קוד האימות שלך ב-FitForge: ${code}` : `Your FitForge verification code: ${code}`;
-  const t = he
+function codeEmail(code, lang, kind) {
+  const he = lang === 'he', reset = kind === 'reset';
+  const subject = reset ? (he ? `קוד לאיפוס הסיסמה ב-FitForge: ${code}` : `Your FitForge password reset code: ${code}`) : he ? `קוד האימות שלך ב-FitForge: ${code}` : `Your FitForge verification code: ${code}`;
+  const t = reset ? (he
+    ? { hi: 'איפוס סיסמה', p1: 'הזינו את הקוד הזה באפליקציה ובחרו סיסמה חדשה:', p2: 'הקוד תקף ל־15 דקות.', p3: 'לא ביקשתם לאפס סיסמה? אפשר להתעלם מההודעה — הסיסמה שלכם לא שונתה.' }
+    : { hi: 'Reset your password', p1: 'Enter this code in the app, then choose a new password:', p2: 'The code expires in 15 minutes.', p3: "Didn't ask to reset your password? You can ignore this email — your password hasn't changed." })
+    : he
     ? { hi: 'אימות כתובת האימייל', p1: 'הזינו את הקוד הזה באפליקציה כדי לסיים את ההרשמה:', p2: 'הקוד תקף ל־15 דקות.', p3: 'לא נרשמתם ל-FitForge? אפשר פשוט להתעלם מההודעה.' }
     : { hi: 'Confirm your email', p1: 'Enter this code in the app to finish signing up:', p2: 'The code expires in 15 minutes.', p3: "Didn't sign up for FitForge? You can ignore this email." };
   const html = `<!doctype html><html dir="${he ? 'rtl' : 'ltr'}"><body style="margin:0;background:#f3f4f6;font-family:Arial,Helvetica,sans-serif">
@@ -169,11 +172,11 @@ async function sendMail(to, { subject, html, text }) {
   }
 }
 
-async function sendCode(user, lang) {
+async function sendCode(user, lang, kind) {
   const code = String(crypto.randomInt(100000, 1000000));
   await q('UPDATE users SET code=$1, code_at=now(), code_tries=0 WHERE id=$2', [code, user.id]);
   if (EMAIL_ENABLED) {
-    const r = await sendMail(user.email, codeEmail(code, lang));
+    const r = await sendMail(user.email, codeEmail(code, lang, kind));
     return r.ok ? { emailSent: true } : { mailError: true };
   }
   return { demoCode: code };
@@ -252,6 +255,37 @@ app.post('/api/auth/verify', limit(20, 60000), wrap(async (req, res) => {
   if (code !== u.code) { await q('UPDATE users SET code_tries=code_tries+1 WHERE id=$1', [u.id]); return res.status(400).json({ error: 'That code is not right. Check it and try again.' }); }
   const v = (await q('UPDATE users SET verified=true, code=NULL WHERE id=$1 RETURNING *', [u.id])).rows[0];
   const token = await newSession(v.id); await logEvent(v.id, 'verified'); await logEvent(v.id, 'login');
+  res.json({ token, user: pub(v) });
+}));
+
+// Forgot password: email a 6-digit code, then set a new password with it.
+app.post('/api/auth/forgot', limit(5, 60000), wrap(async (req, res) => {
+  const email = String(req.body.email || '').trim().toLowerCase();
+  if (!emailOk(email)) return res.status(400).json({ error: 'Please enter a valid email address.' });
+  const u = (await q('SELECT * FROM users WHERE email=$1', [email])).rows[0];
+  if (u && u.provider !== 'email' && !u.pass_hash) return res.status(400).json({ error: 'This account uses Sign in with Google. Use the Google button to sign in.' });
+  if (!u) {
+    // Don't reveal whether an account exists when real emails are on.
+    if (EMAIL_ENABLED) return res.json({ emailSent: true });
+    return res.status(404).json({ error: 'No account with this email.' });
+  }
+  const r = await sendCode(u, reqLang(req), 'reset');
+  await logEvent(u.id, 'reset_requested');
+  res.json(r);
+}));
+
+app.post('/api/auth/reset', limit(20, 60000), wrap(async (req, res) => {
+  const email = String(req.body.email || '').trim().toLowerCase(), code = String(req.body.code || '').trim(), pw = String(req.body.password || '');
+  if (pw.length < 6) return res.status(400).json({ error: 'Password must be at least 6 characters.' });
+  const u = (await q('SELECT * FROM users WHERE email=$1', [email])).rows[0];
+  if (!u || !u.code) return res.status(400).json({ error: 'No reset code was requested. Tap “Send code” again.' });
+  if (Date.now() - new Date(u.code_at).getTime() > 15 * 60000) return res.status(400).json({ error: 'This code has expired. Tap “Send a new code”.' });
+  if (u.code_tries >= 6) return res.status(429).json({ error: 'Too many wrong tries. Tap “Send a new code”.' });
+  if (code !== u.code) { await q('UPDATE users SET code_tries=code_tries+1 WHERE id=$1', [u.id]); return res.status(400).json({ error: 'That code is not right. Check it and try again.' }); }
+  const hash = await scryptHash(pw);
+  const v = (await q('UPDATE users SET pass_hash=$1, verified=true, code=NULL WHERE id=$2 RETURNING *', [hash, u.id])).rows[0];
+  await q('DELETE FROM sessions WHERE user_id=$1', [v.id]); // sign out other devices
+  const token = await newSession(v.id); await logEvent(v.id, 'password_reset'); await logEvent(v.id, 'login');
   res.json({ token, user: pub(v) });
 }));
 

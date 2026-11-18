@@ -278,6 +278,8 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .how ul.good li::before{content:'✓';position:absolute;inset-inline-start:2px;color:var(--good);font-weight:800}
 .how ul.bad li::before{content:'✕';position:absolute;inset-inline-start:2px;color:#ff7a6b;font-weight:800}
 .how .note{font-size:12.5px;color:var(--mute);margin:16px 0 4px;line-height:1.4}
+.forgot-row{display:flex;justify-content:flex-end;margin:-4px 0 4px}.link-btn{background:none;border:0;color:var(--acc);font-weight:600;font-size:14px;padding:4px 2px}
+.code-in{letter-spacing:.5em;font-size:22px!important;font-weight:700;text-align:center}
 .p-fig{width:min(68vw,330px);overflow:hidden;border-radius:30px;background:radial-gradient(ellipse at 50% 42%,#1d232d,#0f1217 72%);padding:18px;margin-bottom:18px}
 .p-name{font-size:clamp(34px,8vw,52px);margin:8px 0 10px}
 .p-set{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:.12em;color:var(--mute)}
@@ -628,6 +630,7 @@ html.lang-he .eyebrow,html.lang-he .ring-lbl,html.lang-he .p-set,html.lang-he .s
     <form id="auth-form" novalidate>
       <label class="fld"><span>Email</span><input type="email" id="in-email" autocomplete="email" placeholder="you@example.com" inputmode="email"></label>
       <label class="fld"><span>Password</span><div class="pw"><input type="password" id="in-pass" autocomplete="current-password" placeholder="At least 6 characters"><button type="button" id="pw-toggle">Show</button></div></label>
+      <div class="forgot-row" id="forgot-row"><button type="button" class="link-btn" id="btn-forgot">Forgot password?</button></div>
       <div class="err" id="auth-err"></div>
       <button class="btn primary big" type="submit" id="auth-submit">Sign in</button>
     </form>
@@ -637,6 +640,31 @@ html.lang-he .eyebrow,html.lang-he .ring-lbl,html.lang-he .p-set,html.lang-he .s
     </div>
     <p class="fine" id="auth-fine"></p>
     <p class="fine" style="margin-top:6px"><a id="lnk-priv" href="/privacy" style="color:var(--mute)">Privacy Policy</a> · <a id="lnk-terms" href="/terms" style="color:var(--mute)">Terms</a></p>
+  </div>
+</section>
+
+<!-- FORGOT PASSWORD -->
+<section id="s-forgot" class="screen auth">
+  <div class="auth-card">
+    <button class="back-link" id="f-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to sign in</button>
+    <div class="mail-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#c8ff2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+    <h1>Reset your password</h1>
+    <div id="f-step1">
+      <p class="sub">Enter your account email and we'll send you a 6-digit code.</p>
+      <label class="fld"><span>Email</span><input type="email" id="f-email" autocomplete="email" placeholder="you@example.com" inputmode="email"></label>
+      <div class="err" id="f-err1"></div>
+      <button class="btn primary big" id="f-send">Send code</button>
+    </div>
+    <div id="f-step2" style="display:none">
+      <p class="sub">If there's an account for <b id="f-email-show" data-notr style="color:var(--text)"></b>, we've sent it a code. Enter it below with your new password.</p>
+      <label class="fld"><span>Code from the email</span><input id="f-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456" class="code-in"></label>
+      <label class="fld"><span>New password</span><div class="pw"><input type="password" id="f-pass" autocomplete="new-password" placeholder="At least 6 characters"><button type="button" id="f-pw-toggle">Show</button></div></label>
+      <div class="err" id="f-err2"></div>
+      <button class="btn primary big" id="f-save">Save new password</button>
+      <div style="text-align:center;margin-top:10px"><button class="btn ghost sm" id="f-resend">Didn't get it? Send a new code</button></div>
+      <p class="mute" id="f-spam" style="display:none;text-align:center;font-size:13px;margin:12px 0 0">Can't find it? Check your spam or junk folder. It can take a minute to arrive.</p>
+      <div class="demo-inbox" id="f-demo"></div>
+    </div>
   </div>
 </section>
 
@@ -923,6 +951,9 @@ function trRest(r){return r.replace(/(\d+) sec/,'$1 שנ׳').replace(/(\d+) reps
 // generic: segments joined with " · "
 Object.assign(I18N.he,{"MY PROGRESS": "ההתקדמות שלי", "Records and charts for every exercise you log": "שיאים וגרפים לכל תרגיל שאתם רושמים", "PROGRESS": "התקדמות", "Your progress": "ההתקדמות שלכם", "Progress": "התקדמות", "Records and trends for every exercise you've logged.": "שיאים ומגמות לכל תרגיל שרשמתם.", "Logged workouts": "אימונים שנרשמו", "Exercises tracked": "תרגילים במעקב", "Total weight lifted": "סך המשקל שהורם", "Nothing logged yet": "עוד לא נרשם כלום", "Finish a workout and your sets are logged automatically. Your records and charts will show up here.": "סיימו אימון והסטים יירשמו אוטומטית. השיאים והגרפים שלכם יופיעו כאן.", "Heaviest weight each session": "המשקל הכבד ביותר בכל אימון", "Longest hold each session": "ההחזקה הארוכה ביותר בכל אימון", "Most reps in a set each session": "הכי הרבה חזרות בסט בכל אימון", "Heaviest": "הכי כבד", "Est. 1-rep max": "הערכת חזרה מקסימלית", "Longest hold": "החזקה הארוכה ביותר", "Most reps": "הכי הרבה חזרות", "Sessions": "אימונים", "Est. 1-rep max is calculated from your sets (Epley formula) — a guide, not something to test.": "הערכת החזרה המקסימלית מחושבת מהסטים שלכם (נוסחת Epley) — כהכוונה בלבד, לא משהו לבדוק בפועל.", "Less weight": "פחות משקל", "More weight": "יותר משקל", "Did something different? Fix it here.": "עשיתם משהו אחר? תקנו כאן.", "Time held": "זמן החזקה", "Reps done": "חזרות שבוצעו", "Weight": "משקל", "🏆 New personal records": "🏆 שיאים אישיים חדשים", "Your sets": "הסטים שלכם", "Tap − / + to fix anything": "הקישו − / + כדי לתקן", "reps": "חזרות", "Stronger: best estimated 1-rep max": "חזקים יותר: הערכת חזרה מקסימלית הטובה ביותר", "Exactly the same time as last time.": "בדיוק אותו זמן כמו בפעם הקודמת."});
 Object.assign(I18N.he,{"How to do it": "איך מבצעים", "How to": "איך מבצעים", "Tips": "טיפים", "Common mistakes": "טעויות נפוצות", "Got it": "הבנתי", "Breathe out on the hard part. Stop if you feel sharp pain — some burn in the muscle is normal, joint pain is not.": "נשפו בחלק הקשה של התנועה. עצרו אם מרגישים כאב חד — שריפה בשריר זה נורמלי, כאב במפרק לא.", "Instructions are still loading — try again in a moment": "ההוראות עדיין נטענות — נסו שוב בעוד רגע", "Can't find it? Check your spam or junk folder. It can take a minute to arrive.": "לא מוצאים? בדקו בתיקיית הספאם או דואר הזבל. זה יכול לקחת דקה.", "We couldn't send the email right now. Tap “Resend code” in a minute.": "לא הצלחנו לשלוח את האימייל כרגע. הקישו על „שליחה חוזרת” בעוד דקה.", "We couldn't send the email right now. Please try again in a minute.": "לא הצלחנו לשלוח את האימייל כרגע. נסו שוב בעוד דקה.", "New code sent — check your inbox": "נשלח קוד חדש — בדקו את תיבת הדואר", "Email": "אימייל", "Send me a test email": "שלחו לי אימייל ניסיון", "✅ Verification emails are on": "✅ אימיילים לאימות פועלים", "✉️ Verification emails are off": "✉️ אימיילים לאימות כבויים", "sent": "נשלח", "failed": "נכשל"});
+Object.assign(I18N.he,{"Forgot password?": "שכחתם סיסמה?", "Reset your password": "איפוס סיסמה", "Enter your account email and we'll send you a 6-digit code.": "הזינו את האימייל של החשבון ונשלח לכם קוד בן 6 ספרות.", "Send code": "שליחת קוד", "Code from the email": "הקוד מהאימייל", "New password": "סיסמה חדשה", "Save new password": "שמירת הסיסמה החדשה", "Didn't get it? Send a new code": "לא הגיע? שליחת קוד חדש", "Enter the 6-digit code from the email.": "הזינו את הקוד בן 6 הספרות מהאימייל.", "Password must be at least 6 characters.": "הסיסמה צריכה להכיל לפחות 6 תווים.", "Password changed — you're signed in": "הסיסמה שונתה — נכנסתם לחשבון", "Please enter a valid email address.": "הזינו כתובת אימייל תקינה.", "This account uses Sign in with Google. Use the Google button to sign in.": "החשבון הזה משתמש בכניסה עם Google. השתמשו בכפתור של Google כדי להיכנס.", "No account with this email.": "אין חשבון עם האימייל הזה.", "No reset code was requested. Tap “Send code” again.": "לא התבקש קוד איפוס. הקישו שוב על „שליחת קוד”.", "This code has expired. Tap “Send a new code”.": "תוקף הקוד פג. הקישו על „שליחת קוד חדש”.", "Too many wrong tries. Tap “Send a new code”.": "יותר מדי ניסיונות שגויים. הקישו על „שליחת קוד חדש”.", "That code is not right. Check it and try again.": "הקוד לא נכון. בדקו ונסו שוב.", "Beta: demo inbox": "בטא: תיבת דואר לדוגמה"});
+Object.assign(I18N.he,{"If there's an account for": "אם יש חשבון עבור", ", we've sent it a code. Enter it below with your new password.": "‏, שלחנו אליו קוד. הזינו אותו למטה יחד עם הסיסמה החדשה.", "Real email sending isn't switched on, so here's your reset code:": "שליחת אימיילים עדיין לא פועלת, אז הנה קוד האיפוס שלכם:"});
+I18P.he.unshift([/^If there's an account for (.+), we've sent it a code\. Enter it below with your new password\.$/,'אם יש חשבון עבור $1, שלחנו אליו קוד. הזינו אותו למטה יחד עם הסיסמה החדשה.'],[/^Your reset code is (\d+)$/,'קוד האיפוס שלכם הוא $1']);
 I18P.he.unshift(
  [/^Last time: (.+)$/,(m,x)=>'בפעם הקודמת: '+x.replace(/ kg/g,' ק״ג')],
  [/^↑ Try ([\d.]+) kg today$/,'↑ נסו היום $1 ק״ג'],[/^↑ Try (\d+) reps today$/,'↑ נסו היום $1 חזרות'],[/^↑ Try (\d+)s today$/,'↑ נסו היום $1 שנ׳'],[/^↓ Go lighter: ([\d.]+) kg$/,'↓ קצת יותר קל: $1 ק״ג'],
@@ -1354,7 +1385,7 @@ function setAuthMode(m){authMode=m;$$('#auth-seg button').forEach(b=>b.classList
   $('#auth-title').textContent=m==='signin'?'Welcome back':'Create your account';
   $('#auth-sub').textContent=m==='signin'?'Sign in to build and run your workout plans.':'Sign up with your email — we\'ll ask you to verify it next.';
   $('#auth-submit').textContent=m==='signin'?'Sign in':'Create account';
-  $('#in-pass').autocomplete=m==='signin'?'current-password':'new-password';$('#auth-err').textContent=''}
+  $('#in-pass').autocomplete=m==='signin'?'current-password':'new-password';$('#auth-err').textContent='';$('#forgot-row').style.display=m==='signin'?'':'none'}
 $$('.lang-sw [data-lang]').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
 $('#auth-seg').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setAuthMode(b.dataset.mode)});
 $('#pw-toggle').addEventListener('click',()=>{const i=$('#in-pass');i.type=i.type==='password'?'text':'password';$('#pw-toggle').textContent=i.type==='password'?'Show':'Hide'});
@@ -1405,6 +1436,34 @@ async function verify(){if(verifying)return;const code=$$('#otp input').map(i=>i
 $('#v-submit').addEventListener('click',verify);
 $('#v-resend').addEventListener('click',async()=>{try{const r=await Api.call('POST','/api/auth/resend',{email:pendingEmail});showCode(r.demoCode);if(r.mailError){$('#v-err').textContent="We couldn't send the email right now. Please try again in a minute.";return}$('#v-err').textContent='';toast(r.emailSent?'New code sent — check your inbox':'New code sent')}catch(x){$('#v-err').textContent=x.message}});
 $('#v-back').addEventListener('click',()=>{show('s-login')});
+/* ---------- FORGOT PASSWORD ---------- */
+let fEmail='';
+function openForgot(){const e=$('#in-email').value.trim();$('#f-email').value=e;$('#f-err1').textContent='';$('#f-step1').style.display='';$('#f-step2').style.display='none';show('s-forgot');setTimeout(()=>(e?$('#f-send'):$('#f-email')).focus(),200)}
+function fDemo(code){const d=$('#f-demo');if(code){d.style.display='';d.innerHTML=`<span class="eyebrow">Demo inbox</span><div>Real email sending isn't switched on, so here's your reset code:</div><b data-notr>${esc(code)}</b>`}else{d.style.display='none';d.innerHTML=''}}
+async function sendReset(again){const email=(again?fEmail:$('#f-email').value.trim().toLowerCase());const err=again?$('#f-err2'):$('#f-err1');err.textContent='';
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){err.textContent='Please enter a valid email address.';return}
+  const b=again?$('#f-resend'):$('#f-send');b.disabled=true;
+  try{const r=await Api.call('POST','/api/auth/forgot',{email});fEmail=email;
+    if(r.mailError){err.textContent="We couldn't send the email right now. Please try again in a minute.";return}
+    $('#f-email-show').textContent=email;$('#f-step1').style.display='none';$('#f-step2').style.display='';$('#f-spam').style.display=CFG.emailEnabled?'':'none';fDemo(r.demoCode);
+    if(!again){$('#f-code').value='';$('#f-pass').value='';$('#f-err2').textContent='';setTimeout(()=>$('#f-code').focus(),150)}else toast('New code sent — check your inbox')}
+  catch(x){err.textContent=x.message}finally{b.disabled=false}}
+async function saveReset(){const code=$('#f-code').value.replace(/\D/g,''),pw=$('#f-pass').value,err=$('#f-err2');err.textContent='';
+  if(code.length<6){err.textContent='Enter the 6-digit code from the email.';return}
+  if(pw.length<6){err.textContent='Password must be at least 6 characters.';return}
+  const b=$('#f-save');b.disabled=true;
+  try{const r=await Api.call('POST','/api/auth/reset',{email:fEmail,code,password:pw});toast('Password changed — you\'re signed in');await onAuthed(r.token,r.user)}
+  catch(x){err.textContent=x.message}finally{b.disabled=false}}
+$('#btn-forgot').addEventListener('click',openForgot);
+$('#f-back').addEventListener('click',()=>{if(fEmail)$('#in-email').value=fEmail;show('s-login')});
+$('#f-send').addEventListener('click',()=>sendReset(false));
+$('#f-email').addEventListener('keydown',e=>{if(e.key==='Enter')sendReset(false)});
+$('#f-resend').addEventListener('click',()=>sendReset(true));
+$('#f-save').addEventListener('click',saveReset);
+$('#f-code').addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,6);if(e.target.value.length===6)$('#f-pass').focus()});
+$('#f-pass').addEventListener('keydown',e=>{if(e.key==='Enter')saveReset()});
+$('#f-pw-toggle').addEventListener('click',()=>{const i=$('#f-pass');i.type=i.type==='password'?'text':'password';$('#f-pw-toggle').textContent=i.type==='password'?'Show':'Hide'});
+
 
 async function onAuthed(token,user,isReturn){Api.setToken(token);me=user;
   try{ws=await Api.call('GET','/api/data')}catch(e){if(e.status===401)throw e;ws=LS.get('ff_cache_'+user.id,null)||{plans:[],sessions:[]};toast('Offline — showing saved copy')}
