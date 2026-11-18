@@ -302,6 +302,17 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .sm-goal{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:12px 14px}.sm-goal b{display:block;font-size:15px}.sm-goal small{color:var(--mute);font-size:13px}
 .sm-badges{background:linear-gradient(135deg,rgba(255,179,107,.14),rgba(255,179,107,.03));border:1px solid rgba(255,179,107,.4);border-radius:18px;padding:14px;display:grid;gap:10px}
 .smb{display:flex;align-items:center;gap:12px}.smb .bi{font-size:30px}.smb b{display:block}.smb small{color:var(--mute);font-size:13px}
+.excard.newcx{border:1.5px dashed rgba(200,255,46,.45);background:rgba(200,255,46,.04);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;min-height:170px;padding:14px}
+.excard.newcx .nc-plus{width:52px;height:52px;border-radius:50%;background:var(--acc);color:#111;font-size:30px;font-weight:700;display:grid;place-items:center;line-height:1}
+.excard.newcx small{color:var(--mute);font-size:12px;line-height:1.35}
+.tags .yourt{background:rgba(255,179,107,.15);color:#ffcf9e;border-color:rgba(255,179,107,.4)}.chip.yourc{background:rgba(255,179,107,.15);color:#ffcf9e;border-color:rgba(255,179,107,.4)}
+.cx-l{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);margin:16px 0 8px}.cx-l small{text-transform:none;letter-spacing:0;font-weight:500}
+.cx-chips{display:flex;flex-wrap:wrap;gap:7px}.cxc{padding:8px 12px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);color:var(--text);font-size:13.5px;font-weight:600}.cxc.sm{padding:6px 10px;font-size:12.5px}.cxc.on{background:var(--acc);color:#111;border-color:var(--acc)}
+.cx-figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-height:236px;overflow:auto;padding:2px}
+.cxf{aspect-ratio:1/1;border-radius:14px;background:radial-gradient(ellipse at 50% 42%,#1d232d,#0f1217 72%);border:1.5px solid var(--line);padding:4px}.cxf.on{border-color:var(--acc);box-shadow:0 0 0 2px rgba(200,255,46,.25)}.cxf .fig{width:100%;height:100%}
+.cx-list{display:grid;gap:8px;margin:12px 0}.cx-row{display:flex;align-items:center;gap:12px;padding:8px 12px 8px 8px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);color:var(--text);text-align:start}
+.cx-row .t{width:52px;height:52px;border-radius:12px;background:#0f1217;flex:none}.cx-row .t .fig{width:100%;height:100%}.cxr-t{flex:1;min-width:0;display:flex;flex-direction:column}.cxr-t small{color:var(--mute);font-size:12.5px}
+.btn.red{color:#ff7a6b}
 .p-fig{width:min(68vw,330px);overflow:hidden;border-radius:30px;background:radial-gradient(ellipse at 50% 42%,#1d232d,#0f1217 72%);padding:18px;margin-bottom:18px}
 .p-name{font-size:clamp(34px,8vw,52px);margin:8px 0 10px}
 .p-set{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:.12em;color:var(--mute)}
@@ -842,7 +853,7 @@ const fmt=s=>{s=Math.max(0,Math.round(s));const h=Math.floor(s/3600),m=Math.floo
 const DAY=864e5;
 function ago(x){const d=Math.floor((startOfDay(Date.now())-startOfDay(x))/DAY);if(d<=0)return t('today');if(d===1)return t('yesterday');if(d<7)return t('{n} days ago',{n:d});if(d<30)return t('{n} wk ago',{n:Math.floor(d/7)});return new Date(x).toLocaleDateString(LOC(),{month:'short',day:'numeric'})}
 function startOfDay(t){const d=new Date(t);d.setHours(0,0,0,0);return d.getTime()}
-function howTo(id){const e=EXM[id];if(!e)return;const src=(LANG==='he'&&window.HOWTO_HE&&window.HOWTO_HE[id])?window.HOWTO_HE:window.HOWTO_EN;const d=src&&src[id];
+function howTo(id){const e=EXM[id];if(!e)return;if(e.custom)return howToCustom(e);const src=(LANG==='he'&&window.HOWTO_HE&&window.HOWTO_HE[id])?window.HOWTO_HE:window.HOWTO_EN;const d=src&&src[id];
   if(!d){toast('Instructions are still loading — try again in a moment');return}
   const[st,tp,mi]=d.map(x=>x.split('|'));const li=a=>a.map(x=>`<li>${esc(x)}</li>`).join('');
   sheet(`<div class="how"><div class="how-fig">${fig(e.t,e.eq,{dur:1.9})}</div><div class="chips">${e.m.map((x,i)=>`<span class="chip ${i?'':'acc'}">${MUSCLES[x].n}</span>`).join('')}<span class="chip">${EQN[e.eq]}</span></div><h3>${esc(e.n)}</h3>
@@ -886,12 +897,12 @@ const Sync={timer:null,busy:false,again:false,
   pending:false,
   async now(){clearTimeout(this.timer);if(this.pending||this.busy)await this.flush()},
   async flush(){if(this.busy){this.again=true;return}this.busy=true;this.pending=false;setSync('saving');
-    try{await Api.call('PUT','/api/data',{plans:ws.plans,sessions:ws.sessions,profile:ws.profile||null,weights:ws.weights||[],profileSkipped:ws.profileSkipped||null,settings:ws.settings||null});setSync('saved')}
+    try{await Api.call('PUT','/api/data',{plans:ws.plans,sessions:ws.sessions,profile:ws.profile||null,weights:ws.weights||[],profileSkipped:ws.profileSkipped||null,settings:ws.settings||null,custom:ws.custom||[]});setSync('saved')}
     catch(e){if(e.status===401){toast('Your session expired — please sign in again');logout(true)}else{setSync('error');this.pending=true;toast('Couldn\'t save to the server — will retry');clearTimeout(this.timer);this.timer=setTimeout(()=>this.flush(),5000)}}
     this.busy=false;if(this.again){this.again=false;this.flush()}}
 };
 function setSync(st){const el=document.getElementById('h-sync');if(!el)return;el.dataset.st=st;el.textContent=st==='saving'?'Saving…':st==='error'?'Not saved yet — retrying':'All changes saved'}
-window.addEventListener('pagehide',()=>{if(Sync.pending&&Api.token){try{fetch('/api/data',{method:'PUT',keepalive:true,headers:{'Content-Type':'application/json',Authorization:'Bearer '+Api.token},body:JSON.stringify({plans:ws.plans,sessions:ws.sessions,profile:ws.profile||null,weights:ws.weights||[],profileSkipped:ws.profileSkipped||null,settings:ws.settings||null})})}catch(e){}}});
+window.addEventListener('pagehide',()=>{if(Sync.pending&&Api.token){try{fetch('/api/data',{method:'PUT',keepalive:true,headers:{'Content-Type':'application/json',Authorization:'Bearer '+Api.token},body:JSON.stringify({plans:ws.plans,sessions:ws.sessions,profile:ws.profile||null,weights:ws.weights||[],profileSkipped:ws.profileSkipped||null,settings:ws.settings||null,custom:ws.custom||[]})})}catch(e){}}});
 /* ================= I18N ================= */
 const LANGS={en:{n:'English',dir:'ltr'},he:{n:'עברית',dir:'rtl'}};
 let LANG=(()=>{const l=LS.get('ff_lang',null);if(l&&LANGS[l])return l;return /^he|^iw/i.test(navigator.language||'')?'he':'en'})();
@@ -918,7 +929,7 @@ function applyLangChrome(){const h=document.documentElement;h.lang=LANG;h.dir=LA
 function initI18n(){applyLangChrome();if(LANG==='en')return;trNode(document.body);
   new MutationObserver(muts=>{for(const m of muts){if(m.type==='characterData')trNode(m.target);else m.addedNodes.forEach(trNode)}}).observe(document.body,{childList:true,subtree:true,characterData:true})}
 async function setLang(l){if(!LANGS[l]||l===LANG)return;LS.set('ff_lang',l);
-  if(me){ws.settings={...(ws.settings||{}),lang:l};try{await Api.call('PUT','/api/data',{plans:ws.plans,sessions:ws.sessions,profile:ws.profile||null,weights:ws.weights||[],profileSkipped:ws.profileSkipped||null,settings:ws.settings})}catch(e){}}
+  if(me){ws.settings={...(ws.settings||{}),lang:l};try{await Api.call('PUT','/api/data',{plans:ws.plans,sessions:ws.sessions,profile:ws.profile||null,weights:ws.weights||[],profileSkipped:ws.profileSkipped||null,settings:ws.settings,custom:ws.custom||[]})}catch(e){}}
   location.reload()}
 function langSheet(){sheet(`<h3>${t('Language')}</h3><div class="menu" data-notr>${Object.entries(LANGS).map(([k,v])=>`<button data-lang="${k}" class="${k===LANG?'on':''}"><span class="lang-dot"></span>${v.n}</button>`).join('')}</div>`,(el,close)=>el.addEventListener('click',e=>{const b=e.target.closest('[data-lang]');if(b){close();setLang(b.dataset.lang)}}))}
 const legal=p=>LANG==='he'?`/${p}-he`:`/${p}`;
@@ -985,6 +996,8 @@ Object.assign(I18N.he,{"How to do it": "איך מבצעים", "How to": "איך 
 Object.assign(I18N.he,{"Forgot password?": "שכחתם סיסמה?", "Reset your password": "איפוס סיסמה", "Enter your account email and we'll send you a 6-digit code.": "הזינו את האימייל של החשבון ונשלח לכם קוד בן 6 ספרות.", "Send code": "שליחת קוד", "Code from the email": "הקוד מהאימייל", "New password": "סיסמה חדשה", "Save new password": "שמירת הסיסמה החדשה", "Didn't get it? Send a new code": "לא הגיע? שליחת קוד חדש", "Enter the 6-digit code from the email.": "הזינו את הקוד בן 6 הספרות מהאימייל.", "Password must be at least 6 characters.": "הסיסמה צריכה להכיל לפחות 6 תווים.", "Password changed — you're signed in": "הסיסמה שונתה — נכנסתם לחשבון", "Please enter a valid email address.": "הזינו כתובת אימייל תקינה.", "This account uses Sign in with Google. Use the Google button to sign in.": "החשבון הזה משתמש בכניסה עם Google. השתמשו בכפתור של Google כדי להיכנס.", "No account with this email.": "אין חשבון עם האימייל הזה.", "No reset code was requested. Tap “Send code” again.": "לא התבקש קוד איפוס. הקישו שוב על „שליחת קוד”.", "This code has expired. Tap “Send a new code”.": "תוקף הקוד פג. הקישו על „שליחת קוד חדש”.", "Too many wrong tries. Tap “Send a new code”.": "יותר מדי ניסיונות שגויים. הקישו על „שליחת קוד חדש”.", "That code is not right. Check it and try again.": "הקוד לא נכון. בדקו ונסו שוב.", "Beta: demo inbox": "בטא: תיבת דואר לדוגמה"});
 Object.assign(I18N.he,{"If there's an account for": "אם יש חשבון עבור", ", we've sent it a code. Enter it below with your new password.": "‏, שלחנו אליו קוד. הזינו אותו למטה יחד עם הסיסמה החדשה.", "Real email sending isn't switched on, so here's your reset code:": "שליחת אימיילים עדיין לא פועלת, אז הנה קוד האיפוס שלכם:"});
 Object.assign(I18N.he,{"Badges 🎖": "תגים 🎖", "Day streak": "רצף ימים", "This week": "השבוע", "Goal": "יעד", "Weekly goal reached — great work!": "עמדתם ביעד השבועי — כל הכבוד!", "Goal smashed — {n} extra this week!": "ניפצתם את היעד — {n} אימונים נוספים השבוע!", "{n} more to go — every workout still counts.": "עוד {n} — כל אימון עדיין נחשב.", "1 more workout to hit your goal · {d} days left": "עוד אימון אחד ליעד · נשארו {d} ימים", "{n} more workouts to hit your goal · {d} days left": "עוד {n} אימונים ליעד · נשארו {d} ימים", "1-week streak": "רצף של שבוע", "{n}-week streak": "רצף של {n} שבועות", "It's been a while! Ease back in with a short workout today.": "עבר זמן! חזרו בעדינות עם אימון קצר היום.", "It's been {n} days since your last workout. A quick session today keeps the habit going.": "עברו {n} ימים מהאימון האחרון. אימון קצר היום ישמור על ההרגל.", "Last day to keep your 🔥 {s}-week streak — one workout today does it!": "יום אחרון לשמור על רצף 🔥 של {s} שבועות — אימון אחד היום וזה סגור!", "{n} workouts left in {n} days to keep your 🔥 {s}-week streak.": "נשארו {n} אימונים ב־{n} ימים כדי לשמור על רצף 🔥 של {s} שבועות.", "Your first workout is waiting — start it whenever you're ready.": "האימון הראשון שלכם מחכה — התחילו מתי שתרצו.", "Start": "התחלה", "New badge: {b}": "תג חדש: {b}", "{n} new badges": "{n} תגים חדשים", "Off": "כבוי", "Weekly goal": "יעד שבועי", "How many workouts do you want to do each week?": "כמה אימונים תרצו לעשות בכל שבוע?", "Reminders": "תזכורות", "Show a reminder on the home screen when you haven't trained for this many days.": "הצגת תזכורת במסך הבית כשלא התאמנתם כך וכך ימים.", "Cancel": "ביטול", "Save": "שמירה", "Goal saved: {n} workouts a week": "היעד נשמר: {n} אימונים בשבוע", "Achievements": "הישגים", "ACHIEVEMENTS": "הישגים", "{n} of {m} badges": "{n} מתוך {m} תגים", "Best streak: {n} weeks in a row hitting your goal": "הרצף הטוב ביותר: {n} שבועות ברצף עם עמידה ביעד", "Weekly goal reached!": "עמדתם ביעד השבועי!", "{n}-week streak 🔥": "רצף של {n} שבועות 🔥", "{d} workouts this week — {x} over your goal!": "{d} אימונים השבוע — {x} מעל היעד!", "{d} of {g} workouts this week": "{d} מתוך {g} אימונים השבוע", "New badge unlocked": "נפתח תג חדש", "{n} new badges unlocked": "נפתחו {n} תגים חדשים", "See all badges": "לכל התגים"});
+Object.assign(I18N.he,{"Edit exercise": "עריכת תרגיל", "Create your own exercise": "יצירת תרגיל משלכם", "Name": "שם", "e.g. Resistance band row": "למשל: חתירה עם גומייה", "Main muscle": "שריר עיקרי", "Also works": "עובד גם על", "(optional)": "(לא חובה)", "Equipment": "ציוד", "Count it in": "ספירה לפי", "Reps": "חזרות", "Time (seconds)": "זמן (שניות)", "Picture": "תמונה", "— pick the move that looks most like yours": "— בחרו את התנועה שהכי דומה לשלכם", "How to do it": "איך מבצעים", "(optional, one step per line)": "(לא חובה, שלב אחד בכל שורה)", "Stand with feet hip-width apart…": "עמדו ברגליים ברוחב האגן…", "Save changes": "שמירת השינויים", "Create exercise": "יצירת התרגיל", "Show suggested moves only": "הצגת התנועות המוצעות בלבד", "Show all {n} moves": "הצגת כל {n} התנועות", "Pick up to 3 extra muscles": "אפשר לבחור עד 3 שרירים נוספים", "Give your exercise a name.": "תנו שם לתרגיל.", "Exercise updated": "התרגיל עודכן", "Exercise created": "התרגיל נוצר", "Your exercise": "התרגיל שלכם", "Custom exercise": "תרגיל מותאם", "No instructions yet. Tap Edit to add your own steps.": "עדיין אין הוראות. הקישו על עריכה כדי להוסיף שלבים.", "No instructions were added for this exercise.": "לא נוספו הוראות לתרגיל הזה.", "Edit": "עריכה", "Delete": "מחיקה", "It's used in {n} of your plans. It will stay in those plans, but it won't show in the exercise list anymore.": "התרגיל נמצא ב־{n} מהתוכניות שלכם. הוא יישאר בהן, אבל לא יופיע יותר ברשימת התרגילים.", "It will be removed from your exercise list.": "התרגיל יוסר מרשימת התרגילים שלכם.", "Delete this exercise?": "למחוק את התרגיל?", "Exercise deleted": "התרגיל נמחק", "My exercises": "התרגילים שלי", "{n} exercises you created. Tap one to see, edit or delete it.": "{n} תרגילים שיצרתם. הקישו על תרגיל כדי לראות, לערוך או למחוק אותו.", "You haven't created any exercises yet. You can also create one while building a plan.": "עוד לא יצרתם תרגילים. אפשר ליצור תרגיל גם בזמן בניית תוכנית.", "Close": "סגירה", "+ Create exercise": "+ יצירת תרגיל", "Can't find yours? Add it with a name, muscles and a picture.": "לא מוצאים את התרגיל שלכם? הוסיפו אותו עם שם, שרירים ותמונה.", "Yours": "שלכם", "Band": "גומייה", "Machine": "מכונה", "Other": "אחר"});
+Object.assign(I18N.he,{"1 exercise you created. Tap it to see, edit or delete it.": "תרגיל אחד שיצרתם. הקישו עליו כדי לראות, לערוך או למחוק אותו."});
 I18P.he.unshift([/^If there's an account for (.+), we've sent it a code\. Enter it below with your new password\.$/,'אם יש חשבון עבור $1, שלחנו אליו קוד. הזינו אותו למטה יחד עם הסיסמה החדשה.'],[/^Your reset code is (\d+)$/,'קוד האיפוס שלכם הוא $1']);
 I18P.he.unshift(
  [/^Last time: (.+)$/,(m,x)=>'בפעם הקודמת: '+x.replace(/ kg/g,' ק״ג')],
@@ -1503,8 +1516,8 @@ async function onAuthed(token,user,isReturn){Api.setToken(token);me=user;
   if(ws.settings&&ws.settings.lang&&LANGS[ws.settings.lang]&&ws.settings.lang!==LANG&&!LS.get('ff_lang',null)){LS.set('ff_lang',ws.settings.lang);location.reload();return}
   if(!ws.settings||ws.settings.lang!==LANG){ws.settings={...(ws.settings||{}),lang:LANG}}LS.set('ff_cache_'+me.id,ws);
   if(isReturn)Api.event('app_open');
-  myShared={};ws.weights=ws.weights||[];renderHome();if(!maybeOnboard())show('s-home');refreshMyShared();fbNew=0;startFbPolling()}
-async function logout(silent){if(!silent){try{await Sync.now()}catch(e){}Api.call('POST','/api/logout').catch(()=>{})}clearInterval(fbPollT);fbNew=0;Api.setToken(null);me=null;ws={plans:[],sessions:[]};$('#in-pass').value='';setAuthMode('signin');show('s-login');setTimeout(renderGoogleBtn,50)}
+  myShared={};ws.weights=ws.weights||[];applyCustom();renderHome();if(!maybeOnboard())show('s-home');refreshMyShared();fbNew=0;startFbPolling()}
+async function logout(silent){if(!silent){try{await Sync.now()}catch(e){}Api.call('POST','/api/logout').catch(()=>{})}clearInterval(fbPollT);fbNew=0;Api.setToken(null);me=null;ws={plans:[],sessions:[]};applyCustom();$('#in-pass').value='';setAuthMode('signin');show('s-login');setTimeout(renderGoogleBtn,50)}
 
 /* ================= HOME ================= */
 const planEst=p=>p.items.reduce((t,it,i)=>t+it.sets*(it.time?it.secs:it.reps*3.5)+it.rest*it.sets-(i===p.items.length-1?it.rest:0),0);
@@ -1544,8 +1557,8 @@ $('#btn-coach').addEventListener('click',()=>openCoach());
 $('#btn-progress').addEventListener('click',()=>openProgress());
 $('#btn-fb').addEventListener('click',()=>openFeedback());
 $('#btn-account').addEventListener('click',()=>{sheet(`<h3 data-notr>${esc(me.name)}</h3><p>${me.provider==='email'?esc(me.email):'Signed in with '+me.provider[0].toUpperCase()+me.provider.slice(1)}${me.isAdmin?' · <span style="color:var(--acc)">Admin</span>':''}</p>
-  <div class="menu">${me.isAdmin?`<button data-a="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Admin dashboard<span id="acct-fb-n" class="nbadge-inline">${fbNew||''}</span></button>`:''}<button data-a="feedback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5z"/><path d="M8 9h8M8 12h5"/></svg>Send feedback</button><button data-a="lang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>Language · <span data-notr>${LANGS[LANG].n}</span></button><button data-a="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/></svg>My profile</button><button data-a="out">${ICON.logout}Log out</button><button class="red" data-a="del">${ICON.trash}Delete my account</button></div>
-  <p style="margin:12px 0 0;font-size:12.5px"><a href="${legal('privacy')}" style="color:var(--mute)">Privacy Policy</a> · <a href="${legal('terms')}" style="color:var(--mute)">Terms</a></p>`,(el,close)=>{el.addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='out'){close();logout()}if(a==='admin'){close();openAdmin()}if(a==='feedback'){close();openFeedback()}if(a==='profile'){close();openProfile('edit')}if(a==='lang'){close();langSheet()}
+  <div class="menu">${me.isAdmin?`<button data-a="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Admin dashboard<span id="acct-fb-n" class="nbadge-inline">${fbNew||''}</span></button>`:''}<button data-a="myex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg>My exercises</button><button data-a="feedback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5z"/><path d="M8 9h8M8 12h5"/></svg>Send feedback</button><button data-a="lang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>Language · <span data-notr>${LANGS[LANG].n}</span></button><button data-a="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/></svg>My profile</button><button data-a="out">${ICON.logout}Log out</button><button class="red" data-a="del">${ICON.trash}Delete my account</button></div>
+  <p style="margin:12px 0 0;font-size:12.5px"><a href="${legal('privacy')}" style="color:var(--mute)">Privacy Policy</a> · <a href="${legal('terms')}" style="color:var(--mute)">Terms</a></p>`,(el,close)=>{el.addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='out'){close();logout()}if(a==='admin'){close();openAdmin()}if(a==='myex'){close();myExercisesSheet()}if(a==='feedback'){close();openFeedback()}if(a==='profile'){close();openProfile('edit')}if(a==='lang'){close();langSheet()}
     if(a==='del'){close();if(await confirmBox('Delete your account?','This permanently deletes your account, all workout plans and your workout history. This cannot be undone.','Delete forever',true)){try{await Api.call('DELETE','/api/me');LS.del('ff_cache_'+me.id);Api.setToken(null);me=null;toast('Your account was deleted');logout(true)}catch(x){toast(x.message)}}}})})});
 $('#h-admin').addEventListener('click',()=>openAdmin());
 function planMenu(id){const p=ws.plans.find(x=>x.id===id);if(!p)return;
@@ -1616,7 +1629,7 @@ function chooseMuscle(m){Bd.muscle=m;Body.sel=m;Body.paint();setLabel(m);$$('#b-
   clearTimeout(advT);advT=setTimeout(()=>{if(Bd.step==='body')setStep('ex')},Body.ok?650:150)}
 
 // step 2: exercises
-function exCard(e){return`<button class="excard" data-ex="${e.id}"><span class="how-i" data-how="${e.id}" role="button" aria-label="How to do it" title="How to do it">i</span><div class="pic">${fig(e.t,e.eq)}</div><b>${esc(e.n)}</b><div class="tags">${e.home?'<span class="homet">At home</span>':''}<span>${EQN[e.eq]}</span>${e.time?'<span>Timed</span>':''}${e.m.slice(1,3).map(x=>`<span>+ ${MUSCLES[x].n}</span>`).join('')}</div></button>`}
+function exCard(e){return`<button class="excard" data-ex="${e.id}"><span class="how-i" data-how="${e.id}" role="button" aria-label="How to do it" title="How to do it">i</span><div class="pic">${fig(e.t,e.eq)}</div><b ${e.custom?'data-notr':''}>${esc(e.n)}</b><div class="tags">${e.custom?'<span class="yourt">Yours</span>':''}${e.home?'<span class="homet">At home</span>':''}<span>${EQN[e.eq]}</span>${e.time?'<span>Timed</span>':''}${e.m.slice(1,3).map(x=>`<span>+ ${MUSCLES[x].n}</span>`).join('')}</div></button>`}
 let homeOnly=!!LS.get('ff_home',false);
 function renderExStep(){const m=Bd.muscle,M=MUSCLES[m];const ok=e=>!homeOnly||e.home;
   const prim=EX.filter(e=>e.m[0]===m&&ok(e)),sec=EX.filter(e=>e.m[0]!==m&&e.m.includes(m)&&ok(e));
@@ -1625,8 +1638,8 @@ function renderExStep(){const m=Bd.muscle,M=MUSCLES[m];const ok=e=>!homeOnly||e.
    <div class="fchips" style="margin-bottom:6px"><button class="fchip ${homeOnly?'':'on'}" data-home="0">All exercises <i>${nAll}</i></button><button class="fchip ${homeOnly?'on':''}" data-home="1">At home · no weights <i>${nHome}</i></button></div>
    <p class="fig-hint"><span class="fh-line"></span>Orange line = front of the body (chest &amp; belly) <span class="fh-eye"></span>dot = eyes</p>
    ${homeOnly?'<p class="mute" style="font-size:13px;margin:0 0 12px">Bodyweight exercises you can do at home — at most you\'ll need a sturdy chair, table or a step.</p>':''}
-   <div class="exgrid">${prim.map(exCard).join('')||'<p class="mute">No exercises here — see below.</p>'}</div>${sec.length?`<h3 class="subsec">Also works your ${M.n.toLowerCase()}</h3><div class="exgrid">${sec.map(exCard).join('')}</div>`:''}`}
-$('#b-ex').addEventListener('click',e=>{if(e.target.closest('[data-a=back]'))return setStep('body');const hb=e.target.closest('[data-home]');if(hb){homeOnly=hb.dataset.home==='1';LS.set('ff_home',homeOnly);renderExStep();return}const c=e.target.closest('[data-ex]');if(c){Bd.ex=c.dataset.ex;Bd.edit=null;setStep('cfg')}});
+   <div class="exgrid"><button class="excard newcx" data-newcx><span class="nc-plus">+</span><b>Create your own exercise</b><small>Can't find yours? Add it with a name, muscles and a picture.</small></button>${prim.map(exCard).join('')}</div>${sec.length?`<h3 class="subsec">Also works your ${M.n.toLowerCase()}</h3><div class="exgrid">${sec.map(exCard).join('')}</div>`:''}`}
+$('#b-ex').addEventListener('click',e=>{if(e.target.closest('[data-a=back]'))return setStep('body');const hb=e.target.closest('[data-home]');if(hb){homeOnly=hb.dataset.home==='1';LS.set('ff_home',homeOnly);renderExStep();return}if(e.target.closest('[data-newcx]')){openCxEditor(null,Bd.muscle,c=>{Bd.ex=c.id;Bd.edit=null;setStep('cfg')});return}const c=e.target.closest('[data-ex]');if(c){Bd.ex=c.dataset.ex;Bd.edit=null;setStep('cfg')}});
 
 // step 3: config
 let cfgV={};
@@ -1809,6 +1822,77 @@ function finishWorkout(){const now=Date.now(),plan=P.plan;const ws0=P.workStartA
   const dur=Math.round((we-ws0)/1000),stretch=Math.max(0,Math.round((now-P.startAt)/1000)-dur);
   const sess={id:uid(),planId:plan.id,at:P.startAt,dur,sets:P.done,...(stretch>5?{stretch}:{}),log:P.log};ws.sessions.push(sess);rememberWeights(sess,plan);saveWS();Api.event('workout_complete',{planId:plan.id,dur});stopPlayer();
   beep(784,.15);setTimeout(()=>beep(1046,.3),160);buzz([100,60,100,60,250]);renderSummary(sess,plan);show('s-summary')}
+
+/* ================= CUSTOM EXERCISES ================= */
+Object.assign(EQN,{band:'Band',machine:'Machine',other:'Other'});
+const CX_EQ=['none','db','bb','kb','cable','band','machine','chair','step','other'];
+const HOME_EQ=new Set(['none','chair','table','step','band']);
+function cxToEx(c,foreign){return{id:c.id,n:c.n,m:c.m&&c.m.length?c.m:['chest'],t:TPL[c.t]?c.t:'squat',eq:c.eq||'other',time:!!c.time,reps:12,secs:30,home:HOME_EQ.has(c.eq)?1:0,custom:1,notes:c.notes||'',foreign:!!foreign}}
+function applyCustom(){for(let i=EX.length-1;i>=0;i--)if(EX[i].custom)EX.splice(i,1);Object.keys(EXM).forEach(k=>{if(EXM[k].custom)delete EXM[k]});
+  ((ws&&ws.custom)||[]).forEach(c=>{const e=cxToEx(c);EXM[e.id]=e;if(!c.arch)EX.push(e)})}
+function registerForeign(list){(list||[]).forEach(c=>{if(c&&c.id&&!EXM[c.id])EXM[c.id]=cxToEx(c,true)})}
+function importCustom(list){ws.custom=ws.custom||[];let n=0;(list||[]).forEach(c=>{if(c&&c.id&&!ws.custom.some(x=>x.id===c.id)){const{arch,...rest}=c;ws.custom.push({...rest,from:1});n++}});if(n)applyCustom();return n}
+const myCx=id=>(ws.custom||[]).find(x=>x.id===id);
+const cxUsedIn=id=>ws.plans.filter(p=>p.items.some(i=>i.exId===id));
+const tplFor=m=>[...new Set(EX.filter(e=>!e.custom&&e.m[0]===m).map(e=>e.t))];
+
+function openCxEditor(existing,muscle,onSaved){
+  const c=existing?JSON.parse(JSON.stringify(existing)):{id:'c_'+uid(),n:'',m:[muscle||'chest'],eq:'none',t:null,time:false,notes:''};
+  let showAll=false;
+  sheet(`<h3>${existing?'Edit exercise':'Create your own exercise'}</h3>
+   <label class="fld"><span>Name</span><input id="cx-n" maxlength="40" placeholder="e.g. Resistance band row" data-notr-val></label>
+   <div class="cx-l">Main muscle</div><div class="cx-chips" id="cx-m"></div>
+   <div class="cx-l">Also works <small>(optional)</small></div><div class="cx-chips" id="cx-m2"></div>
+   <div class="cx-l">Equipment</div><div class="cx-chips" id="cx-eq"></div>
+   <div class="cx-l">Count it in</div><div class="cx-chips" id="cx-time"></div>
+   <div class="cx-l">Picture <small>— pick the move that looks most like yours</small></div><div class="cx-figs" id="cx-figs"></div>
+   <div style="text-align:center"><button type="button" class="link-btn" id="cx-all"></button></div>
+   <label class="fld" style="margin-top:12px"><span>How to do it <small>(optional, one step per line)</small></span><textarea id="cx-notes" rows="4" maxlength="600" placeholder="Stand with feet hip-width apart…"></textarea></label>
+   <div class="err" id="cx-err"></div>
+   <div class="m-actions"><button class="btn" data-a="no">Cancel</button><button class="btn primary" data-a="ok">${existing?'Save changes':'Create exercise'}</button></div>`,(el,close)=>{
+    el.querySelector('#cx-n').value=c.n;el.querySelector('#cx-notes').value=c.notes||'';
+    const draw=()=>{
+      el.querySelector('#cx-m').innerHTML=Object.entries(MUSCLES).map(([k,v])=>`<button type="button" class="cxc ${c.m[0]===k?'on':''}" data-cm="${k}">${v.n}</button>`).join('');
+      el.querySelector('#cx-m2').innerHTML=Object.entries(MUSCLES).filter(([k])=>k!==c.m[0]).map(([k,v])=>`<button type="button" class="cxc sm ${c.m.slice(1).includes(k)?'on':''}" data-cm2="${k}">${v.n}</button>`).join('');
+      el.querySelector('#cx-eq').innerHTML=CX_EQ.map(k=>`<button type="button" class="cxc ${c.eq===k?'on':''}" data-ceq="${k}">${EQN[k]}</button>`).join('');
+      el.querySelector('#cx-time').innerHTML=`<button type="button" class="cxc ${!c.time?'on':''}" data-ctime="0">Reps</button><button type="button" class="cxc ${c.time?'on':''}" data-ctime="1">Time (seconds)</button>`;
+      let list=showAll?Object.keys(TPL):tplFor(c.m[0]);if(!list.length)list=Object.keys(TPL);
+      if(!c.t||!TPL[c.t])c.t=list[0];if(!list.includes(c.t))list=[c.t,...list];
+      el.querySelector('#cx-figs').innerHTML=list.map(k=>`<button type="button" class="cxf ${c.t===k?'on':''}" data-ct="${k}">${fig(k,c.eq,{anim:c.t===k})}</button>`).join('');
+      el.querySelector('#cx-all').textContent=showAll?t('Show suggested moves only'):t('Show all {n} moves',{n:Object.keys(TPL).length})};
+    draw();
+    el.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+      if(d.cm){c.m=[d.cm,...c.m.slice(1).filter(x=>x!==d.cm)];if(!showAll)c.t=null;draw()}
+      else if(d.cm2){const r=c.m.slice(1);const i=r.indexOf(d.cm2);if(i>=0)r.splice(i,1);else if(r.length<3)r.push(d.cm2);else{toast(t('Pick up to 3 extra muscles'));return}c.m=[c.m[0],...r];draw()}
+      else if(d.ceq){c.eq=d.ceq;draw()}else if(d.ctime){c.time=d.ctime==='1';draw()}else if(d.ct){c.t=d.ct;draw()}
+      else if(b.id==='cx-all'){showAll=!showAll;draw()}
+      else if(d.a==='no')close();
+      else if(d.a==='ok'){c.n=el.querySelector('#cx-n').value.trim().replace(/\s+/g,' ');c.notes=el.querySelector('#cx-notes').value.trim().slice(0,600);
+        if(!c.n){el.querySelector('#cx-err').textContent=t('Give your exercise a name.');el.querySelector('#cx-n').focus();return}
+        ws.custom=ws.custom||[];const i=ws.custom.findIndex(x=>x.id===c.id);if(i>=0)ws.custom[i]={...ws.custom[i],...c};else ws.custom.push(c);
+        applyCustom();saveWS();Api.event('custom_ex',{edit:!!existing});close();toast(existing?t('Exercise updated'):t('Exercise created'));if(onSaved)onSaved(c)}})})}
+
+function howToCustom(e){const own=myCx(e.id),steps=(e.notes||'').split(/\n+/).map(x=>x.replace(/^\s*(\d+[.)]|[-•*])\s*/,'').trim()).filter(Boolean);
+  sheet(`<div class="how"><div class="how-fig">${fig(e.t,e.eq,{dur:1.9})}</div><div class="chips">${e.m.map((x,i)=>`<span class="chip ${i?'':'acc'}">${MUSCLES[x].n}</span>`).join('')}<span class="chip">${EQN[e.eq]||''}</span><span class="chip yourc">${own?'Your exercise':'Custom exercise'}</span></div><h3 data-notr dir="auto">${esc(e.n)}</h3>
+   ${steps.length?`<div class="how-h">How to do it</div><ol data-notr>${steps.map(s=>`<li dir="auto">${esc(s)}</li>`).join('')}</ol>`:`<p class="mute" style="text-align:center">${own?'No instructions yet. Tap Edit to add your own steps.':'No instructions were added for this exercise.'}</p>`}
+   <p class="note">Breathe out on the hard part. Stop if you feel sharp pain — some burn in the muscle is normal, joint pain is not.</p>
+   <div class="m-actions">${own?`<button class="btn" data-a="edit">${ICON.edit} Edit</button><button class="btn red" data-a="del">${ICON.trash} Delete</button>`:''}<button class="btn primary" data-a="ok">Got it</button></div></div>`,(el,close)=>{
+    el.addEventListener('click',async ev=>{const a=ev.target.closest('[data-a]')?.dataset.a;if(!a)return;close();
+      if(a==='edit')openCxEditor(own,null,()=>refreshAfterCx());if(a==='del')deleteCx(e.id)})})}
+
+async function deleteCx(id){const c=myCx(id);if(!c)return;const used=cxUsedIn(id),hist=ws.sessions.some(s=>s.log&&s.log.some(l=>l.exId===id));
+  const msg=used.length?t("It's used in {n} of your plans. It will stay in those plans, but it won't show in the exercise list anymore.",{n:used.length}):t('It will be removed from your exercise list.');
+  if(!await confirmBox(t('Delete this exercise?'),msg,t('Delete'),true))return;
+  if(used.length||hist)c.arch=true;else ws.custom=ws.custom.filter(x=>x.id!==id);applyCustom();saveWS();toast(t('Exercise deleted'));refreshAfterCx()}
+function refreshAfterCx(){try{if($('#s-builder').classList.contains('active')){if(Bd.step==='ex')renderExStep();else if(Bd.step==='cfg')setStep('cfg')}}catch(_){}
+  if($('#s-home').classList.contains('active'))renderHome()}
+
+function myExercisesSheet(){const list=(ws.custom||[]).filter(c=>!c.arch);
+  sheet(`<h3>My exercises</h3><p>${list.length?(list.length===1?t('1 exercise you created. Tap it to see, edit or delete it.'):t('{n} exercises you created. Tap one to see, edit or delete it.',{n:list.length})):'You haven\'t created any exercises yet. You can also create one while building a plan.'}</p>
+   <div class="cx-list">${list.map(c=>{const e=EXM[c.id];return`<button class="cx-row" data-cx="${c.id}"><span class="t">${fig(e.t,e.eq,{anim:false})}</span><span class="cxr-t"><b data-notr>${esc(e.n)}</b><small>${MUSCLES[e.m[0]].n} · ${EQN[e.eq]}</small></span><span class="mute">›</span></button>`}).join('')}</div>
+   <div class="m-actions"><button class="btn" data-a="no">Close</button><button class="btn primary" data-a="new">+ Create exercise</button></div>`,(el,close)=>{
+    el.addEventListener('click',ev=>{const r=ev.target.closest('[data-cx]'),a=ev.target.closest('[data-a]')?.dataset.a;
+      if(r){close();howToCustom(EXM[r.dataset.cx])}if(a==='no')close();if(a==='new'){close();openCxEditor(null,'chest',()=>myExercisesSheet())}})})}
 
 /* ================= MOTIVATION: messages, weekly goal, streaks, badges, reminders ================= */
 const MSG={
@@ -2204,7 +2288,7 @@ function candidates(muscle,a){
   const avoid=new Set((a.avoid||[]).flatMap(k=>AVOID[k]||[]));
   if(a.age==='55+')['jumpsquat','pogo','climber','deadlift','goodmorning','decpush','pike','chestdip','tridip','legraise'].forEach(x=>avoid.add(x));
   return EX.filter(e=>{
-    if(!e.m.includes(muscle))return false;
+    if(e.custom||!e.m.includes(muscle))return false;
     if(avoid.has(e.id))return false;
     if(a.where==='home'&&!e.home)return false;
     if(a.where==='homedb'&&!(e.home||e.eq==='db'))return false;
@@ -2341,7 +2425,7 @@ const SIC={eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
   users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.7c1.9.7 3.1 2.5 3.5 5.3"/></svg>'};
 let myShared={};// sourcePlanId -> shared info (views/adds)
 async function refreshMyShared(){try{const r=await Api.call('GET','/api/shared?sort=new');myShared={};r.plans.filter(p=>p.isMine).forEach(p=>myShared[p.sourcePlanId]=p);if($('#s-home').classList.contains('active'))renderHome()}catch(e){}}
-async function publishShared(p){return Api.call('POST','/api/shared',{planId:p.id,name:p.name,category:p.category,mode:p.mode||'straight',items:p.items,stretch:p.stretch||null})}
+async function publishShared(p){return Api.call('POST','/api/shared',{planId:p.id,name:p.name,category:p.category,mode:p.mode||'straight',items:p.items,stretch:p.stretch||null,custom:(ws.custom||[]).filter(c=>p.items.some(i=>i.exId===c.id)).map(({arch,from,...c})=>c)})}
 async function unpublishShared(p){return Api.call('DELETE','/api/shared/by-plan/'+encodeURIComponent(p.id))}
 // keep the shared copy in sync with the owner's plan
 async function syncShare(p,wasShared){
@@ -2376,7 +2460,7 @@ function shAction(sp){if(sp.isMine)return`<span class="sh-tag mine">Your plan</s
   if(inMyPlans(sp.id))return`<span class="sh-tag ok">✓ In your plans</span>`;
   return`<button class="btn primary sm" data-add="${sp.id}">${SIC.add.replace('<svg','<svg width="16" height="16"')}Add to my plans</button>`}
 function shStats(sp){return`<span title="People who viewed this plan">${SIC.eye}<b>${sp.views}</b> view${sp.views===1?'':'s'}</span><span title="People who added this plan">${SIC.add}<b>${sp.adds}</b> added</span>`}
-function renderSharedList(){const ps=SH.data.plans;
+function renderSharedList(){const ps=SH.data.plans;ps.forEach(x=>registerForeign(x.custom));
   if(!ps.length){$('#sh-list').innerHTML=`<div class="empty" style="grid-column:1/-1">${SIC.users.replace('<svg','<svg width="44" height="44" style="color:var(--mute);margin-bottom:6px"')}<b>No shared plans${SH.cat?' in '+CATS[SH.cat]:''} yet</b>Share one of your plans from its ⋯ menu or when you save it, and it will show up here.</div>`;return}
   $('#sh-list').innerHTML=ps.map(sp=>{const est=Math.max(1,Math.round(planEst(sp)/60));
     const th=sp.items.slice(0,5).map(it=>`<div class="t">${exFig(it.exId,{anim:false})}</div>`).join('')+(sp.items.length>5?`<div class="t more">+${sp.items.length-5}</div>`:'');
@@ -2389,10 +2473,10 @@ $('#sh-list').addEventListener('click',e=>{const a=e.target.closest('[data-add]'
   const c=e.target.closest('[data-sp]');if(c)sharedDetail(c.dataset.sp)});
 async function addShared(id,btn){if(btn)btn.disabled=true;
   try{const r=await Api.call('POST',`/api/shared/${id}/add`);const sp=r.plan;
-    if(!sp.isMine){ws.plans.push({id:uid(),name:sp.name,category:sp.category,mode:sp.mode||'straight',stretch:sp.stretch||defStretch(true),items:JSON.parse(JSON.stringify(sp.items)),created:Date.now(),updated:Date.now(),fromShared:sp.id,fromOwner:sp.ownerName});saveWS()}
+    if(!sp.isMine){importCustom(sp.custom);ws.plans.push({id:uid(),name:sp.name,category:sp.category,mode:sp.mode||'straight',stretch:sp.stretch||defStretch(true),items:JSON.parse(JSON.stringify(sp.items)),created:Date.now(),updated:Date.now(),fromShared:sp.id,fromOwner:sp.ownerName});saveWS()}
     const i=SH.data?.plans.findIndex(x=>x.id===id);if(i>=0)SH.data.plans[i]=sp;renderSharedList();toast(`"${sp.name}" added to your plans`);return sp}
   catch(e){toast(e.message);if(btn)btn.disabled=false}}
-async function sharedDetail(id){const sp=SH.data.plans.find(x=>x.id===id);if(!sp)return;
+async function sharedDetail(id){const sp=SH.data.plans.find(x=>x.id===id);if(!sp)return;registerForeign(sp.custom);
   if(!sp.isMine)Api.call('POST',`/api/shared/${id}/view`).then(()=>{loadSharedQuiet()}).catch(()=>{});
   sheet(`<div class="chips" style="margin-bottom:8px"><span class="chip acc">${CATS[sp.category]||sp.category}</span></div><h3 data-notr>${esc(sp.name)}</h3>
     <p>by ${esc(sp.ownerName)} · ${sp.items.length} exercises · ~${Math.max(1,Math.round(planEst(sp)/60))} min${sp.mode==='circuit'?' · Circuit':''}</p>
