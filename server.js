@@ -12,11 +12,12 @@ const MAIL_FROM = process.env.MAIL_FROM || '';
 const EMAIL_ENABLED = !!(RESEND_API_KEY && MAIL_FROM);
 const GOOGLE_CLIENT_ID = (process.env.GOOGLE_CLIENT_ID || '').trim();
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL && !/localhost|127\.0\.0\.1|@dpg-[^.]+\/|sslmode=disable/.test(process.env.DATABASE_URL) ? { rejectUnauthorized: false } : false,
-  max: 5
-});
+// Database: NEW_DATABASE_URL (e.g. Neon) takes over from DATABASE_URL (old Render DB) once set.
+const OLD_URL = process.env.DATABASE_URL || '';
+const NEW_URL = process.env.NEW_DATABASE_URL || '';
+const sslFor = url => url && !/localhost|127\.0\.0\.1|@dpg-[^.]+\/|sslmode=disable|host=\//.test(url) ? { rejectUnauthorized: false } : false;
+const mkPool = url => new Pool({ connectionString: url.replace(/[?&]channel_binding=require/, ''), ssl: sslFor(url), max: 5 });
+let pool = mkPool(NEW_URL || OLD_URL);
 const q = (text, params) => pool.query(text, params);
 
 async function migrate() {
@@ -492,5 +493,45 @@ app.get('/terms-he', (req, res) => res.sendFile(path.join(__dirname, 'public', '
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 app.use((err, req, res, next) => { console.error(err); res.status(500).json({ error: 'Server error. Please try again.' }); });
 
-migrate().then(() => app.listen(PORT, () => console.log('FitForge listening on ' + PORT + (ADMIN_EMAILS.length ? ' · admins: ' + ADMIN_EMAILS.length : ' · no ADMIN_EMAILS set'))))
+// One-time copy from the old database into the new one (only if the new one is empty).
+const TABLES = [
+  ['users', 'users_id_seq'], ['sessions'], ['workspaces'], ['events', 'events_id_seq'],
+  ['shared_plans'], ['shared_views'], ['shared_adds'], ['feedback', 'feedback_id_seq']
+];
+async function copyFromOld() {
+  if (!NEW_URL || !OLD_URL || NEW_URL === OLD_URL) return;
+  const n = (await q('SELECT count(*)::int n FROM users')).rows[0].n;
+  if (n > 0) { console.log('[migrate] new database already has ' + n + ' users — skipping copy'); return; }
+  const old = mkPool(OLD_URL);
+  try {
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+      const report = [];
+      for (const [table, seq] of TABLES) {
+        let rows;
+        try { rows = (await old.query(`SELECT * FROM ${table}`)).rows; } catch (e) { report.push(table + ': not in old db'); continue; }
+        if (rows.length) {
+          const cols = Object.keys(rows[0]);
+          for (let k = 0; k < rows.length; k += 200) {
+            const chunk = rows.slice(k, k + 200), vals = [], ph = [];
+            chunk.forEach((r, ri) => {
+              ph.push('(' + cols.map((c, ci) => '$' + (ri * cols.length + ci + 1)).join(',') + ')');
+              cols.forEach(c => { const v = r[c]; vals.push(v !== null && typeof v === 'object' && !(v instanceof Date) ? JSON.stringify(v) : v); });
+            });
+            await client.query(`INSERT INTO ${table} (${cols.map(c => '"' + c + '"').join(',')}) VALUES ${ph.join(',')}`, vals);
+          }
+        }
+        if (seq) await client.query(`SELECT setval('${seq}', GREATEST((SELECT COALESCE(MAX(id),0) FROM ${table}),1))`);
+        const check = (await client.query(`SELECT count(*)::int n FROM ${table}`)).rows[0].n;
+        report.push(`${table}: ${rows.length} copied, ${check} in new db${check === rows.length ? ' ✓' : ' ✗ MISMATCH'}`);
+        if (check !== rows.length) throw new Error('count mismatch in ' + table);
+      }
+      await client.query('COMMIT');
+      console.log('[migrate] copy complete:\n  ' + report.join('\n  '));
+    } catch (e) { await client.query('ROLLBACK'); throw e; } finally { client.release(); }
+  } finally { await old.end(); }
+}
+
+migrate().then(copyFromOld).then(() => console.log('[db] using ' + (NEW_URL ? 'NEW_DATABASE_URL' : 'DATABASE_URL'))).then(() => app.listen(PORT, () => console.log('FitForge listening on ' + PORT + (ADMIN_EMAILS.length ? ' · admins: ' + ADMIN_EMAILS.length : ' · no ADMIN_EMAILS set'))))
   .catch(e => { console.error('DB migration failed', e); process.exit(1); });
