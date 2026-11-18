@@ -328,13 +328,20 @@ app.put('/api/data', wrap(auth), wrap(async (req, res) => {
   if (b.profile && typeof b.profile === 'object' && JSON.stringify(b.profile).length < 4000) data.profile = b.profile;
   if (Array.isArray(b.weights)) data.weights = b.weights.filter(w => w && Number.isFinite(+w.at) && +w.kg >= 25 && +w.kg <= 350).slice(-1000).map(w => ({ at: +w.at, kg: Math.round(+w.kg * 10) / 10 }));
   if (b.profileSkipped) data.profileSkipped = +b.profileSkipped || Date.now();
-  if (b.settings && typeof b.settings === 'object') data.settings = { lang: ['en', 'he'].includes(b.settings.lang) ? b.settings.lang : 'en' };
+  if (b.settings && typeof b.settings === 'object') {
+    const st = b.settings, out = { lang: ['en', 'he'].includes(st.lang) ? st.lang : 'en' };
+    if (Number.isInteger(st.goal) && st.goal >= 1 && st.goal <= 7) out.goal = st.goal;
+    if ([0, 2, 3, 5, 7].includes(st.remind)) out.remind = st.remind;
+    if (st.badges && typeof st.badges === 'object') out.badges = Object.fromEntries(Object.entries(st.badges).filter(([k, v]) => /^[a-z0-9]{1,20}$/.test(k) && Number.isFinite(v)).slice(0, 100));
+    if (Number.isFinite(st.badgeSeenAt)) out.badgeSeenAt = st.badgeSeenAt;
+    data.settings = out;
+  }
   await q(`INSERT INTO workspaces(user_id,data,updated_at) VALUES($1,$2,now())
            ON CONFLICT(user_id) DO UPDATE SET data=EXCLUDED.data, updated_at=now()`, [req.user.id, JSON.stringify(data)]);
   res.json({ ok: true });
 }));
 
-const EVENT_TYPES = new Set(['app_open', 'helper_used', 'workout_start', 'workout_complete', 'workout_quit', 'plan_saved', 'plan_deleted', 'howto_open']);
+const EVENT_TYPES = new Set(['app_open', 'helper_used', 'workout_start', 'workout_complete', 'workout_quit', 'plan_saved', 'plan_deleted', 'howto_open', 'goal_set']);
 app.post('/api/event', wrap(auth), wrap(async (req, res) => {
   const type = String(req.body.type || '');
   if (!EVENT_TYPES.has(type)) return res.status(400).json({ error: 'Unknown event' });

@@ -280,6 +280,28 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .how .note{font-size:12.5px;color:var(--mute);margin:16px 0 4px;line-height:1.4}
 .forgot-row{display:flex;justify-content:flex-end;margin:-4px 0 4px}.link-btn{background:none;border:0;color:var(--acc);font-weight:600;font-size:14px;padding:4px 2px}
 .code-in{letter-spacing:.5em;font-size:22px!important;font-weight:700;text-align:center}
+.quote{margin:8px 0 0;color:var(--mute);font-size:14.5px;font-style:italic;line-height:1.4}
+.goal-card{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(200,255,46,.10),rgba(200,255,46,.02));border:1px solid rgba(200,255,46,.28);border-radius:20px;padding:12px 14px;margin:16px 0 0;cursor:pointer}
+.goal-card .gc-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.goal-card .gc-t b{font-size:16px}.goal-card .gc-t small{color:var(--mute);font-size:13px;line-height:1.35}
+.goal-card .streak{font-size:13px;font-weight:700;color:#ffb36b;margin-top:2px}.goal-card .gc-e{font-size:12px;font-weight:700;color:var(--acc);white-space:nowrap}
+.gring .bg{fill:none;stroke:var(--panel2);stroke-width:7}.gring .fg{fill:none;stroke:var(--acc);stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .6s}.gring .fg.full{stroke:var(--good)}
+.gring text{fill:var(--text);font-weight:800;font-size:15px}
+.remind{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-inline-start:3px solid #ffb36b;border-radius:16px;padding:10px 10px 10px 12px;margin:16px 0 0}
+.remind .ri{font-size:20px}.remind .rt{flex:1;font-size:13.5px;line-height:1.4}.remind .rx{background:none;border:0;color:var(--mute);font-size:15px;padding:6px}
+.badge-pill{display:flex;align-items:center;gap:8px;width:100%;margin-top:10px;padding:10px 14px;border-radius:14px;background:rgba(255,179,107,.1);border:1px solid rgba(255,179,107,.35);color:#ffcf9e;font-weight:700;font-size:14px;text-align:start}.badge-pill span{margin-inline-start:auto}
+.pks{display:flex;gap:8px;flex-wrap:wrap}.pks .pk{min-width:46px;height:46px;padding:0 12px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-weight:800;font-size:16px;color:var(--text)}.pks .pk.on{background:var(--acc);color:#111;border-color:var(--acc)}
+.bgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:18px 0 30px}@media(min-width:640px){.bgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.bdg{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;position:relative}
+.bdg .bi{font-size:34px;line-height:1.1;filter:grayscale(1);opacity:.35}.bdg.on .bi{filter:none;opacity:1}
+.bdg b{font-size:14px}.bdg small{color:var(--mute);font-size:12px;line-height:1.3}.bdg.on{border-color:rgba(200,255,46,.35)}
+.bdg.new::after{content:'NEW';position:absolute;top:8px;inset-inline-end:8px;background:#ffb36b;color:#111;font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px}
+.bdg .bdate{font-size:11.5px;color:var(--mute);margin-top:4px}.bdg.on .bdate{color:var(--acc)}
+.bbar{width:80%;height:5px;border-radius:3px;background:var(--panel2);overflow:hidden;margin-top:6px}.bbar i{display:block;height:100%;background:var(--acc)}
+.cheer{margin:10px auto 0;max-width:320px;font-size:14.5px;font-weight:700;color:var(--acc);text-align:center}.cheer.rest{color:#cfd5df;font-weight:600;margin:4px auto 10px}
+.sum-mot{display:grid;gap:10px;margin:14px 0}
+.sm-goal{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:12px 14px}.sm-goal b{display:block;font-size:15px}.sm-goal small{color:var(--mute);font-size:13px}
+.sm-badges{background:linear-gradient(135deg,rgba(255,179,107,.14),rgba(255,179,107,.03));border:1px solid rgba(255,179,107,.4);border-radius:18px;padding:14px;display:grid;gap:10px}
+.smb{display:flex;align-items:center;gap:12px}.smb .bi{font-size:30px}.smb b{display:block}.smb small{color:var(--mute);font-size:13px}
 .p-fig{width:min(68vw,330px);overflow:hidden;border-radius:30px;background:radial-gradient(ellipse at 50% 42%,#1d232d,#0f1217 72%);padding:18px;margin-bottom:18px}
 .p-name{font-size:clamp(34px,8vw,52px);margin:8px 0 10px}
 .p-set{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:.12em;color:var(--mute)}
@@ -693,7 +715,8 @@ html.lang-he .eyebrow,html.lang-he .ring-lbl,html.lang-he .p-set,html.lang-he .s
     <button class="avatar" id="btn-account" aria-label="Account">A</button>
   </header>
   <div class="wrap">
-    <div class="hello"><div class="eyebrow" id="h-date"></div><h1 id="h-greet">Ready to train?</h1></div>
+    <div class="hello"><div class="eyebrow" id="h-date"></div><h1 id="h-greet">Ready to train?</h1><p class="quote" id="h-quote" data-notr></p></div>
+    <div id="h-mot"></div>
     <div class="stats" id="h-stats"></div>
     <div id="h-weight" style="margin-bottom:14px"></div>
     <button class="cta-new" id="btn-new">
@@ -749,6 +772,14 @@ html.lang-he .eyebrow,html.lang-he .ring-lbl,html.lang-he .p-set,html.lang-he .s
 <section id="s-summary" class="screen"></section>
 
 <!-- PROGRESS -->
+<section id="s-badges" class="screen">
+  <header class="top">
+    <button class="icon-btn" id="bd-back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="brand sm" style="flex:1">ACHIEVEMENTS</div>
+  </header>
+  <div class="wrap" id="bd-body"></div>
+</section>
+
 <section id="s-progress" class="screen">
   <header class="top">
     <button class="icon-btn" id="pr-back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
@@ -953,6 +984,7 @@ Object.assign(I18N.he,{"MY PROGRESS": "ההתקדמות שלי", "Records and ch
 Object.assign(I18N.he,{"How to do it": "איך מבצעים", "How to": "איך מבצעים", "Tips": "טיפים", "Common mistakes": "טעויות נפוצות", "Got it": "הבנתי", "Breathe out on the hard part. Stop if you feel sharp pain — some burn in the muscle is normal, joint pain is not.": "נשפו בחלק הקשה של התנועה. עצרו אם מרגישים כאב חד — שריפה בשריר זה נורמלי, כאב במפרק לא.", "Instructions are still loading — try again in a moment": "ההוראות עדיין נטענות — נסו שוב בעוד רגע", "Can't find it? Check your spam or junk folder. It can take a minute to arrive.": "לא מוצאים? בדקו בתיקיית הספאם או דואר הזבל. זה יכול לקחת דקה.", "We couldn't send the email right now. Tap “Resend code” in a minute.": "לא הצלחנו לשלוח את האימייל כרגע. הקישו על „שליחה חוזרת” בעוד דקה.", "We couldn't send the email right now. Please try again in a minute.": "לא הצלחנו לשלוח את האימייל כרגע. נסו שוב בעוד דקה.", "New code sent — check your inbox": "נשלח קוד חדש — בדקו את תיבת הדואר", "Email": "אימייל", "Send me a test email": "שלחו לי אימייל ניסיון", "✅ Verification emails are on": "✅ אימיילים לאימות פועלים", "✉️ Verification emails are off": "✉️ אימיילים לאימות כבויים", "sent": "נשלח", "failed": "נכשל"});
 Object.assign(I18N.he,{"Forgot password?": "שכחתם סיסמה?", "Reset your password": "איפוס סיסמה", "Enter your account email and we'll send you a 6-digit code.": "הזינו את האימייל של החשבון ונשלח לכם קוד בן 6 ספרות.", "Send code": "שליחת קוד", "Code from the email": "הקוד מהאימייל", "New password": "סיסמה חדשה", "Save new password": "שמירת הסיסמה החדשה", "Didn't get it? Send a new code": "לא הגיע? שליחת קוד חדש", "Enter the 6-digit code from the email.": "הזינו את הקוד בן 6 הספרות מהאימייל.", "Password must be at least 6 characters.": "הסיסמה צריכה להכיל לפחות 6 תווים.", "Password changed — you're signed in": "הסיסמה שונתה — נכנסתם לחשבון", "Please enter a valid email address.": "הזינו כתובת אימייל תקינה.", "This account uses Sign in with Google. Use the Google button to sign in.": "החשבון הזה משתמש בכניסה עם Google. השתמשו בכפתור של Google כדי להיכנס.", "No account with this email.": "אין חשבון עם האימייל הזה.", "No reset code was requested. Tap “Send code” again.": "לא התבקש קוד איפוס. הקישו שוב על „שליחת קוד”.", "This code has expired. Tap “Send a new code”.": "תוקף הקוד פג. הקישו על „שליחת קוד חדש”.", "Too many wrong tries. Tap “Send a new code”.": "יותר מדי ניסיונות שגויים. הקישו על „שליחת קוד חדש”.", "That code is not right. Check it and try again.": "הקוד לא נכון. בדקו ונסו שוב.", "Beta: demo inbox": "בטא: תיבת דואר לדוגמה"});
 Object.assign(I18N.he,{"If there's an account for": "אם יש חשבון עבור", ", we've sent it a code. Enter it below with your new password.": "‏, שלחנו אליו קוד. הזינו אותו למטה יחד עם הסיסמה החדשה.", "Real email sending isn't switched on, so here's your reset code:": "שליחת אימיילים עדיין לא פועלת, אז הנה קוד האיפוס שלכם:"});
+Object.assign(I18N.he,{"Badges 🎖": "תגים 🎖", "Day streak": "רצף ימים", "This week": "השבוע", "Goal": "יעד", "Weekly goal reached — great work!": "עמדתם ביעד השבועי — כל הכבוד!", "Goal smashed — {n} extra this week!": "ניפצתם את היעד — {n} אימונים נוספים השבוע!", "{n} more to go — every workout still counts.": "עוד {n} — כל אימון עדיין נחשב.", "1 more workout to hit your goal · {d} days left": "עוד אימון אחד ליעד · נשארו {d} ימים", "{n} more workouts to hit your goal · {d} days left": "עוד {n} אימונים ליעד · נשארו {d} ימים", "1-week streak": "רצף של שבוע", "{n}-week streak": "רצף של {n} שבועות", "It's been a while! Ease back in with a short workout today.": "עבר זמן! חזרו בעדינות עם אימון קצר היום.", "It's been {n} days since your last workout. A quick session today keeps the habit going.": "עברו {n} ימים מהאימון האחרון. אימון קצר היום ישמור על ההרגל.", "Last day to keep your 🔥 {s}-week streak — one workout today does it!": "יום אחרון לשמור על רצף 🔥 של {s} שבועות — אימון אחד היום וזה סגור!", "{n} workouts left in {n} days to keep your 🔥 {s}-week streak.": "נשארו {n} אימונים ב־{n} ימים כדי לשמור על רצף 🔥 של {s} שבועות.", "Your first workout is waiting — start it whenever you're ready.": "האימון הראשון שלכם מחכה — התחילו מתי שתרצו.", "Start": "התחלה", "New badge: {b}": "תג חדש: {b}", "{n} new badges": "{n} תגים חדשים", "Off": "כבוי", "Weekly goal": "יעד שבועי", "How many workouts do you want to do each week?": "כמה אימונים תרצו לעשות בכל שבוע?", "Reminders": "תזכורות", "Show a reminder on the home screen when you haven't trained for this many days.": "הצגת תזכורת במסך הבית כשלא התאמנתם כך וכך ימים.", "Cancel": "ביטול", "Save": "שמירה", "Goal saved: {n} workouts a week": "היעד נשמר: {n} אימונים בשבוע", "Achievements": "הישגים", "ACHIEVEMENTS": "הישגים", "{n} of {m} badges": "{n} מתוך {m} תגים", "Best streak: {n} weeks in a row hitting your goal": "הרצף הטוב ביותר: {n} שבועות ברצף עם עמידה ביעד", "Weekly goal reached!": "עמדתם ביעד השבועי!", "{n}-week streak 🔥": "רצף של {n} שבועות 🔥", "{d} workouts this week — {x} over your goal!": "{d} אימונים השבוע — {x} מעל היעד!", "{d} of {g} workouts this week": "{d} מתוך {g} אימונים השבוע", "New badge unlocked": "נפתח תג חדש", "{n} new badges unlocked": "נפתחו {n} תגים חדשים", "See all badges": "לכל התגים"});
 I18P.he.unshift([/^If there's an account for (.+), we've sent it a code\. Enter it below with your new password\.$/,'אם יש חשבון עבור $1, שלחנו אליו קוד. הזינו אותו למטה יחד עם הסיסמה החדשה.'],[/^Your reset code is (\d+)$/,'קוד האיפוס שלכם הוא $1']);
 I18P.he.unshift(
  [/^Last time: (.+)$/,(m,x)=>'בפעם הקודמת: '+x.replace(/ kg/g,' ק״ג')],
@@ -1483,9 +1515,10 @@ function renderHome(){
   $('#h-greet').textContent=`${greet}, ${me.name}`;$('#h-admin').style.display=me.isAdmin?'':'none';paintFbBadge();$('#btn-account').textContent=(me.name||'A')[0].toUpperCase();
   const t=Date.now(),wk=ws.sessions.filter(s=>t-s.at<7*DAY),mo=ws.sessions.filter(s=>t-s.at<30*DAY);
   let streak=0;{const days=new Set(ws.sessions.map(s=>startOfDay(s.at)));let d=startOfDay(t);if(!days.has(d))d-=DAY;while(days.has(d)){streak++;d-=DAY}}
-  $('#h-stats').innerHTML=`<div class="stat"><div class="v">${wk.length}</div><div class="l">Workouts this week</div></div>
+  $('#h-quote').textContent='“'+quoteOfDay()+'”';$('#h-mot').innerHTML=motHome();const nB=Object.keys(S().badges||{}).length;
+  $('#h-stats').innerHTML=`<button class="stat" data-mot="badges" style="text-align:start;color:inherit;font:inherit"><div class="v">${nB}<small style="font-size:16px"> / ${BADGES.length}</small></div><div class="l">Badges 🎖</div></button>
     <div class="stat"><div class="v">${Math.round(mo.reduce((a,s)=>a+s.dur,0)/60)}<small style="font-size:16px"> min</small></div><div class="l">Trained this month</div></div>
-    <div class="stat"><div class="v">${streak}<small style="font-size:16px"> day${streak===1?'':'s'}</small></div><div class="l">Current streak</div></div>`;
+    <div class="stat"><div class="v">${streak}<small style="font-size:16px"> day${streak===1?'':'s'}</small></div><div class="l">Day streak</div></div>`;
   $('#h-weight').innerHTML=weightCard();
   $('#h-count').textContent=ws.plans.length?`${ws.plans.length} plan${ws.plans.length>1?'s':''}`:'';
   const box=$('#h-plans');
@@ -1729,13 +1762,14 @@ function renderPlayer(){const it=P.items[P.i],ex=EXM[it.exId],el=$('#s-player');
       <h1 class="p-name">${esc(ex.n)}</h1>
       <div class="p-set">${P.circuit?`ROUND <b>${P.set}</b> / ${P.rounds}`:`SET <b>${P.set}</b> / ${it.sets}`}</div>${P.circuit?`<div class="mute" style="font-size:13px;margin-top:2px">Exercise ${P.i+1} of ${P.items.length} in this round</div>`:''}
       <div class="p-target">${it.time?`<span id="p-tt">0:00</span><small> / ${fmt(curFor().secs)}</small>`:`${curFor().reps}<small> REPS</small>`}</div>
-      ${weightAdj(it)}${suggestLine(it)}
+      ${weightAdj(it)}${suggestLine(it)}${(c=>c?`<div class="cheer" data-notr>${c}</div>`:'')(workCheer(it))}
       <div class="p-tap"><span class="tap-ring"></span><span id="p-taptxt">${it.time?'Tap anywhere when you finish the set':(isTouch()?'Tap the screen':'Click anywhere')+' when you finish the set'}</span></div></div>`;
   }else{const n=nextPos(),nit=P.items[n.i],nex=EXM[nit.exId];
     el.innerHTML=top+`<div class="stage rest">
       <div class="ring" id="p-ring"><svg viewBox="0 0 200 200"><circle class="rg-bg" cx="100" cy="100" r="88"/><circle id="p-rg" class="rg" cx="100" cy="100" r="88" pathLength="100" stroke-dasharray="100" stroke-dashoffset="0" transform="rotate(-90 100 100)"/></svg>
         <div class="ring-in"><div class="ring-lbl">REST</div><div class="ring-t" id="p-rest">${Math.ceil(P.restTotal)}</div></div></div>
       <div class="r-btns"><button class="btn" data-act="minus">−10s</button><button class="btn primary" data-act="skip">Skip rest</button><button class="btn" data-act="plus">+10s</button></div>
+      <div class="cheer rest" data-notr>${restCheer()}</div>
       ${logEditor()}
       <div class="upnext"><div class="un-fig">${fig(nex.t,nex.eq)}</div><div><div class="eyebrow">Up next${P.circuit?(n.set!==P.set?` · round ${n.set}`:''):(n.i!==P.i?' · new exercise':'')}</div><div class="un-name">${esc(nex.n)}</div><button class="how-btn" data-how="${nex.id}" style="margin:2px 0 4px;padding:4px 10px;font-size:12.5px"><span class="ii">i</span>How to</button><div class="mute" style="font-size:13.5px">${P.circuit?`Round ${n.set} of ${P.rounds}`:`Set ${n.set} of ${nit.sets}`} · ${nit.time?nit.secs+' sec':nit.reps+' reps'}${nit.weight?' · '+nit.weight+' kg':''}</div></div></div></div>`;
   }}
@@ -1776,6 +1810,134 @@ function finishWorkout(){const now=Date.now(),plan=P.plan;const ws0=P.workStartA
   const sess={id:uid(),planId:plan.id,at:P.startAt,dur,sets:P.done,...(stretch>5?{stretch}:{}),log:P.log};ws.sessions.push(sess);rememberWeights(sess,plan);saveWS();Api.event('workout_complete',{planId:plan.id,dur});stopPlayer();
   beep(784,.15);setTimeout(()=>beep(1046,.3),160);buzz([100,60,100,60,250]);renderSummary(sess,plan);show('s-summary')}
 
+/* ================= MOTIVATION: messages, weekly goal, streaks, badges, reminders ================= */
+const MSG={
+ en:{
+  quote:["Small steps every week add up to big changes.","You don't have to be extreme, just consistent.","The hardest part is starting. You've got this.","Strong is built one rep at a time.","Show up today. Future you will say thanks.","Progress, not perfection.","A short workout beats no workout.","Your body can do it. Convince your mind.","Discipline is choosing what you want most over what you want now.","Every set is a vote for the person you want to be.","Sweat now, smile later.","You're one workout away from a better mood.","Energy comes from moving, not from waiting.","Be proud of every rep — even the hard ones.","Don't count the days. Make the days count.","The best time to train was yesterday. The next best is today.","Rest when you need to, but don't quit.","Stronger than yesterday — that's the only goal.","Motivation starts you. Habit keeps you going.","Make it a habit, not a chore."],
+  start:["Let's go! First set, best set.","Time to work — you've got this!","Focus, breathe, move. Let's do it.","Strong start — let's make it count."],
+  last:["Last set — make it count!","Final set. Leave nothing behind!","One more set and this one's done 💪"],
+  rest:["Great set! Breathe deep and recover.","Shake it out and stay loose.","Take a sip of water.","Nice work — next one's yours.","Slow breaths: in through the nose, out through the mouth.","You're doing great. Keep the rhythm.","Stay focused — you're building strength.","Every set brings you closer to your goal."],
+  half:["Halfway there — keep pushing! 💪","Half done. The second half is where you get stronger."],
+  done:["Every workout counts. See you next time!","You showed up and did the work. Be proud.","Done! That's another step toward your goal.","Great job — rest well and come back stronger."]
+ },
+ he:{
+  quote:["צעדים קטנים בכל שבוע מצטברים לשינוי גדול.","לא צריך להיות קיצוניים, רק עקביים.","החלק הכי קשה הוא להתחיל. אתם יכולים.","כוח נבנה חזרה אחרי חזרה.","תגיעו היום. אתם של מחר יגידו תודה.","התקדמות, לא שלמות.","אימון קצר עדיף על שום אימון.","הגוף יכול. רק צריך לשכנע את הראש.","משמעת היא לבחור במה שהכי רוצים, על פני מה שרוצים עכשיו.","כל סט הוא צעד לעבר מי שאתם רוצים להיות.","מזיעים עכשיו, מחייכים אחר כך.","אתם במרחק אימון אחד ממצב רוח טוב יותר.","אנרגיה באה מתנועה, לא מהמתנה.","תהיו גאים בכל חזרה — גם בקשות.","אל תספרו את הימים. תגרמו לימים להיחשב.","הזמן הכי טוב להתאמן היה אתמול. הזמן הבא הכי טוב הוא היום.","תנוחו כשצריך, אבל אל תוותרו.","חזקים יותר מאתמול — זו המטרה היחידה.","מוטיבציה מתחילה את הדרך. הרגל ממשיך אותה.","תהפכו את זה להרגל, לא למטלה."],
+  start:["יאללה! סט ראשון, סט הכי טוב.","זמן לעבוד — אתם יכולים!","פוקוס, נשימה, תנועה. בואו נתחיל.","פתיחה חזקה — בואו נעשה את זה."],
+  last:["סט אחרון — תנו הכול!","סט אחרון. לא משאירים כלום!","עוד סט אחד וסיימתם את התרגיל 💪"],
+  rest:["סט מעולה! נשמו עמוק והתאוששו.","תנערו את הגוף ותישארו רפויים.","קחו שלוק מים.","עבודה יפה — הסט הבא שלכם.","נשימות איטיות: פנימה מהאף, החוצה מהפה.","אתם מצוינים. תשמרו על הקצב.","תישארו מרוכזים — אתם בונים כוח.","כל סט מקרב אתכם למטרה."],
+  half:["עברתם חצי — תמשיכו לדחוף! 💪","חצי מאחוריכם. בחצי השני מתחזקים."],
+  done:["כל אימון נחשב. נתראה בפעם הבאה!","הגעתם ועשיתם את העבודה. תהיו גאים.","סיימתם! עוד צעד לעבר המטרה.","כל הכבוד — תנוחו טוב ותחזרו חזקים יותר."]
+ }
+};
+const msgs=k=>(MSG[LANG]||MSG.en)[k]||MSG.en[k];
+const pickMsg=(k,seed)=>{const a=msgs(k);return a[Math.abs(seed|0)%a.length]};
+const dayNum=t=>Math.floor((startOfDay(t)-new Date(2020,0,1).getTime())/DAY+.5);
+
+/* ---- settings ---- */
+const S=()=>ws.settings||(ws.settings={lang:LANG});
+const goalN=()=>Math.min(7,Math.max(1,(S().goal|0)||3));
+const remindN=()=>S().remind===0?0:((S().remind|0)||3);
+
+/* ---- weeks ---- */
+function weekStart(t){const d=new Date(startOfDay(t)),dow=d.getDay(),off=LANG==='he'?dow:(dow+6)%7;d.setDate(d.getDate()-off);return d.getTime()}
+function nextWeek(ws0){const d=new Date(ws0);d.setDate(d.getDate()+7);return d.getTime()}
+function prevWeek(ws0){const d=new Date(ws0);d.setDate(d.getDate()-7);return d.getTime()}
+function weekCounts(){const m=new Map();ws.sessions.forEach(s=>{const k=weekStart(s.at);m.set(k,(m.get(k)||0)+1)});return m}
+function weekInfo(){const now=Date.now(),g=goalN(),m=weekCounts(),cw=weekStart(now),done=m.get(cw)||0;
+  const daysLeft=Math.round((nextWeek(cw)-startOfDay(now))/DAY);
+  let streak=0,w=done>=g?cw:prevWeek(cw);while((m.get(w)||0)>=g){streak++;w=prevWeek(w)}
+  let best=0;if(m.size){let run=0;const first=Math.min(...m.keys());for(let k=first;k<=cw;k=nextWeek(k)){if((m.get(k)||0)>=g){run++;best=Math.max(best,run)}else if(k!==cw)run=0}}
+  return{goal:g,done,daysLeft,streak,best,met:done>=g}}
+
+/* ---- stats + badges ---- */
+function motStats(){const ss=ws.sessions;let kg=0,prs=0,early=0,late=0,stretch=0,secs=0;const exs=new Set();
+  ss.forEach(s=>{secs+=s.dur||0;if(s.stretch)stretch++;const h=new Date(s.at).getHours();if(h<7)early++;if(h>=21)late++;
+    if(s.log&&s.log.length){s.log.forEach(l=>{kg+=(l.weight||0)*(l.reps||0);exs.add(l.exId)});prs+=recordsIn(s).length}
+    else{const p=ws.plans.find(p=>p.id===s.planId);if(p)p.items.forEach(it=>exs.add(it.exId))}});
+  const m=weekCounts();return{n:ss.length,kg,prs,early,late,stretch,hours:secs/3600,exs:exs.size,maxWeek:m.size?Math.max(...m.values()):0,bestStreak:weekInfo().best,plans:ws.plans.length,shared:ws.plans.filter(p=>p.shared).length}}
+const BADGES=[
+ {id:'first',ic:'🎉',g:1,v:s=>s.n,en:['First workout','Finish your first workout'],he:['אימון ראשון','סיימו את האימון הראשון']},
+ {id:'w5',ic:'🖐️',g:5,v:s=>s.n,en:['Getting started','Finish 5 workouts'],he:['יוצאים לדרך','סיימו 5 אימונים']},
+ {id:'w10',ic:'🔟',g:10,v:s=>s.n,en:['Ten down','Finish 10 workouts'],he:['עשרה בכיס','סיימו 10 אימונים']},
+ {id:'w25',ic:'🏅',g:25,v:s=>s.n,en:['Regular','Finish 25 workouts'],he:['קבועים','סיימו 25 אימונים']},
+ {id:'w50',ic:'🥈',g:50,v:s=>s.n,en:['Dedicated','Finish 50 workouts'],he:['מסורים','סיימו 50 אימונים']},
+ {id:'w100',ic:'🥇',g:100,v:s=>s.n,en:['Century','Finish 100 workouts'],he:['מאה!','סיימו 100 אימונים']},
+ {id:'st2',ic:'🔥',g:2,v:s=>s.bestStreak,en:['On a roll','Hit your weekly goal 2 weeks in a row'],he:['ברצף','עמדו ביעד השבועי שבועיים ברצף']},
+ {id:'st4',ic:'📅',g:4,v:s=>s.bestStreak,en:['Habit formed','Hit your weekly goal 4 weeks in a row'],he:['זה כבר הרגל','עמדו ביעד השבועי 4 שבועות ברצף']},
+ {id:'st12',ic:'🚀',g:12,v:s=>s.bestStreak,en:['Unstoppable','Hit your weekly goal 12 weeks in a row'],he:['בלתי ניתנים לעצירה','עמדו ביעד השבועי 12 שבועות ברצף']},
+ {id:'wk5',ic:'💥',g:5,v:s=>s.maxWeek,en:['Beast week','Do 5 workouts in one week'],he:['שבוע מפלצתי','בצעו 5 אימונים בשבוע אחד']},
+ {id:'pr1',ic:'🏆',g:1,v:s=>s.prs,en:['Record breaker','Set your first personal record'],he:['שוברי שיאים','קבעו שיא אישי ראשון']},
+ {id:'pr10',ic:'👑',g:10,v:s=>s.prs,en:['PR machine','Set 10 personal records'],he:['מכונת שיאים','קבעו 10 שיאים אישיים']},
+ {id:'t1',ic:'🏋️',g:1000,v:s=>s.kg,unit:'kg',en:['One ton','Lift 1,000 kg in total'],he:['טון אחד','הרימו 1,000 ק״ג בסך הכול']},
+ {id:'t10',ic:'🦍',g:10000,v:s=>s.kg,unit:'kg',en:['Ten tons','Lift 10,000 kg in total'],he:['עשרה טון','הרימו 10,000 ק״ג בסך הכול']},
+ {id:'t50',ic:'🐘',g:50000,v:s=>s.kg,unit:'kg',en:['Heavy lifter','Lift 50,000 kg in total'],he:['מרימים כבדים','הרימו 50,000 ק״ג בסך הכול']},
+ {id:'h5',ic:'⏱️',g:5,v:s=>s.hours,unit:'h',en:['5 hours','Train for 5 hours in total'],he:['5 שעות','התאמנו 5 שעות בסך הכול']},
+ {id:'h25',ic:'⌛',g:25,v:s=>s.hours,unit:'h',en:['25 hours','Train for 25 hours in total'],he:['25 שעות','התאמנו 25 שעות בסך הכול']},
+ {id:'early',ic:'🌅',g:1,v:s=>s.early,en:['Early bird','Start a workout before 7 am'],he:['משכימי קום','התחילו אימון לפני 7 בבוקר']},
+ {id:'late',ic:'🦉',g:1,v:s=>s.late,en:['Night owl','Start a workout after 9 pm'],he:['ינשופי לילה','התחילו אימון אחרי 9 בערב']},
+ {id:'flex',ic:'🧘',g:5,v:s=>s.stretch,en:['Flexible','Finish 5 workouts with stretching'],he:['גמישים','סיימו 5 אימונים עם מתיחות']},
+ {id:'explore',ic:'🧭',g:20,v:s=>s.exs,en:['Explorer','Try 20 different exercises'],he:['חוקרים','נסו 20 תרגילים שונים']},
+ {id:'plans3',ic:'📝',g:3,v:s=>s.plans,en:['Planner','Create 3 workout plans'],he:['מתכננים','צרו 3 תוכניות אימון']},
+ {id:'share',ic:'🤝',g:1,v:s=>s.shared,en:['Team player','Share a plan with the community'],he:['שחקני קבוצה','שתפו תוכנית עם הקהילה']}
+];
+const bName=b=>(b[LANG]||b.en)[0],bDesc=b=>(b[LANG]||b.en)[1];
+function syncBadges(){const st=motStats(),got=S().badges||(S().badges={}),now=Date.now(),fresh=[];
+  BADGES.forEach(b=>{if(!got[b.id]&&b.v(st)>=b.g){got[b.id]=now;fresh.push(b)}});if(fresh.length)saveWS();return{st,fresh}}
+const unseenBadges=()=>{const got=S().badges||{},seen=S().badgeSeenAt||0;return BADGES.filter(b=>got[b.id]&&got[b.id]>seen)};
+function markBadgesSeen(){S().badgeSeenAt=Date.now();saveWS()}
+
+/* ---- home ---- */
+function goalRing(done,goal,size=64){const r=size/2-6,c=2*Math.PI*r,p=Math.min(1,done/goal);
+  return`<svg class="gring" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}"><circle cx="${size/2}" cy="${size/2}" r="${r}" class="bg"/><circle cx="${size/2}" cy="${size/2}" r="${r}" class="fg ${p>=1?'full':''}" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}" transform="rotate(-90 ${size/2} ${size/2})"/><text x="50%" y="53%" dominant-baseline="middle" text-anchor="middle">${done}/${goal}</text></svg>`}
+function motHome(){const {fresh}=syncBadges();const wi=weekInfo(),last=ws.sessions.length?Math.max(...ws.sessions.map(s=>s.at)):0;
+  const daysSince=last?Math.floor((startOfDay(Date.now())-startOfDay(last))/DAY):null,need=Math.max(0,wi.goal-wi.done);
+  let sub;if(wi.met)sub=wi.done>wi.goal?t('Goal smashed — {n} extra this week!',{n:wi.done-wi.goal}):t('Weekly goal reached — great work!');
+  else if(need>wi.daysLeft)sub=t('{n} more to go — every workout still counts.',{n:need});
+  else sub=need===1?t('1 more workout to hit your goal · {d} days left',{d:wi.daysLeft}):t('{n} more workouts to hit your goal · {d} days left',{n:need,d:wi.daysLeft});
+  const streakTxt=wi.streak?`<span class="streak">🔥 ${wi.streak===1?t('1-week streak'):t('{n}-week streak',{n:wi.streak})}</span>`:'';
+  let rem='';const dkey='ff_remdis_'+startOfDay(Date.now());
+  if(!LS.get(dkey,false)){const lastPlan=ws.plans.slice().sort((a,b)=>(lastRun(b)||b.updated||0)-(lastRun(a)||a.updated||0))[0];
+    let txt=null;
+    if(remindN()&&daysSince!=null&&daysSince>=remindN())txt=daysSince>=14?t("It's been a while! Ease back in with a short workout today."):t("It's been {n} days since your last workout. A quick session today keeps the habit going.",{n:daysSince});
+    else if(!wi.met&&need>0&&need===wi.daysLeft&&wi.streak>0)txt=need===1?t('Last day to keep your 🔥 {s}-week streak — one workout today does it!',{s:wi.streak}):t('{n} workouts left in {n} days to keep your 🔥 {s}-week streak.',{n:need,s:wi.streak});
+    else if(daysSince==null&&ws.plans.length)txt=t('Your first workout is waiting — start it whenever you\'re ready.');
+    if(txt)rem=`<div class="remind"><span class="ri">⏰</span><div class="rt">${txt}</div>${lastPlan?`<button class="btn primary sm" data-mot="go" data-id="${lastPlan.id}">${t('Start')}</button>`:''}<button class="rx" data-mot="dismiss" aria-label="Dismiss">✕</button></div>`}
+  const unseen=unseenBadges();
+  return`${rem}<div class="goal-card" data-mot="goal">${goalRing(wi.done,wi.goal)}<div class="gc-t"><b>${t('This week')}</b><small>${sub}</small>${streakTxt}</div><span class="gc-e">${t('Goal')} ✎</span></div>
+   ${unseen.length?`<button class="badge-pill" data-mot="badges">🎖 ${unseen.length===1?t('New badge: {b}',{b:bName(unseen[0])}):t('{n} new badges',{n:unseen.length})} <span>›</span></button>`:''}`}
+function quoteOfDay(){return pickMsg('quote',dayNum(Date.now()))}
+function goalSheet(){let g=goalN(),r=remindN();
+  const draw=el=>{el.querySelector('#gs-g').innerHTML=[1,2,3,4,5,6,7].map(n=>`<button class="pk ${n===g?'on':''}" data-g="${n}">${n}</button>`).join('');
+    el.querySelector('#gs-r').innerHTML=[[0,t('Off')],[2,'2'],[3,'3'],[5,'5'],[7,'7']].map(([v,l])=>`<button class="pk ${v===r?'on':''}" data-r="${v}">${l}</button>`).join('')};
+  sheet(`<h3>${t('Weekly goal')}</h3><p class="mute" style="margin:0 0 12px">${t('How many workouts do you want to do each week?')}</p><div class="pks" id="gs-g"></div>
+    <h3 style="margin-top:20px">${t('Reminders')}</h3><p class="mute" style="margin:0 0 12px">${t("Show a reminder on the home screen when you haven't trained for this many days.")}</p><div class="pks" id="gs-r"></div>
+    <div class="m-actions"><button class="btn" data-a="no">${t('Cancel')}</button><button class="btn primary" data-a="ok">${t('Save')}</button></div>`,(el,close)=>{draw(el);
+    el.addEventListener('click',e=>{const a=e.target.closest('[data-g]'),b=e.target.closest('[data-r]'),c=e.target.closest('[data-a]');
+      if(a){g=+a.dataset.g;draw(el)}if(b){r=+b.dataset.r;draw(el)}
+      if(c){if(c.dataset.a==='ok'){S().goal=g;S().remind=r;saveWS();Api.event('goal_set',{goal:g});renderHome();toast(t('Goal saved: {n} workouts a week',{n:g}))}close()}})})}
+document.addEventListener('click',e=>{const m=e.target.closest('[data-mot]');if(!m||!$('#s-home').contains(m))return;const a=m.dataset.mot;
+  if(a==='goal')goalSheet();if(a==='badges')openBadges();if(a==='go')startWorkout(m.dataset.id);
+  if(a==='dismiss'){LS.set('ff_remdis_'+startOfDay(Date.now()),true);renderHome()}});
+
+/* ---- badges page ---- */
+function openBadges(){show('s-badges');renderBadges();markBadgesSeen()}
+function renderBadges(){const st=motStats(),got=S().badges||{},seen=S().badgeSeenAt||0,n=BADGES.filter(b=>got[b.id]).length,wi=weekInfo();
+  const prog=b=>{const v=b.v(st);const f=x=>b.unit==='kg'?Math.round(x).toLocaleString(LOC())+' kg':b.unit==='h'?(Math.round(x*10)/10)+' h':Math.floor(x);return`${f(Math.min(v,b.g))} / ${f(b.g)}`};
+  $('#bd-body').innerHTML=`<div class="hello"><div class="eyebrow">${t('Achievements')}</div><h1>${t('{n} of {m} badges',{n,m:BADGES.length})}</h1><p class="mute" style="margin:6px 0 0">${t('Best streak: {n} weeks in a row hitting your goal',{n:wi.best})}</p></div>
+   <div class="bgrid">${BADGES.map(b=>{const on=!!got[b.id],v=Math.min(1,b.v(st)/b.g);return`<div class="bdg ${on?'on':''} ${on&&got[b.id]>seen?'new':''}"><div class="bi">${b.ic}</div><b data-notr>${esc(bName(b))}</b><small data-notr>${esc(bDesc(b))}</small>${on?`<span class="bdate" data-notr>${new Date(got[b.id]).toLocaleDateString(LOC(),{day:'numeric',month:'short',year:'numeric'})}</span>`:`<div class="bbar"><i style="width:${Math.round(v*100)}%"></i></div><span class="bdate" dir="ltr" data-notr>${prog(b)}</span>`}</div>`}).join('')}</div>`}
+
+/* ---- player & summary hooks ---- */
+function workCheer(it){if(P.circuit){if(P.k===0)return pickMsg('start',P.startAt);if(P.set===P.rounds&&P.i===0)return pickMsg('last',P.k);return''}
+  if(P.k===0)return pickMsg('start',P.startAt);if(P.set===it.sets&&it.sets>1)return pickMsg('last',P.k);return''}
+function restCheer(){const S2=P.steps.length;if(S2>3&&P.k+1===Math.ceil(S2/2))return pickMsg('half',P.startAt);return pickMsg('rest',P.k+(P.startAt/1000|0))}
+const motCache={};
+function summaryMot(cur){if(motCache[cur.id])return motCache[cur.id];const wi=weekInfo(),{fresh}=syncBadges();const parts=[];
+  const wk=wi.met?(wi.done===wi.goal?`🎯 ${t('Weekly goal reached!')} ${wi.streak>1?t('{n}-week streak 🔥',{n:wi.streak}):''}`:`🎯 ${t('{d} workouts this week — {x} over your goal!',{d:wi.done,x:wi.done-wi.goal})}`):`🎯 ${t('{d} of {g} workouts this week',{d:wi.done,g:wi.goal})}`;
+  parts.push(`<div class="sm-goal">${goalRing(wi.done,wi.goal,52)}<div><b>${wk}</b><small>${pickMsg('done',cur.at/1000|0)}</small></div></div>`);
+  const nb=fresh.concat(unseenBadges().filter(b=>!fresh.includes(b)));
+  if(nb.length){parts.push(`<div class="sm-badges"><div class="eyebrow">🎖 ${nb.length===1?t('New badge unlocked'):t('{n} new badges unlocked',{n:nb.length})}</div>${nb.map(b=>`<div class="smb"><span class="bi">${b.ic}</span><div><b data-notr>${esc(bName(b))}</b><small data-notr>${esc(bDesc(b))}</small></div></div>`).join('')}<button class="btn ghost sm" data-a="badges">${t('See all badges')} ›</button></div>`);markBadgesSeen()}
+  return motCache[cur.id]=`<div class="sum-mot">${parts.join('')}</div>`}
+
 /* ================= SUMMARY ================= */
 function renderSummary(cur,plan){
   const prior=ws.sessions.filter(s=>s.planId===plan.id&&s.id!==cur.id&&s.at<cur.at).sort((a,b)=>b.at-a.at);
@@ -1799,9 +1961,10 @@ function renderSummary(cur,plan){
       ${best!=null?`<div class="cmp-row"><div class="k"><b>vs. your best</b><small>Best before today: ${fmt(best)}</small></div>${delta(best)}</div>`:''}
     </div>
     ${recent.length>1?`<div class="histbox"><div class="hl"><span>Last ${recent.length} sessions</span><span>shorter bar = faster</span></div><div class="hist">${recent.map(s=>`<div class="${s.id===cur.id?'cur':''}" style="height:${Math.max(6,s.dur/mx*100)}%" title="${fmt(s.dur)}"></div>`).join('')}</div></div>`:''}
+    ${summaryMot(cur)}
     ${summaryLogHtml(cur)}
     <div class="sum-actions"><button class="btn primary big" data-a="home">Back to my plans</button><button class="btn big" data-a="again">Do it again</button></div></div>`;
-  $('#s-summary').onclick=e=>{const se=e.target.closest('[data-se]');if(se)return summaryLogEdit(cur,plan,se);const a=e.target.closest('[data-a]')?.dataset.a;if(a==='home'){renderHome();show('s-home')}if(a==='again')startWorkout(plan.id)}}
+  $('#s-summary').onclick=e=>{const se=e.target.closest('[data-se]');if(se)return summaryLogEdit(cur,plan,se);const a=e.target.closest('[data-a]')?.dataset.a;if(a==='home'){renderHome();show('s-home')}if(a==='again')startWorkout(plan.id);if(a==='badges')openBadges()}}
 
 /* ================= SET LOGGING, PROGRESSION & RECORDS ================= */
 const LOWER_M=new Set(['quads','hamstrings','glutes','lowerBack','calves']);
@@ -1875,6 +2038,7 @@ function rememberWeights(sess,plan){const p=ws.plans.find(x=>x.id===plan.id);if(
 /* ---- Progress page ---- */
 function openProgress(){show('s-progress');renderProgress()}
 $('#pr-back').addEventListener('click',()=>{renderHome();show('s-home')});
+$('#bd-back').addEventListener('click',()=>{renderHome();show('s-home')});
 function progressData(){const map={};ws.sessions.filter(s=>s.log).forEach(s=>s.log.forEach(l=>{(map[l.exId]=map[l.exId]||[]);}));
   return Object.keys(map).filter(id=>EXM[id]).map(id=>{const h=exHistory(id).reverse();const pts=h.map(x=>({at:x.at,b:sessBest(x.sets)}));
     const kinds=pts.map(p=>p.b.kind),kind=kinds[kinds.length-1],kp=pts.filter(p=>p.b.kind===kind);const best=kp.reduce((m,p)=>p.b.v>m.b.v?p:m,kp[0]);
