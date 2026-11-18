@@ -313,6 +313,12 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .cx-list{display:grid;gap:8px;margin:12px 0}.cx-row{display:flex;align-items:center;gap:12px;padding:8px 12px 8px 8px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);color:var(--text);text-align:start}
 .cx-row .t{width:52px;height:52px;border-radius:12px;background:#0f1217;flex:none}.cx-row .t .fig{width:100%;height:100%}.cxr-t{flex:1;min-width:0;display:flex;flex-direction:column}.cxr-t small{color:var(--mute);font-size:12.5px}
 .btn.red{color:#ff7a6b}
+.morn{position:relative;display:flex;gap:12px;margin:16px 0 0;padding:14px;border-radius:20px;background:linear-gradient(135deg,rgba(255,196,77,.16),rgba(255,140,66,.05));border:1px solid rgba(255,196,77,.4)}
+.mo-sun{font-size:30px;line-height:1}.mo-sun.sm{font-size:24px}.mo-t{flex:1;min-width:0}.mo-t b{display:block;font-size:17px}.mo-t small{color:var(--mute);font-size:13px}
+.mo-thumbs{display:flex;gap:6px;margin:10px 0}.mo-thumbs span{width:40px;height:40px;border-radius:10px;background:#0f1217;flex:none}.mo-thumbs .fig{width:100%;height:100%}
+.mo-b{display:flex;gap:8px;flex-wrap:wrap}.mo-b .btn svg{width:14px;height:14px}.morn .rx{position:absolute;top:8px;inset-inline-end:8px;background:none;border:0;color:var(--mute);font-size:15px;padding:6px}
+.ready-row{display:flex;align-items:center;gap:12px;width:100%;margin:12px 0 0;padding:12px 14px;border-radius:16px;background:var(--panel);border:1px dashed rgba(255,196,77,.5);color:var(--text);text-align:start}
+.ready-row span:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column}.ready-row small{color:var(--mute);font-size:12.5px;line-height:1.35}.ready-row .plus{width:32px;height:32px;border-radius:50%;background:rgba(255,196,77,.2);color:#ffd27a;font-size:20px;font-weight:700;display:grid;place-items:center}
 .p-fig{width:min(68vw,330px);overflow:hidden;border-radius:30px;background:radial-gradient(ellipse at 50% 42%,#1d232d,#0f1217 72%);padding:18px;margin-bottom:18px}
 .p-name{font-size:clamp(34px,8vw,52px);margin:8px 0 10px}
 .p-set{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:.12em;color:var(--mute)}
@@ -740,6 +746,7 @@ html.lang-he .eyebrow,html.lang-he .ring-lbl,html.lang-he .p-set,html.lang-he .s
     <h2 class="sec">Your workout plans <small id="h-count"></small></h2>
     <div class="sync-line"><span id="h-sync" class="sync" data-st="saved">All changes saved</span></div>
     <div class="plans" id="h-plans"></div>
+    <div id="h-ready"></div>
     <button class="fb-cta" id="btn-fb"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5z"/><path d="M8 9h8M8 12h5"/></svg></span><span><b>Help us improve FitForge</b><small>Share an idea, report a bug or tell us what you like</small></span></button>
   </div>
 </section>
@@ -998,6 +1005,7 @@ Object.assign(I18N.he,{"If there's an account for": "אם יש חשבון עבו
 Object.assign(I18N.he,{"Badges 🎖": "תגים 🎖", "Day streak": "רצף ימים", "This week": "השבוע", "Goal": "יעד", "Weekly goal reached — great work!": "עמדתם ביעד השבועי — כל הכבוד!", "Goal smashed — {n} extra this week!": "ניפצתם את היעד — {n} אימונים נוספים השבוע!", "{n} more to go — every workout still counts.": "עוד {n} — כל אימון עדיין נחשב.", "1 more workout to hit your goal · {d} days left": "עוד אימון אחד ליעד · נשארו {d} ימים", "{n} more workouts to hit your goal · {d} days left": "עוד {n} אימונים ליעד · נשארו {d} ימים", "1-week streak": "רצף של שבוע", "{n}-week streak": "רצף של {n} שבועות", "It's been a while! Ease back in with a short workout today.": "עבר זמן! חזרו בעדינות עם אימון קצר היום.", "It's been {n} days since your last workout. A quick session today keeps the habit going.": "עברו {n} ימים מהאימון האחרון. אימון קצר היום ישמור על ההרגל.", "Last day to keep your 🔥 {s}-week streak — one workout today does it!": "יום אחרון לשמור על רצף 🔥 של {s} שבועות — אימון אחד היום וזה סגור!", "{n} workouts left in {n} days to keep your 🔥 {s}-week streak.": "נשארו {n} אימונים ב־{n} ימים כדי לשמור על רצף 🔥 של {s} שבועות.", "Your first workout is waiting — start it whenever you're ready.": "האימון הראשון שלכם מחכה — התחילו מתי שתרצו.", "Start": "התחלה", "New badge: {b}": "תג חדש: {b}", "{n} new badges": "{n} תגים חדשים", "Off": "כבוי", "Weekly goal": "יעד שבועי", "How many workouts do you want to do each week?": "כמה אימונים תרצו לעשות בכל שבוע?", "Reminders": "תזכורות", "Show a reminder on the home screen when you haven't trained for this many days.": "הצגת תזכורת במסך הבית כשלא התאמנתם כך וכך ימים.", "Cancel": "ביטול", "Save": "שמירה", "Goal saved: {n} workouts a week": "היעד נשמר: {n} אימונים בשבוע", "Achievements": "הישגים", "ACHIEVEMENTS": "הישגים", "{n} of {m} badges": "{n} מתוך {m} תגים", "Best streak: {n} weeks in a row hitting your goal": "הרצף הטוב ביותר: {n} שבועות ברצף עם עמידה ביעד", "Weekly goal reached!": "עמדתם ביעד השבועי!", "{n}-week streak 🔥": "רצף של {n} שבועות 🔥", "{d} workouts this week — {x} over your goal!": "{d} אימונים השבוע — {x} מעל היעד!", "{d} of {g} workouts this week": "{d} מתוך {g} אימונים השבוע", "New badge unlocked": "נפתח תג חדש", "{n} new badges unlocked": "נפתחו {n} תגים חדשים", "See all badges": "לכל התגים"});
 Object.assign(I18N.he,{"Edit exercise": "עריכת תרגיל", "Create your own exercise": "יצירת תרגיל משלכם", "Name": "שם", "e.g. Resistance band row": "למשל: חתירה עם גומייה", "Main muscle": "שריר עיקרי", "Also works": "עובד גם על", "(optional)": "(לא חובה)", "Equipment": "ציוד", "Count it in": "ספירה לפי", "Reps": "חזרות", "Time (seconds)": "זמן (שניות)", "Picture": "תמונה", "— pick the move that looks most like yours": "— בחרו את התנועה שהכי דומה לשלכם", "How to do it": "איך מבצעים", "(optional, one step per line)": "(לא חובה, שלב אחד בכל שורה)", "Stand with feet hip-width apart…": "עמדו ברגליים ברוחב האגן…", "Save changes": "שמירת השינויים", "Create exercise": "יצירת התרגיל", "Show suggested moves only": "הצגת התנועות המוצעות בלבד", "Show all {n} moves": "הצגת כל {n} התנועות", "Pick up to 3 extra muscles": "אפשר לבחור עד 3 שרירים נוספים", "Give your exercise a name.": "תנו שם לתרגיל.", "Exercise updated": "התרגיל עודכן", "Exercise created": "התרגיל נוצר", "Your exercise": "התרגיל שלכם", "Custom exercise": "תרגיל מותאם", "No instructions yet. Tap Edit to add your own steps.": "עדיין אין הוראות. הקישו על עריכה כדי להוסיף שלבים.", "No instructions were added for this exercise.": "לא נוספו הוראות לתרגיל הזה.", "Edit": "עריכה", "Delete": "מחיקה", "It's used in {n} of your plans. It will stay in those plans, but it won't show in the exercise list anymore.": "התרגיל נמצא ב־{n} מהתוכניות שלכם. הוא יישאר בהן, אבל לא יופיע יותר ברשימת התרגילים.", "It will be removed from your exercise list.": "התרגיל יוסר מרשימת התרגילים שלכם.", "Delete this exercise?": "למחוק את התרגיל?", "Exercise deleted": "התרגיל נמחק", "My exercises": "התרגילים שלי", "{n} exercises you created. Tap one to see, edit or delete it.": "{n} תרגילים שיצרתם. הקישו על תרגיל כדי לראות, לערוך או למחוק אותו.", "You haven't created any exercises yet. You can also create one while building a plan.": "עוד לא יצרתם תרגילים. אפשר ליצור תרגיל גם בזמן בניית תוכנית.", "Close": "סגירה", "+ Create exercise": "+ יצירת תרגיל", "Can't find yours? Add it with a name, muscles and a picture.": "לא מוצאים את התרגיל שלכם? הוסיפו אותו עם שם, שרירים ותמונה.", "Yours": "שלכם", "Band": "גומייה", "Machine": "מכונה", "Other": "אחר"});
 Object.assign(I18N.he,{"1 exercise you created. Tap it to see, edit or delete it.": "תרגיל אחד שיצרתם. הקישו עליו כדי לראות, לערוך או למחוק אותו."});
+Object.assign(I18N.he,{"Lymphatic Hops": "קפיצות לימפה", "Jump Twists": "קפיצות עם סיבוב", "Body Waves": "גלי גוף", "Standing Trunk Twists": "סיבובי גו בעמידה", "Arm Swings": "הנפות ידיים", "Golf Swings": "תנופות גולף", "Morning wake-up": "התעוררות של בוקר", "6 easy moves · about 5 minutes · no equipment": "6 תנועות קלות · כ־5 דקות · בלי ציוד", "Add to my plans": "הוספה לתוכניות שלי", "Added to your plans": "נוסף לתוכניות שלכם", "Ready-made: Morning wake-up": "מוכן מראש: התעוררות של בוקר", "Lymphatic hops, jump twists, body waves, trunk twists, arm and golf swings · 5 min": "קפיצות לימפה, קפיצות עם סיבוב, גלי גוף, סיבובי גו, הנפות ידיים ותנופות גולף · 5 דק׳"});
 I18P.he.unshift([/^If there's an account for (.+), we've sent it a code\. Enter it below with your new password\.$/,'אם יש חשבון עבור $1, שלחנו אליו קוד. הזינו אותו למטה יחד עם הסיסמה החדשה.'],[/^Your reset code is (\d+)$/,'קוד האיפוס שלכם הוא $1']);
 I18P.he.unshift(
  [/^Last time: (.+)$/,(m,x)=>'בפעם הקודמת: '+x.replace(/ kg/g,' ק״ג')],
@@ -1113,7 +1121,13 @@ const EX=[
  {id:'slrdl',n:"Single-Leg RDL (bodyweight)",m:['hamstrings','glutes'],t:'slRdl',eq:'none',home:1,reps:10},
  {id:'chairham',n:"Chair Hamstring Bridge",m:['hamstrings','glutes'],t:'chairHam',eq:'chair',home:1,reps:12},
  {id:'stepcalf',n:"Step Calf Raise",m:['calves'],t:'stepCalf',eq:'step',home:1,reps:20},
- {id:'pogo',n:"Pogo Hops",m:['calves'],t:'pogo',eq:'none',home:1,time:1,secs:30}
+ {id:'pogo',n:"Pogo Hops",m:['calves'],t:'pogo',eq:'none',home:1,time:1,secs:30},
+ {id:'lymphhop',n:"Lymphatic Hops",m:['calves'],t:'lymphHop',eq:'none',home:1,time:1,secs:60,warm:1},
+ {id:'jumptwist',n:"Jump Twists",m:['obliques','calves'],t:'jumpTwist',eq:'none',home:1,time:1,secs:40,warm:1},
+ {id:'bodywave',n:"Body Waves",m:['abs','lowerBack'],t:'bodyWave',eq:'none',home:1,time:1,secs:40,warm:1},
+ {id:'trunktwist',n:"Standing Trunk Twists",m:['obliques','lowerBack'],t:'trunkTwist',eq:'none',home:1,time:1,secs:40,warm:1},
+ {id:'armswing',n:"Arm Swings",m:['shoulders','chest'],t:'armSwingUp',eq:'none',home:1,time:1,secs:40,warm:1},
+ {id:'golfswing',n:"Golf Swings",m:['obliques','shoulders'],t:'golfSwing',eq:'none',home:1,time:1,secs:40,warm:1}
 ];
 const EXM=Object.fromEntries(EX.map(e=>[e.id,e]));
 
@@ -1124,6 +1138,12 @@ const SIDE=[['n','p'],['n','e'],['e','w'],['p','k'],['k','f']];
 const FRONT=[['n','p'],['sL','sR'],['sL','eL'],['eL','wL'],['sR','eR'],['eR','wR'],['hL','hR'],['hL','kL'],['kL','fL'],['hR','kR'],['kR','fR']];
 const PULLA={h:[60,35],n:[60,46],sL:[50,48],sR:[70,48],eL:[45,32],wL:[42,16],eR:[75,32],wR:[78,16],p:[60,79],hL:[54,80],hR:[66,80],kL:[53,97],kR:[67,97],fL:[52,113],fR:[68,113]};
 const TPL={
+ lymphHop:{extra:[['f','t']],A:{...ST,f:[60,114],t:[71,114],e:[62,46],w:[65,62]},B:{h:[60,12],n:[60,23],p:[60,59],k:[60,84],f:[60,106],t:[71,114],e:[62,42],w:[66,56]}},
+ jumpTwist:{front:1,A:{...FB,sL:[52,29],sR:[68,29],hL:[56,63],hR:[66,63],kL:[50,89],kR:[63,89],fL:[45,113],fR:[60,113],eL:[60,43],wL:[73,48],eR:[80,40],wR:[92,47]},B:{h:[60,9],n:[60,20],sL:[52,23],sR:[68,23],p:[60,56],hL:[54,57],hR:[64,57],kL:[57,82],kR:[70,82],fL:[60,107],fR:[75,107],eL:[40,34],wL:[28,41],eR:[60,37],wR:[47,42]}},
+ bodyWave:{A:{h:[67,18],n:[64,29],p:[55,64],k:[61,89],f:[60,114],e:[60,46],w:[65,60]},B:{h:[55,20],n:[56,31],p:[65,62],k:[57,88],e:[54,47],w:[57,63]}},
+ trunkTwist:{front:1,A:{...FB,sL:[53,29],sR:[67,29],eL:[40,38],wL:[30,48],eR:[57,43],wR:[45,50]},B:{sL:[53,29],sR:[67,29],eL:[63,43],wL:[75,50],eR:[80,38],wR:[90,48]}},
+ armSwingUp:{front:1,A:{...FB,kL:[52,88],kR:[68,88],eL:[56,46],wL:[66,56],eR:[64,46],wR:[54,56]},B:{eL:[41,16],wL:[34,3],eR:[79,16],wR:[86,3]}},
+ golfSwing:{front:1,extra:[['wL','wR']],A:{...FB,h:[60,19],n:[60,30],sL:[53,32],sR:[67,32],p:[60,63],kL:[50,88],kR:[70,88],eL:[66,40],wL:[80,26],eR:[78,44],wR:[83,29]},B:{sL:[53,32],sR:[67,32],eL:[42,44],wL:[37,29],eR:[54,40],wR:[40,26]}},
  curl:{A:{...ST,e:[60,46],w:[61,64]},B:{w:[74,36]},hold:'w',cable:{w:[66,116]}},
  frontRaise:{A:{...ST,e:[61,46],w:[62,64]},B:{e:[77,26],w:[95,24]},hold:'w'},
  uprightRow:{A:{...ST,e:[61,46],w:[62,64]},B:{e:[73,31],w:[66,38]},hold:'w'},
@@ -1528,7 +1548,7 @@ function renderHome(){
   $('#h-greet').textContent=`${greet}, ${me.name}`;$('#h-admin').style.display=me.isAdmin?'':'none';paintFbBadge();$('#btn-account').textContent=(me.name||'A')[0].toUpperCase();
   const t=Date.now(),wk=ws.sessions.filter(s=>t-s.at<7*DAY),mo=ws.sessions.filter(s=>t-s.at<30*DAY);
   let streak=0;{const days=new Set(ws.sessions.map(s=>startOfDay(s.at)));let d=startOfDay(t);if(!days.has(d))d-=DAY;while(days.has(d)){streak++;d-=DAY}}
-  $('#h-quote').textContent='“'+quoteOfDay()+'”';$('#h-mot').innerHTML=motHome();const nB=Object.keys(S().badges||{}).length;
+  $('#h-quote').textContent='“'+quoteOfDay()+'”';$('#h-mot').innerHTML=morningCard()+motHome();$('#h-ready').innerHTML=readyRow();const nB=Object.keys(S().badges||{}).length;
   $('#h-stats').innerHTML=`<button class="stat" data-mot="badges" style="text-align:start;color:inherit;font:inherit"><div class="v">${nB}<small style="font-size:16px"> / ${BADGES.length}</small></div><div class="l">Badges 🎖</div></button>
     <div class="stat"><div class="v">${Math.round(mo.reduce((a,s)=>a+s.dur,0)/60)}<small style="font-size:16px"> min</small></div><div class="l">Trained this month</div></div>
     <div class="stat"><div class="v">${streak}<small style="font-size:16px"> day${streak===1?'':'s'}</small></div><div class="l">Day streak</div></div>`;
@@ -1893,6 +1913,27 @@ function myExercisesSheet(){const list=(ws.custom||[]).filter(c=>!c.arch);
    <div class="m-actions"><button class="btn" data-a="no">Close</button><button class="btn primary" data-a="new">+ Create exercise</button></div>`,(el,close)=>{
     el.addEventListener('click',ev=>{const r=ev.target.closest('[data-cx]'),a=ev.target.closest('[data-a]')?.dataset.a;
       if(r){close();howToCustom(EXM[r.dataset.cx])}if(a==='no')close();if(a==='new'){close();openCxEditor(null,'chest',()=>myExercisesSheet())}})})}
+
+
+/* ================= READY-MADE ROUTINES ================= */
+const ROUTINES={morning:{name:'Morning wake-up',category:'full',items:[['lymphhop',60],['jumptwist',40],['bodywave',40],['trunktwist',40],['armswing',40],['golfswing',40]],rest:10}};
+const routinePlan=k=>ws.plans.find(p=>p.tpl===k);
+function addRoutine(k,quiet){let p=routinePlan(k);if(p)return p;const r=ROUTINES[k];
+  p={id:'p'+uid(),tpl:k,name:t(r.name),category:r.category,mode:'straight',items:r.items.map(([exId,secs])=>({exId,sets:1,reps:10,secs,time:true,rest:r.rest,weight:0})),stretch:{mode:'off',min:5,auto:true},created:Date.now(),updated:Date.now()};
+  ws.plans.push(p);saveWS();Api.event('plan_created',{tpl:k});if(!quiet)toast(t('Added to your plans'));return p}
+function morningCard(){const h=new Date().getHours(),p=routinePlan('morning');if(h<4||h>=12)return'';
+  if(LS.get('ff_morn_hide_'+startOfDay(Date.now()),false))return'';
+  if(p&&ws.sessions.some(s=>s.planId===p.id&&s.at>=startOfDay(Date.now())))return'';
+  return`<div class="morn"><div class="mo-sun">☀️</div><div class="mo-t"><b>${t('Morning wake-up')}</b><small>${t('6 easy moves · about 5 minutes · no equipment')}</small>
+    <div class="mo-thumbs">${ROUTINES.morning.items.map(([id])=>`<span>${exFig(id,{anim:false})}</span>`).join('')}</div>
+    <div class="mo-b"><button class="btn primary sm" data-morn="start">${ICON.play} ${t('Start')}</button>${p?'':`<button class="btn sm" data-morn="add">+ ${t('Add to my plans')}</button>`}</div></div>
+    <button class="rx" data-morn="hide" aria-label="Hide">✕</button></div>`}
+function readyRow(){if(routinePlan('morning'))return'';
+  return`<button class="ready-row" data-morn="add"><span class="mo-sun sm">☀️</span><span><b>${t('Ready-made: Morning wake-up')}</b><small>${t('Lymphatic hops, jump twists, body waves, trunk twists, arm and golf swings · 5 min')}</small></span><span class="plus">+</span></button>`}
+document.addEventListener('click',e=>{const m=e.target.closest('[data-morn]');if(!m)return;const a=m.dataset.morn;
+  if(a==='start'){const p=addRoutine('morning',true);startWorkout(p.id)}
+  if(a==='add'){addRoutine('morning');renderHome()}
+  if(a==='hide'){LS.set('ff_morn_hide_'+startOfDay(Date.now()),true);renderHome()}});
 
 /* ================= MOTIVATION: messages, weekly goal, streaks, badges, reminders ================= */
 const MSG={
@@ -2288,7 +2329,7 @@ function candidates(muscle,a){
   const avoid=new Set((a.avoid||[]).flatMap(k=>AVOID[k]||[]));
   if(a.age==='55+')['jumpsquat','pogo','climber','deadlift','goodmorning','decpush','pike','chestdip','tridip','legraise'].forEach(x=>avoid.add(x));
   return EX.filter(e=>{
-    if(e.custom||!e.m.includes(muscle))return false;
+    if(e.custom||e.warm||!e.m.includes(muscle))return false;
     if(avoid.has(e.id))return false;
     if(a.where==='home'&&!e.home)return false;
     if(a.where==='homedb'&&!(e.home||e.eq==='db'))return false;
