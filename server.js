@@ -9,7 +9,12 @@ const PORT = process.env.PORT || 3000;
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '').toLowerCase().split(',').map(s => s.trim()).filter(Boolean);
 const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
 const MAIL_FROM = process.env.MAIL_FROM || '';
-const EMAIL_ENABLED = !!(RESEND_API_KEY && MAIL_FROM);
+const BREVO_API_KEY = process.env.BREVO_API_KEY || '';
+const MAIL_NAME = process.env.MAIL_FROM_NAME || 'FitForge';
+const MAIL_PROVIDER = BREVO_API_KEY ? 'brevo' : RESEND_API_KEY ? 'resend' : '';
+const EMAIL_ENABLED = !!(MAIL_PROVIDER && MAIL_FROM);
+const mailAddr = () => (MAIL_FROM.match(/<([^>]+)>/) || [, MAIL_FROM])[1].trim();
+let lastMail = { ok: null, at: null, error: null };
 const GOOGLE_CLIENT_ID = (process.env.GOOGLE_CLIENT_ID || '').trim();
 
 // Database: NEW_DATABASE_URL (e.g. Neon) takes over from DATABASE_URL (old Render DB) once set.
@@ -116,21 +121,64 @@ async function newSession(userId) {
 async function logEvent(userId, type, meta) {
   try { await q('INSERT INTO events(user_id,type,meta) VALUES($1,$2,$3)', [userId, type, meta ? JSON.stringify(meta) : null]); } catch (e) { console.error('event', e.message); }
 }
-async function sendCode(user) {
+function codeEmail(code, lang) {
+  const he = lang === 'he';
+  const subject = he ? `קוד האימות שלך ב-FitForge: ${code}` : `Your FitForge verification code: ${code}`;
+  const t = he
+    ? { hi: 'אימות כתובת האימייל', p1: 'הזינו את הקוד הזה באפליקציה כדי לסיים את ההרשמה:', p2: 'הקוד תקף ל־15 דקות.', p3: 'לא נרשמתם ל-FitForge? אפשר פשוט להתעלם מההודעה.' }
+    : { hi: 'Confirm your email', p1: 'Enter this code in the app to finish signing up:', p2: 'The code expires in 15 minutes.', p3: "Didn't sign up for FitForge? You can ignore this email." };
+  const html = `<!doctype html><html dir="${he ? 'rtl' : 'ltr'}"><body style="margin:0;background:#f3f4f6;font-family:Arial,Helvetica,sans-serif">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f3f4f6;padding:28px 12px"><tr><td align="center">
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width:460px;background:#ffffff;border-radius:16px;overflow:hidden">
+<tr><td style="background:#0f1217;padding:20px 26px;color:#d7ff3a;font-size:22px;font-weight:800;letter-spacing:.5px">FitForge</td></tr>
+<tr><td style="padding:26px;color:#111827;text-align:${he ? 'right' : 'left'}">
+<h1 style="margin:0 0 10px;font-size:21px">${t.hi}</h1>
+<p style="margin:0 0 18px;font-size:15px;line-height:1.5;color:#374151">${t.p1}</p>
+<div style="font-size:34px;font-weight:800;letter-spacing:8px;text-align:center;background:#f3f4f6;border-radius:12px;padding:16px 0;color:#111827" dir="ltr">${code}</div>
+<p style="margin:18px 0 6px;font-size:14px;color:#6b7280">${t.p2}</p>
+<p style="margin:0;font-size:13px;color:#9ca3af">${t.p3}</p>
+</td></tr></table></td></tr></table></body></html>`;
+  const text = `${t.hi}\n\n${t.p1}\n\n${code}\n\n${t.p2}\n${t.p3}`;
+  return { subject, html, text };
+}
+
+async function sendMail(to, { subject, html, text }) {
+  if (!EMAIL_ENABLED) return { ok: false, error: 'Email sending is not configured' };
+  try {
+    let r;
+    if (MAIL_PROVIDER === 'brevo') {
+      r = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST', headers: { 'api-key': BREVO_API_KEY, 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ sender: { name: MAIL_NAME, email: mailAddr() }, to: [{ email: to }], subject, htmlContent: html, textContent: text })
+      });
+    } else {
+      r = await fetch('https://api.resend.com/emails', {
+        method: 'POST', headers: { Authorization: 'Bearer ' + RESEND_API_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ from: MAIL_FROM.includes('<') ? MAIL_FROM : `${MAIL_NAME} <${MAIL_FROM}>`, to, subject, html, text })
+      });
+    }
+    if (r.ok) { lastMail = { ok: true, at: new Date().toISOString(), error: null }; return { ok: true }; }
+    const body = (await r.text()).slice(0, 300);
+    console.error('email send failed', MAIL_PROVIDER, r.status, body);
+    lastMail = { ok: false, at: new Date().toISOString(), error: `${r.status} ${body}` };
+    return { ok: false, error: `${r.status} ${body}` };
+  } catch (e) {
+    console.error('email send failed', e.message);
+    lastMail = { ok: false, at: new Date().toISOString(), error: e.message };
+    return { ok: false, error: e.message };
+  }
+}
+
+async function sendCode(user, lang) {
   const code = String(crypto.randomInt(100000, 1000000));
   await q('UPDATE users SET code=$1, code_at=now(), code_tries=0 WHERE id=$2', [code, user.id]);
   if (EMAIL_ENABLED) {
-    try {
-      const r = await fetch('https://api.resend.com/emails', {
-        method: 'POST', headers: { Authorization: 'Bearer ' + RESEND_API_KEY, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from: MAIL_FROM, to: user.email, subject: 'Your FitForge verification code', html: `<p>Your FitForge code is:</p><h1 style="letter-spacing:6px">${code}</h1><p>It expires in 15 minutes.</p>` })
-      });
-      if (r.ok) return {};
-      console.error('email send failed', r.status, await r.text());
-    } catch (e) { console.error('email send failed', e.message); }
+    const r = await sendMail(user.email, codeEmail(code, lang));
+    return r.ok ? { emailSent: true } : { mailError: true };
   }
   return { demoCode: code };
 }
+const reqLang = req => (req.headers['x-lang'] === 'he' ? 'he' : 'en');
 
 // tiny in-memory rate limiter for auth endpoints
 const hits = new Map();
@@ -175,7 +223,7 @@ app.post('/api/auth/signup', limit(10, 60000), wrap(async (req, res) => {
     u = (await q("INSERT INTO users(email,provider,name,pass_hash) VALUES($1,'email',$2,$3) RETURNING *", [email, email.split('@')[0].slice(0, 40), hash])).rows[0];
     await logEvent(u.id, 'signup', { provider: 'email' });
   }
-  res.json({ needVerify: true, email, ...(await sendCode(u)) });
+  res.json({ needVerify: true, email, ...(await sendCode(u, reqLang(req))) });
 }));
 
 app.post('/api/auth/login', limit(15, 60000), wrap(async (req, res) => {
@@ -183,7 +231,7 @@ app.post('/api/auth/login', limit(15, 60000), wrap(async (req, res) => {
   const u = (await q("SELECT * FROM users WHERE email=$1 AND provider='email'", [email])).rows[0];
   if (!u) return res.status(404).json({ error: 'notfound' });
   if (!(await checkPw(pw, u.pass_hash))) return res.status(401).json({ error: 'Incorrect password. Please try again.' });
-  if (!u.verified) return res.json({ needVerify: true, email, ...(await sendCode(u)) });
+  if (!u.verified) return res.json({ needVerify: true, email, ...(await sendCode(u, reqLang(req))) });
   const token = await newSession(u.id); await logEvent(u.id, 'login');
   res.json({ token, user: pub(u) });
 }));
@@ -192,7 +240,7 @@ app.post('/api/auth/resend', limit(5, 60000), wrap(async (req, res) => {
   const email = String(req.body.email || '').trim().toLowerCase();
   const u = (await q('SELECT * FROM users WHERE email=$1 AND verified=false', [email])).rows[0];
   if (!u) return res.status(404).json({ error: 'No pending verification for this email.' });
-  res.json(await sendCode(u));
+  res.json(await sendCode(u, reqLang(req)));
 }));
 
 app.post('/api/auth/verify', limit(20, 60000), wrap(async (req, res) => {
@@ -252,7 +300,7 @@ app.put('/api/data', wrap(auth), wrap(async (req, res) => {
   res.json({ ok: true });
 }));
 
-const EVENT_TYPES = new Set(['app_open', 'helper_used', 'workout_start', 'workout_complete', 'workout_quit', 'plan_saved', 'plan_deleted']);
+const EVENT_TYPES = new Set(['app_open', 'helper_used', 'workout_start', 'workout_complete', 'workout_quit', 'plan_saved', 'plan_deleted', 'howto_open']);
 app.post('/api/event', wrap(auth), wrap(async (req, res) => {
   const type = String(req.body.type || '');
   if (!EVENT_TYPES.has(type)) return res.status(400).json({ error: 'Unknown event' });
@@ -407,6 +455,13 @@ function userStats(u, evBy, now) {
   };
 }
 
+app.get('/api/admin/email', wrap(auth), adminOnly, (req, res) => res.json({ enabled: EMAIL_ENABLED, provider: MAIL_PROVIDER || null, from: EMAIL_ENABLED ? mailAddr() : null, last: lastMail }));
+app.post('/api/admin/test-email', wrap(auth), adminOnly, wrap(async (req, res) => {
+  if (!EMAIL_ENABLED) return res.status(400).json({ error: 'Email sending is not set up yet.' });
+  const r = await sendMail(req.user.email, codeEmail('123456', reqLang(req)));
+  if (!r.ok) return res.status(502).json({ error: 'Sending failed: ' + r.error });
+  res.json({ ok: true, to: req.user.email });
+}));
 app.get('/api/admin/overview', wrap(auth), adminOnly, wrap(async (req, res) => {
   const now = Date.now(), { users, evBy } = await loadAll();
   const stats = users.map(u => userStats(u, evBy, now));

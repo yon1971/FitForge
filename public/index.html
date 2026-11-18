@@ -261,6 +261,23 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 @keyframes pulse{50%{opacity:.15}}
 .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 20px calc(24px + var(--sb));text-align:center;cursor:pointer;position:relative}
 .stage.rest{cursor:default}
+.excard{position:relative}.how-i{position:absolute;top:14px;inset-inline-end:14px;width:28px;height:28px;border-radius:50%;background:rgba(15,18,23,.82);border:1px solid var(--line);color:var(--txt);font:italic 700 14px Georgia,serif;display:grid;place-items:center;z-index:2;cursor:pointer}
+.how-i::before{content:'';position:absolute;inset:-8px}
+.how-btn{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:999px;padding:7px 13px;font-size:13.5px;font-weight:600;margin-top:8px}
+.how-btn .ii{width:18px;height:18px;border-radius:50%;background:var(--acc);color:#111;font:italic 700 12px Georgia,serif;display:grid;place-items:center}
+.p-figw{position:relative}.p-figw .how-btn{position:absolute;top:10px;inset-inline-end:10px;margin:0;padding:6px 11px;background:rgba(15,18,23,.85);z-index:2}
+.how .how-fig{width:150px;margin:4px auto 10px;border-radius:20px;background:radial-gradient(ellipse at 50% 42%,#1d232d,#0f1217 72%);padding:10px}
+.how h3{margin:6px 0 4px;font-size:21px}.how .chips{justify-content:center}
+.how-h{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:16px 0 8px;display:flex;align-items:center;gap:7px}
+.how-h.good{color:var(--good)}.how-h.bad{color:#ff7a6b}
+.how ol{margin:0;padding:0;list-style:none;counter-reset:st;display:grid;gap:9px}
+.how ol li{counter-increment:st;position:relative;padding-inline-start:34px;line-height:1.45;font-size:15px}
+.how ol li::before{content:counter(st);position:absolute;inset-inline-start:0;top:0;width:24px;height:24px;border-radius:50%;background:var(--acc);color:#111;font-weight:800;font-size:13px;display:grid;place-items:center}
+.how ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+.how ul li{position:relative;padding-inline-start:24px;line-height:1.45;font-size:14.5px;color:var(--txt)}
+.how ul.good li::before{content:'✓';position:absolute;inset-inline-start:2px;color:var(--good);font-weight:800}
+.how ul.bad li::before{content:'✕';position:absolute;inset-inline-start:2px;color:#ff7a6b;font-weight:800}
+.how .note{font-size:12.5px;color:var(--mute);margin:16px 0 4px;line-height:1.4}
 .p-fig{width:min(68vw,330px);overflow:hidden;border-radius:30px;background:radial-gradient(ellipse at 50% 42%,#1d232d,#0f1217 72%);padding:18px;margin-bottom:18px}
 .p-name{font-size:clamp(34px,8vw,52px);margin:8px 0 10px}
 .p-set{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:.12em;color:var(--mute)}
@@ -634,6 +651,7 @@ html.lang-he .eyebrow,html.lang-he .ring-lbl,html.lang-he .p-set,html.lang-he .s
     <div class="err" id="v-err"></div>
     <button class="btn primary big" id="v-submit">Verify &amp; continue</button>
     <div style="text-align:center;margin-top:10px"><button class="btn ghost sm" id="v-resend">Didn't get it? Resend code</button></div>
+    <p class="mute" id="v-spam" style="display:none;text-align:center;font-size:13px;margin:12px 0 0">Can't find it? Check your spam or junk folder. It can take a minute to arrive.</p>
     <div class="demo-inbox" id="v-demo"></div>
   </div>
 </section>
@@ -746,12 +764,13 @@ html.lang-he .eyebrow,html.lang-he .ring-lbl,html.lang-he .p-set,html.lang-he .s
     <div class="brand sm" style="flex:1">ADMIN</div>
     <button class="btn sm" id="ad-refresh">Refresh</button>
   </header>
-  <div class="wrap" id="ad-body"><div class="ad-tabs"><button id="ad-tab-ov" class="on" data-tab="ov">Overview</button><button id="ad-tab-fb" data-tab="fb">Feedback</button></div><div id="ad-ov"></div><div id="ad-fb" style="display:none"></div></div>
+  <div class="wrap" id="ad-body"><div class="ad-tabs"><button id="ad-tab-ov" class="on" data-tab="ov">Overview</button><button id="ad-tab-fb" data-tab="fb">Feedback</button><button data-tab="em">Email</button></div><div id="ad-ov"></div><div id="ad-fb" style="display:none"></div><div id="ad-em" style="display:none"></div></div>
 </section>
 
 <div id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="/howto-en.js" defer></script><script src="/howto-he.js" defer></script>
 <script>
 "use strict";
 /* ================= helpers ================= */
@@ -764,6 +783,17 @@ const fmt=s=>{s=Math.max(0,Math.round(s));const h=Math.floor(s/3600),m=Math.floo
 const DAY=864e5;
 function ago(x){const d=Math.floor((startOfDay(Date.now())-startOfDay(x))/DAY);if(d<=0)return t('today');if(d===1)return t('yesterday');if(d<7)return t('{n} days ago',{n:d});if(d<30)return t('{n} wk ago',{n:Math.floor(d/7)});return new Date(x).toLocaleDateString(LOC(),{month:'short',day:'numeric'})}
 function startOfDay(t){const d=new Date(t);d.setHours(0,0,0,0);return d.getTime()}
+function howTo(id){const e=EXM[id];if(!e)return;const src=(LANG==='he'&&window.HOWTO_HE&&window.HOWTO_HE[id])?window.HOWTO_HE:window.HOWTO_EN;const d=src&&src[id];
+  if(!d){toast('Instructions are still loading — try again in a moment');return}
+  const[st,tp,mi]=d.map(x=>x.split('|'));const li=a=>a.map(x=>`<li>${esc(x)}</li>`).join('');
+  sheet(`<div class="how"><div class="how-fig">${fig(e.t,e.eq,{dur:1.9})}</div><div class="chips">${e.m.map((x,i)=>`<span class="chip ${i?'':'acc'}">${MUSCLES[x].n}</span>`).join('')}<span class="chip">${EQN[e.eq]}</span></div><h3>${esc(e.n)}</h3>
+   <div class="how-h">How to do it</div><ol data-notr>${li(st)}</ol>
+   <div class="how-h good">Tips</div><ul class="good" data-notr>${li(tp)}</ul>
+   <div class="how-h bad">Common mistakes</div><ul class="bad" data-notr>${li(mi)}</ul>
+   <p class="note">Breathe out on the hard part. Stop if you feel sharp pain — some burn in the muscle is normal, joint pain is not.</p>
+   <div class="m-actions"><button class="btn primary" data-a="ok">Got it</button></div></div>`,(el,close)=>{el.querySelector('[data-a=ok]').onclick=close});
+  try{Api&&Api.event&&Api.event('howto_open',{ex:id})}catch(_){}}
+document.addEventListener('click',e=>{const h=e.target.closest&&e.target.closest('[data-how]');if(!h)return;e.preventDefault();e.stopPropagation();howTo(h.dataset.how)},true);
 let toastT;function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2600)}
 const ICON={
   back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
@@ -785,7 +815,7 @@ const ICON={
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 const Api={token:LS.get('ff_token',null),
   async call(method,url,body){
-    const r=await fetch(url,{method,headers:{'Content-Type':'application/json',...(this.token?{Authorization:'Bearer '+this.token}:{})},body:body?JSON.stringify(body):undefined});
+    const r=await fetch(url,{method,headers:{'Content-Type':'application/json','X-Lang':(typeof LANG!=='undefined'?LANG:'en'),...(this.token?{Authorization:'Bearer '+this.token}:{})},body:body?JSON.stringify(body):undefined});
     let j={};try{j=await r.json()}catch(e){}
     if(!r.ok){const err=new Error(j.error||('Request failed ('+r.status+')'));err.status=r.status;err.body=j;throw err}
     return j},
@@ -892,6 +922,7 @@ I18P.he=[
 function trRest(r){return r.replace(/(\d+) sec/,'$1 שנ׳').replace(/(\d+) reps/,'$1 חזרות').replace(/([\d.]+) kg/,'$1 ק״ג')}
 // generic: segments joined with " · "
 Object.assign(I18N.he,{"MY PROGRESS": "ההתקדמות שלי", "Records and charts for every exercise you log": "שיאים וגרפים לכל תרגיל שאתם רושמים", "PROGRESS": "התקדמות", "Your progress": "ההתקדמות שלכם", "Progress": "התקדמות", "Records and trends for every exercise you've logged.": "שיאים ומגמות לכל תרגיל שרשמתם.", "Logged workouts": "אימונים שנרשמו", "Exercises tracked": "תרגילים במעקב", "Total weight lifted": "סך המשקל שהורם", "Nothing logged yet": "עוד לא נרשם כלום", "Finish a workout and your sets are logged automatically. Your records and charts will show up here.": "סיימו אימון והסטים יירשמו אוטומטית. השיאים והגרפים שלכם יופיעו כאן.", "Heaviest weight each session": "המשקל הכבד ביותר בכל אימון", "Longest hold each session": "ההחזקה הארוכה ביותר בכל אימון", "Most reps in a set each session": "הכי הרבה חזרות בסט בכל אימון", "Heaviest": "הכי כבד", "Est. 1-rep max": "הערכת חזרה מקסימלית", "Longest hold": "החזקה הארוכה ביותר", "Most reps": "הכי הרבה חזרות", "Sessions": "אימונים", "Est. 1-rep max is calculated from your sets (Epley formula) — a guide, not something to test.": "הערכת החזרה המקסימלית מחושבת מהסטים שלכם (נוסחת Epley) — כהכוונה בלבד, לא משהו לבדוק בפועל.", "Less weight": "פחות משקל", "More weight": "יותר משקל", "Did something different? Fix it here.": "עשיתם משהו אחר? תקנו כאן.", "Time held": "זמן החזקה", "Reps done": "חזרות שבוצעו", "Weight": "משקל", "🏆 New personal records": "🏆 שיאים אישיים חדשים", "Your sets": "הסטים שלכם", "Tap − / + to fix anything": "הקישו − / + כדי לתקן", "reps": "חזרות", "Stronger: best estimated 1-rep max": "חזקים יותר: הערכת חזרה מקסימלית הטובה ביותר", "Exactly the same time as last time.": "בדיוק אותו זמן כמו בפעם הקודמת."});
+Object.assign(I18N.he,{"How to do it": "איך מבצעים", "How to": "איך מבצעים", "Tips": "טיפים", "Common mistakes": "טעויות נפוצות", "Got it": "הבנתי", "Breathe out on the hard part. Stop if you feel sharp pain — some burn in the muscle is normal, joint pain is not.": "נשפו בחלק הקשה של התנועה. עצרו אם מרגישים כאב חד — שריפה בשריר זה נורמלי, כאב במפרק לא.", "Instructions are still loading — try again in a moment": "ההוראות עדיין נטענות — נסו שוב בעוד רגע", "Can't find it? Check your spam or junk folder. It can take a minute to arrive.": "לא מוצאים? בדקו בתיקיית הספאם או דואר הזבל. זה יכול לקחת דקה.", "We couldn't send the email right now. Tap “Resend code” in a minute.": "לא הצלחנו לשלוח את האימייל כרגע. הקישו על „שליחה חוזרת” בעוד דקה.", "We couldn't send the email right now. Please try again in a minute.": "לא הצלחנו לשלוח את האימייל כרגע. נסו שוב בעוד דקה.", "New code sent — check your inbox": "נשלח קוד חדש — בדקו את תיבת הדואר", "Email": "אימייל", "Send me a test email": "שלחו לי אימייל ניסיון", "✅ Verification emails are on": "✅ אימיילים לאימות פועלים", "✉️ Verification emails are off": "✉️ אימיילים לאימות כבויים", "sent": "נשלח", "failed": "נכשל"});
 I18P.he.unshift(
  [/^Last time: (.+)$/,(m,x)=>'בפעם הקודמת: '+x.replace(/ kg/g,' ק״ג')],
  [/^↑ Try ([\d.]+) kg today$/,'↑ נסו היום $1 ק״ג'],[/^↑ Try (\d+) reps today$/,'↑ נסו היום $1 חזרות'],[/^↑ Try (\d+)s today$/,'↑ נסו היום $1 שנ׳'],[/^↓ Go lighter: ([\d.]+) kg$/,'↓ קצת יותר קל: $1 ק״ג'],
@@ -1334,7 +1365,7 @@ $('#auth-form').addEventListener('submit',async e=>{e.preventDefault();const err
   const btn=$('#auth-submit');btn.disabled=true;
   try{
     const r=await Api.call('POST',authMode==='signup'?'/api/auth/signup':'/api/auth/login',{email,password:pw});
-    if(r.needVerify)startVerify(r.email,r.demoCode);else await onAuthed(r.token,r.user);
+    if(r.needVerify)startVerify(r.email,r.demoCode,r.mailError);else await onAuthed(r.token,r.user);
   }catch(x){
     if(x.body&&x.body.error==='exists'){err.innerHTML='This email already has an account. <a id="go-in">Sign in instead</a>';$('#go-in').onclick=()=>setAuthMode('signin')}
     else if(x.body&&x.body.error==='notfound'){err.innerHTML='No account found for this email. <a id="go-up">Create one</a>';$('#go-up').onclick=()=>setAuthMode('signup')}
@@ -1363,7 +1394,7 @@ function buildOtp(){const o=$('#otp');o.innerHTML=Array.from({length:6},()=>'<in
     i.addEventListener('input',()=>{i.value=i.value.replace(/\D/g,'').slice(-1);if(i.value&&ix<5)ins[ix+1].focus();if(ins.every(x=>x.value))verify()});
     i.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!i.value&&ix>0)ins[ix-1].focus();if(e.key==='Enter')verify()});
     i.addEventListener('paste',e=>{const t=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);if(!t)return;e.preventDefault();t.split('').forEach((c,j)=>{if(ins[j])ins[j].value=c});(ins[Math.min(t.length,5)]).focus();if(t.length===6)verify()})});}
-function startVerify(email,code){pendingEmail=email;$('#v-email').textContent=email;$('#v-err').textContent='';buildOtp();showCode(code);show('s-verify');setTimeout(()=>$('#otp input')&&$('#otp input').focus(),200)}
+function startVerify(email,code,mailErr){pendingEmail=email;$('#v-email').textContent=email;$('#v-err').textContent=mailErr?"We couldn't send the email right now. Tap “Resend code” in a minute.":'';$('#v-spam').style.display=CFG.emailEnabled?'':'none';buildOtp();showCode(code);show('s-verify');setTimeout(()=>$('#otp input')&&$('#otp input').focus(),200)}
 let verifying=false;
 async function verify(){if(verifying)return;const code=$$('#otp input').map(i=>i.value).join('');const err=$('#v-err');
   if(code.length<6){err.textContent='Enter all 6 digits.';return}
@@ -1372,7 +1403,7 @@ async function verify(){if(verifying)return;const code=$$('#otp input').map(i=>i
   catch(x){err.textContent=x.message;$$('#otp input').forEach(i=>i.value='');$('#otp input').focus()}
   finally{verifying=false;$('#v-submit').disabled=false}}
 $('#v-submit').addEventListener('click',verify);
-$('#v-resend').addEventListener('click',async()=>{try{const r=await Api.call('POST','/api/auth/resend',{email:pendingEmail});showCode(r.demoCode);toast('New code sent')}catch(x){$('#v-err').textContent=x.message}});
+$('#v-resend').addEventListener('click',async()=>{try{const r=await Api.call('POST','/api/auth/resend',{email:pendingEmail});showCode(r.demoCode);if(r.mailError){$('#v-err').textContent="We couldn't send the email right now. Please try again in a minute.";return}$('#v-err').textContent='';toast(r.emailSent?'New code sent — check your inbox':'New code sent')}catch(x){$('#v-err').textContent=x.message}});
 $('#v-back').addEventListener('click',()=>{show('s-login')});
 
 async function onAuthed(token,user,isReturn){Api.setToken(token);me=user;
@@ -1493,7 +1524,7 @@ function chooseMuscle(m){Bd.muscle=m;Body.sel=m;Body.paint();setLabel(m);$$('#b-
   clearTimeout(advT);advT=setTimeout(()=>{if(Bd.step==='body')setStep('ex')},Body.ok?650:150)}
 
 // step 2: exercises
-function exCard(e){return`<button class="excard" data-ex="${e.id}"><div class="pic">${fig(e.t,e.eq)}</div><b>${esc(e.n)}</b><div class="tags">${e.home?'<span class="homet">At home</span>':''}<span>${EQN[e.eq]}</span>${e.time?'<span>Timed</span>':''}${e.m.slice(1,3).map(x=>`<span>+ ${MUSCLES[x].n}</span>`).join('')}</div></button>`}
+function exCard(e){return`<button class="excard" data-ex="${e.id}"><span class="how-i" data-how="${e.id}" role="button" aria-label="How to do it" title="How to do it">i</span><div class="pic">${fig(e.t,e.eq)}</div><b>${esc(e.n)}</b><div class="tags">${e.home?'<span class="homet">At home</span>':''}<span>${EQN[e.eq]}</span>${e.time?'<span>Timed</span>':''}${e.m.slice(1,3).map(x=>`<span>+ ${MUSCLES[x].n}</span>`).join('')}</div></button>`}
 let homeOnly=!!LS.get('ff_home',false);
 function renderExStep(){const m=Bd.muscle,M=MUSCLES[m];const ok=e=>!homeOnly||e.home;
   const prim=EX.filter(e=>e.m[0]===m&&ok(e)),sec=EX.filter(e=>e.m[0]!==m&&e.m.includes(m)&&ok(e));
@@ -1513,7 +1544,7 @@ function renderCfgStep(){const it=Bd.edit!=null?Bd.plan.items[Bd.edit]:null;cons
   $('#b-cfg').innerHTML=`<div class="step-h"><button class="icon-btn" data-a="back">${ICON.back}</button><div><h2>${it?'Edit exercise':'Set your reps & rest'}</h2><p>${it?'Update this exercise in your plan':'Exercise '+(Bd.plan.items.length+1)+' of your plan'}</p></div></div>
    <div class="cfg"><div class="cfg-pic">${fig(e.t,e.eq,{dur:1.9})}</div>
    <div><div class="chips" style="margin-bottom:6px">${e.m.map((x,i)=>`<span class="chip ${i?'':'acc'}">${MUSCLES[x].n}</span>`).join('')}<span class="chip">${EQN[e.eq]}</span></div>
-    <h2 class="cfg-name">${esc(e.n)}</h2>
+    <h2 class="cfg-name">${esc(e.n)}</h2><button class="how-btn" data-how="${e.id}"><span class="ii">i</span>How to do it</button>
     <div class="ctl" id="cfg-ctl">
      ${stepper('sets','Sets','How many rounds of this exercise')}
      <div id="cfg-target">${cfgV.time?stepper('secs','Duration (seconds)','Hold or work time per set'):stepper('reps','Reps','Repetitions per set')}</div>
@@ -1634,7 +1665,7 @@ function renderPlayer(){const it=P.items[P.i],ex=EXM[it.exId],el=$('#s-player');
     return}
   if(P.phase==='work'){
     el.innerHTML=top+`<div class="stage work" data-act="tap" id="p-stage">
-      <div class="p-fig">${fig(ex.t,ex.eq,{dur:1.8})}</div>
+      <div class="p-figw"><div class="p-fig">${fig(ex.t,ex.eq,{dur:1.8})}</div><button class="how-btn" data-how="${ex.id}"><span class="ii">i</span>How to</button></div>
       <div class="chips" style="justify-content:center">${ex.m.slice(0,2).map((x,i)=>`<span class="chip ${i?'':'acc'}">${MUSCLES[x].n}</span>`).join('')}</div>
       <h1 class="p-name">${esc(ex.n)}</h1>
       <div class="p-set">${P.circuit?`ROUND <b>${P.set}</b> / ${P.rounds}`:`SET <b>${P.set}</b> / ${it.sets}`}</div>${P.circuit?`<div class="mute" style="font-size:13px;margin-top:2px">Exercise ${P.i+1} of ${P.items.length} in this round</div>`:''}
@@ -1647,7 +1678,7 @@ function renderPlayer(){const it=P.items[P.i],ex=EXM[it.exId],el=$('#s-player');
         <div class="ring-in"><div class="ring-lbl">REST</div><div class="ring-t" id="p-rest">${Math.ceil(P.restTotal)}</div></div></div>
       <div class="r-btns"><button class="btn" data-act="minus">−10s</button><button class="btn primary" data-act="skip">Skip rest</button><button class="btn" data-act="plus">+10s</button></div>
       ${logEditor()}
-      <div class="upnext"><div class="un-fig">${fig(nex.t,nex.eq)}</div><div><div class="eyebrow">Up next${P.circuit?(n.set!==P.set?` · round ${n.set}`:''):(n.i!==P.i?' · new exercise':'')}</div><div class="un-name">${esc(nex.n)}</div><div class="mute" style="font-size:13.5px">${P.circuit?`Round ${n.set} of ${P.rounds}`:`Set ${n.set} of ${nit.sets}`} · ${nit.time?nit.secs+' sec':nit.reps+' reps'}${nit.weight?' · '+nit.weight+' kg':''}</div></div></div></div>`;
+      <div class="upnext"><div class="un-fig">${fig(nex.t,nex.eq)}</div><div><div class="eyebrow">Up next${P.circuit?(n.set!==P.set?` · round ${n.set}`:''):(n.i!==P.i?' · new exercise':'')}</div><div class="un-name">${esc(nex.n)}</div><button class="how-btn" data-how="${nex.id}" style="margin:2px 0 4px;padding:4px 10px;font-size:12.5px"><span class="ii">i</span>How to</button><div class="mute" style="font-size:13.5px">${P.circuit?`Round ${n.set} of ${P.rounds}`:`Set ${n.set} of ${nit.sets}`} · ${nit.time?nit.secs+' sec':nit.reps+' reps'}${nit.weight?' · '+nit.weight+' kg':''}</div></div></div></div>`;
   }}
 const isTouch=()=>matchMedia('(pointer:coarse)').matches;
 function tick(){if(!P)return;const now=Date.now();const c=$('#p-clock');if(c)c.textContent=fmt((now-P.startAt)/1000);
@@ -2229,7 +2260,13 @@ const provLabel=p=>({email:'Email',google:'Google',facebook:'Facebook (test)',ap
 async function openAdmin(tab){show('s-admin');adTab(tab||(fbNew?'fb':'ov'));$('#ad-ov').innerHTML='<div class="spin" style="margin:60px auto"></div>';
   try{AD.data=await Api.call('GET','/api/admin/overview');renderAdmin()}
   catch(e){$('#ad-ov').innerHTML=`<div class="empty">${esc(e.message)}</div>`}}
-function adTab(t){$('#ad-ov').style.display=t==='ov'?'':'none';$('#ad-fb').style.display=t==='fb'?'':'none';$$('.ad-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));if(t==='fb')loadAdminFeedback();paintFbBadge()}
+async function loadAdminEmail(){const el=$('#ad-em');el.innerHTML='<div class="spin" style="margin:60px auto"></div>';
+  try{const r=await Api.call('GET','/api/admin/email');const last=r.last&&r.last.at?`<p class="mute" style="font-size:13.5px;margin:10px 0 0">Last email: ${r.last.ok?'<b style="color:var(--good)">sent</b>':'<b style="color:#ff7a6b">failed</b>'} · <span data-notr>${new Date(r.last.at).toLocaleString(LOC())}</span>${r.last.ok?'':`<br><span data-notr style="font-size:12px;word-break:break-all">${esc(r.last.error||'')}</span>`}</p>`:'';
+    el.innerHTML=`<div class="card" style="padding:18px">${r.enabled?`<h3 style="margin:0 0 6px">✅ Verification emails are on</h3><p class="mute" style="margin:0;font-size:14px">Sending with <b>${r.provider==='brevo'?'Brevo':'Resend'}</b> from <b data-notr>${esc(r.from)}</b>. New users get their 6-digit code by email.</p>${last}<div style="margin-top:14px"><button class="btn primary" id="em-test">Send me a test email</button></div>`
+      :`<h3 style="margin:0 0 6px">✉️ Verification emails are off</h3><p class="mute" style="margin:0;font-size:14px;line-height:1.5">Right now codes are shown on screen. To email them, add <b data-notr>BREVO_API_KEY</b> and <b data-notr>MAIL_FROM</b> (your verified sender address) in the Render dashboard → Environment.</p>`}</div>`;
+    const b=$('#em-test');if(b)b.onclick=async()=>{b.disabled=true;try{const x=await Api.call('POST','/api/admin/test-email');toast('Test email sent to '+x.to)}catch(e){toast(e.message)}finally{b.disabled=false;loadAdminEmail()}}}
+  catch(e){el.innerHTML=`<div class="empty">${esc(e.message)}</div>`}}
+function adTab(t){$('#ad-ov').style.display=t==='ov'?'':'none';$('#ad-fb').style.display=t==='fb'?'':'none';$('#ad-em').style.display=t==='em'?'':'none';if(t==='em')loadAdminEmail();$$('.ad-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));if(t==='fb')loadAdminFeedback();paintFbBadge()}
 document.querySelector('.ad-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)adTab(b.dataset.tab)});
 $('#ad-back').addEventListener('click',()=>{renderHome();show('s-home')});
 $('#ad-refresh').addEventListener('click',()=>{if($('#ad-fb').style.display!=='none'){loadAdminFeedback();checkFeedbackCount(false)}else openAdmin('ov')});
