@@ -319,6 +319,12 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .mo-b{display:flex;gap:8px;flex-wrap:wrap}.mo-b .btn svg{width:14px;height:14px}.morn .rx{position:absolute;top:8px;inset-inline-end:8px;background:none;border:0;color:var(--mute);font-size:15px;padding:6px}
 .ready-row{display:flex;align-items:center;gap:12px;width:100%;margin:12px 0 0;padding:12px 14px;border-radius:16px;background:var(--panel);border:1px dashed rgba(255,196,77,.5);color:var(--text);text-align:start}
 .ready-row span:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column}.ready-row small{color:var(--mute);font-size:12.5px;line-height:1.35}.ready-row .plus{width:32px;height:32px;border-radius:50%;background:rgba(255,196,77,.2);color:#ffd27a;font-size:20px;font-weight:700;display:grid;place-items:center}
+.ver{background:none;border:0;padding:2px 0 0;margin-inline-start:7px;font:600 11px/1 ui-monospace,Menlo,monospace;letter-spacing:0;color:var(--mute);opacity:.85;align-self:center;cursor:pointer}
+button.ver{border-bottom:1px dotted rgba(255,255,255,.25)}
+.wn{display:grid;gap:10px;margin:10px 0}.wn-v{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}.wn-v.cur{border-color:rgba(200,255,46,.4)}
+.wn-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}.wn-h b{font-size:15px}.wn-h span{color:var(--mute);font-size:12.5px}.wn-tag{background:var(--acc);color:#111!important;font-weight:800;font-size:10.5px!important;padding:2px 7px;border-radius:6px}
+.wn ul{margin:0;padding-inline-start:18px;display:grid;gap:5px;font-size:14px;line-height:1.4}
+.upd-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom));z-index:90;background:var(--acc);color:#111;border:0;border-radius:999px;padding:11px 18px;font-weight:700;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.5);width:max-content;max-width:92vw}
 .p-fig{width:min(68vw,330px);overflow:hidden;border-radius:30px;background:radial-gradient(ellipse at 50% 42%,#1d232d,#0f1217 72%);padding:18px;margin-bottom:18px}
 .p-name{font-size:clamp(34px,8vw,52px);margin:8px 0 10px}
 .p-set{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:.12em;color:var(--mute)}
@@ -662,7 +668,7 @@ html.lang-he .eyebrow,html.lang-he .ring-lbl,html.lang-he .p-set,html.lang-he .s
 <section id="s-login" class="screen auth">
   <div class="auth-card">
     <div class="lang-sw" data-notr><button data-lang="en">English</button><button data-lang="he">עברית</button></div>
-    <div class="brand"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#121600" stroke-width="2.6" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg></span>FITFORGE</div>
+    <div class="brand"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#121600" stroke-width="2.6" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg></span>FITFORGE<span class="ver" data-notr></span></div>
     <h1 id="auth-title">Welcome back</h1>
     <p class="sub" id="auth-sub">Sign in to build and run your workout plans.</p>
     <div class="seg" id="auth-seg"><button data-mode="signin" class="on">Sign in</button><button data-mode="signup">Create account</button></div>
@@ -726,7 +732,7 @@ html.lang-he .eyebrow,html.lang-he .ring-lbl,html.lang-he .p-set,html.lang-he .s
 <!-- HOME -->
 <section id="s-home" class="screen">
   <header class="top">
-    <div class="brand sm"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#121600" stroke-width="2.6" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg></span>FITFORGE</div>
+    <div class="brand sm"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#121600" stroke-width="2.6" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg></span>FITFORGE<button class="ver" data-ver aria-label="Version and what's new" data-notr></button></div>
     <div class="grow"></div>
     <button class="admin-pill" id="h-admin" style="display:none">Admin</button>
     <button class="avatar" id="btn-account" aria-label="Account">A</button>
@@ -1006,6 +1012,7 @@ Object.assign(I18N.he,{"Badges 🎖": "תגים 🎖", "Day streak": "רצף י�
 Object.assign(I18N.he,{"Edit exercise": "עריכת תרגיל", "Create your own exercise": "יצירת תרגיל משלכם", "Name": "שם", "e.g. Resistance band row": "למשל: חתירה עם גומייה", "Main muscle": "שריר עיקרי", "Also works": "עובד גם על", "(optional)": "(לא חובה)", "Equipment": "ציוד", "Count it in": "ספירה לפי", "Reps": "חזרות", "Time (seconds)": "זמן (שניות)", "Picture": "תמונה", "— pick the move that looks most like yours": "— בחרו את התנועה שהכי דומה לשלכם", "How to do it": "איך מבצעים", "(optional, one step per line)": "(לא חובה, שלב אחד בכל שורה)", "Stand with feet hip-width apart…": "עמדו ברגליים ברוחב האגן…", "Save changes": "שמירת השינויים", "Create exercise": "יצירת התרגיל", "Show suggested moves only": "הצגת התנועות המוצעות בלבד", "Show all {n} moves": "הצגת כל {n} התנועות", "Pick up to 3 extra muscles": "אפשר לבחור עד 3 שרירים נוספים", "Give your exercise a name.": "תנו שם לתרגיל.", "Exercise updated": "התרגיל עודכן", "Exercise created": "התרגיל נוצר", "Your exercise": "התרגיל שלכם", "Custom exercise": "תרגיל מותאם", "No instructions yet. Tap Edit to add your own steps.": "עדיין אין הוראות. הקישו על עריכה כדי להוסיף שלבים.", "No instructions were added for this exercise.": "לא נוספו הוראות לתרגיל הזה.", "Edit": "עריכה", "Delete": "מחיקה", "It's used in {n} of your plans. It will stay in those plans, but it won't show in the exercise list anymore.": "התרגיל נמצא ב־{n} מהתוכניות שלכם. הוא יישאר בהן, אבל לא יופיע יותר ברשימת התרגילים.", "It will be removed from your exercise list.": "התרגיל יוסר מרשימת התרגילים שלכם.", "Delete this exercise?": "למחוק את התרגיל?", "Exercise deleted": "התרגיל נמחק", "My exercises": "התרגילים שלי", "{n} exercises you created. Tap one to see, edit or delete it.": "{n} תרגילים שיצרתם. הקישו על תרגיל כדי לראות, לערוך או למחוק אותו.", "You haven't created any exercises yet. You can also create one while building a plan.": "עוד לא יצרתם תרגילים. אפשר ליצור תרגיל גם בזמן בניית תוכנית.", "Close": "סגירה", "+ Create exercise": "+ יצירת תרגיל", "Can't find yours? Add it with a name, muscles and a picture.": "לא מוצאים את התרגיל שלכם? הוסיפו אותו עם שם, שרירים ותמונה.", "Yours": "שלכם", "Band": "גומייה", "Machine": "מכונה", "Other": "אחר"});
 Object.assign(I18N.he,{"1 exercise you created. Tap it to see, edit or delete it.": "תרגיל אחד שיצרתם. הקישו עליו כדי לראות, לערוך או למחוק אותו."});
 Object.assign(I18N.he,{"Lymphatic Hops": "קפיצות לימפה", "Jump Twists": "קפיצות עם סיבוב", "Body Waves": "גלי גוף", "Standing Trunk Twists": "סיבובי גו בעמידה", "Arm Swings": "הנפות ידיים", "Golf Swings": "תנופות גולף", "Morning wake-up": "התעוררות של בוקר", "6 easy moves · about 5 minutes · no equipment": "6 תנועות קלות · כ־5 דקות · בלי ציוד", "Add to my plans": "הוספה לתוכניות שלי", "Added to your plans": "נוסף לתוכניות שלכם", "Ready-made: Morning wake-up": "מוכן מראש: התעוררות של בוקר", "Lymphatic hops, jump twists, body waves, trunk twists, arm and golf swings · 5 min": "קפיצות לימפה, קפיצות עם סיבוב, גלי גוף, סיבובי גו, הנפות ידיים ותנופות גולף · 5 דק׳"});
+Object.assign(I18N.he,{"What's new": "מה חדש", "You have version {v}": "הגרסה שלכם: {v}", "Latest": "אחרונה", "A new version of FitForge is available — tap to update": "גרסה חדשה של FitForge זמינה — הקישו לעדכון"});
 I18P.he.unshift([/^If there's an account for (.+), we've sent it a code\. Enter it below with your new password\.$/,'אם יש חשבון עבור $1, שלחנו אליו קוד. הזינו אותו למטה יחד עם הסיסמה החדשה.'],[/^Your reset code is (\d+)$/,'קוד האיפוס שלכם הוא $1']);
 I18P.he.unshift(
  [/^Last time: (.+)$/,(m,x)=>'בפעם הקודמת: '+x.replace(/ kg/g,' ק״ג')],
@@ -1475,7 +1482,7 @@ $('#auth-form').addEventListener('submit',async e=>{e.preventDefault();const err
   }finally{btn.disabled=false}});
 /* Sign in with Google (Google Identity Services) */
 let CFG={};
-async function loadConfig(){try{CFG=await Api.call('GET','/api/config')}catch(e){CFG={}}
+async function loadConfig(){try{CFG=await Api.call('GET','/api/config')}catch(e){CFG={}}try{checkVersion(CFG.version)}catch(_){}
   $('#auth-fine').textContent=CFG.emailEnabled?'':'Beta: email verification codes are shown on screen until email sending is switched on.';
   if(!CFG.googleClientId)return;
   $('#social-box').style.display='';
@@ -1920,6 +1927,29 @@ function myExercisesSheet(){const list=(ws.custom||[]).filter(c=>!c.arch);
     el.addEventListener('click',ev=>{const r=ev.target.closest('[data-cx]'),a=ev.target.closest('[data-a]')?.dataset.a;
       if(r){close();howToCustom(EXM[r.dataset.cx])}if(a==='no')close();if(a==='new'){close();openCxEditor(null,'chest',()=>myExercisesSheet())}})})}
 
+
+
+/* ================= VERSION & WHAT'S NEW ================= */
+const APP_VERSION='2.1.0';
+const CHANGELOG=[
+ {v:'2.1.0',d:'2026-11-21',en:['Version number next to the FitForge name — tap it to see what\'s new','Smoother, more realistic animations for the Morning wake-up moves (small hops with dangling arms, twists, body waves, swings)','You\'ll be told when a newer version of the app is available'],
+  he:['מספר גרסה ליד השם FitForge — הקישו עליו כדי לראות מה חדש','אנימציות חלקות ומדויקות יותר לתנועות של התעוררות הבוקר (קפיצות קטנות עם ידיים רפויות, סיבובים, גלי גוף, הנפות)','תקבלו הודעה כשגרסה חדשה של האפליקציה זמינה']},
+ {v:'2.0.0',d:'2026-11-18',en:['Set logging, weight suggestions, personal records and a My progress page','Step-by-step instructions for every exercise','Verification emails and "Forgot password?"','Weekly goal, streaks, 23 badges, reminders and cheers','Create your own exercises','Ready-made Morning wake-up routine'],
+  he:['רישום סטים, הצעות משקל, שיאים אישיים ועמוד ההתקדמות שלי','הוראות שלב אחר שלב לכל תרגיל','אימיילים לאימות ו„שכחתם סיסמה?”','יעד שבועי, רצפים, 23 תגים, תזכורות ועידוד','יצירת תרגילים משלכם','שגרת התעוררות של בוקר מוכנה']},
+ {v:'1.0.0',d:'2026-11-17',en:['Plan builder with the 3D body, workout player and summaries','Sharing and the Shared plans page','Plan helper, profile and weight log','Warm-up & stretching, circuit order, at-home exercises','Hebrew, feedback and Google sign-in'],
+  he:['בונה תוכניות עם גוף תלת־ממדי, נגן אימון וסיכומים','שיתוף ועמוד התוכניות המשותפות','עוזר תוכניות, פרופיל ומעקב משקל','חימום ומתיחות, סדר מעגלי, תרגילים לבית','עברית, משוב וכניסה עם Google']}
+];
+function renderVer(){document.querySelectorAll('.ver').forEach(el=>el.textContent='v'+APP_VERSION)}
+function whatsNew(){const fd=d=>new Date(d+'T12:00').toLocaleDateString(LOC(),{day:'numeric',month:'short',year:'numeric'});
+  sheet(`<h3>${t("What's new")}</h3><p class="mute" style="margin:0 0 6px">${t('You have version {v}',{v:'<b dir="ltr">v'+APP_VERSION+'</b>'})}</p>
+   <div class="wn">${CHANGELOG.map((c,i)=>`<div class="wn-v ${i?'':'cur'}"><div class="wn-h"><b dir="ltr">v${c.v}</b><span data-notr>${fd(c.d)}</span>${i?'':`<span class="wn-tag">${t('Latest')}</span>`}</div><ul data-notr>${(c[LANG]||c.en).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`).join('')}</div>
+   <div class="m-actions"><button class="btn primary" data-a="ok">${t('Got it')}</button></div>`,(el,close)=>{el.querySelector('[data-a=ok]').onclick=close});
+  LS.set('ff_seen_ver',APP_VERSION)}
+document.addEventListener('click',e=>{if(e.target.closest('[data-ver]')){e.preventDefault();whatsNew()}});
+renderVer();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)Api.call('GET','/api/config').then(c=>checkVersion(c&&c.version)).catch(()=>{})});
+function checkVersion(serverV){renderVer();if(serverV&&serverV!==APP_VERSION&&!window.__updShown){window.__updShown=1;
+  const b=document.createElement('button');b.className='upd-bar';b.innerHTML=`⬆️ ${t('A new version of FitForge is available — tap to update')}`;b.onclick=()=>{Sync.now&&Sync.now();setTimeout(()=>location.reload(),400)};document.body.appendChild(b)}}
 
 /* ================= READY-MADE ROUTINES ================= */
 const ROUTINES={morning:{name:'Morning wake-up',category:'full',items:[['lymphhop',60],['jumptwist',40],['bodywave',40],['trunktwist',40],['armswing',40],['golfswing',40]],rest:10}};

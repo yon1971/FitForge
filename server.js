@@ -290,7 +290,9 @@ app.post('/api/auth/reset', limit(20, 60000), wrap(async (req, res) => {
   res.json({ token, user: pub(v) });
 }));
 
-app.get('/api/config', (req, res) => res.json({ googleClientId: GOOGLE_CLIENT_ID || null, emailEnabled: EMAIL_ENABLED }));
+const APP_VERSION = require('./package.json').version;
+const GIT_COMMIT = (process.env.RENDER_GIT_COMMIT || '').slice(0, 7);
+app.get('/api/config', (req, res) => res.json({ googleClientId: GOOGLE_CLIENT_ID || null, emailEnabled: EMAIL_ENABLED, version: APP_VERSION, commit: GIT_COMMIT || null }));
 
 // Real "Sign in with Google": the browser gets an ID token from Google, we verify it with Google.
 app.post('/api/auth/google', limit(20, 60000), wrap(async (req, res) => {
