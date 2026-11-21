@@ -1138,12 +1138,12 @@ const SIDE=[['n','p'],['n','e'],['e','w'],['p','k'],['k','f']];
 const FRONT=[['n','p'],['sL','sR'],['sL','eL'],['eL','wL'],['sR','eR'],['eR','wR'],['hL','hR'],['hL','kL'],['kL','fL'],['hR','kR'],['kR','fR']];
 const PULLA={h:[60,35],n:[60,46],sL:[50,48],sR:[70,48],eL:[45,32],wL:[42,16],eR:[75,32],wR:[78,16],p:[60,79],hL:[54,80],hR:[66,80],kL:[53,97],kR:[67,97],fL:[52,113],fR:[68,113]};
 const TPL={
- lymphHop:{extra:[['f','t']],A:{...ST,f:[60,114],t:[71,114],e:[62,46],w:[65,62]},B:{h:[60,12],n:[60,23],p:[60,59],k:[60,84],f:[60,106],t:[71,114],e:[62,42],w:[66,56]}},
- jumpTwist:{front:1,A:{...FB,sL:[52,29],sR:[68,29],hL:[56,63],hR:[66,63],kL:[50,89],kR:[63,89],fL:[45,113],fR:[60,113],eL:[60,43],wL:[73,48],eR:[80,40],wR:[92,47]},B:{h:[60,9],n:[60,20],sL:[52,23],sR:[68,23],p:[60,56],hL:[54,57],hR:[64,57],kL:[57,82],kR:[70,82],fL:[60,107],fR:[75,107],eL:[40,34],wL:[28,41],eR:[60,37],wR:[47,42]}},
- bodyWave:{A:{h:[67,18],n:[64,29],p:[55,64],k:[61,89],f:[60,114],e:[60,46],w:[65,60]},B:{h:[55,20],n:[56,31],p:[65,62],k:[57,88],e:[54,47],w:[57,63]}},
- trunkTwist:{front:1,A:{...FB,sL:[53,29],sR:[67,29],eL:[40,38],wL:[30,48],eR:[57,43],wR:[45,50]},B:{sL:[53,29],sR:[67,29],eL:[63,43],wL:[75,50],eR:[80,38],wR:[90,48]}},
- armSwingUp:{front:1,A:{...FB,kL:[52,88],kR:[68,88],eL:[56,46],wL:[66,56],eR:[64,46],wR:[54,56]},B:{eL:[41,16],wL:[34,3],eR:[79,16],wR:[86,3]}},
- golfSwing:{front:1,extra:[['wL','wR']],A:{...FB,h:[60,19],n:[60,30],sL:[53,32],sR:[67,32],p:[60,63],kL:[50,88],kR:[70,88],eL:[66,40],wL:[80,26],eR:[78,44],wR:[83,29]},B:{sL:[53,32],sR:[67,32],eL:[42,44],wL:[37,29],eR:[54,40],wR:[40,26]}},
+ lymphHop:{front:1,dur:.7,A:{h:[60,15],n:[60,26],sL:[50,29],sR:[70,29],p:[60,62],hL:[54,63],hR:[66,63],kL:[53,89],kR:[67,89],fL:[52,114],fR:[68,114],eL:[48,46],wL:[47,62],eR:[72,46],wR:[73,62]},K:[{h:[60,9],n:[60,20],sL:[50,23],sR:[70,23],p:[60,56],hL:[54,57],hR:[66,57],kL:[53,83],kR:[67,83],fL:[52,108],fR:[68,108],eL:[49,40],wL:[49,57],eR:[71,40],wR:[71,57]},{h:[60,18],n:[60,29],sL:[50,32],sR:[70,32],p:[60,65],hL:[54,66],hR:[66,66],kL:[51,91],kR:[69,91],fL:[52,114],fR:[68,114],eL:[46,49],wL:[40,59],eR:[74,49],wR:[80,59]}]},
+ jumpTwist:{front:1,dur:1.5,A:{h:[61,17],n:[61,28],sL:[52,30],sR:[69,30],p:[60,64],hL:[57,65],hR:[63,65],kL:[50,90],kR:[57,91],fL:[46,114],fR:[54,114],eL:[58,43],wL:[68,40],eR:[79,41],wR:[88,36]},K:[{h:[60,8],n:[60,19],sL:[50,22],sR:[70,22],p:[60,55],hL:[56,56],hR:[64,56],kL:[55,82],kR:[65,82],fL:[55,107],fR:[65,107],eL:[45,37],wL:[54,31],eR:[75,37],wR:[66,31]},{h:[59,17],n:[59,28],sL:[51,30],sR:[68,30],p:[60,64],hL:[57,65],hR:[63,65],kL:[63,91],kR:[70,90],fL:[66,114],fR:[74,114],eL:[41,41],wL:[32,36],eR:[62,43],wR:[52,40]},{h:[60,8],n:[60,19],sL:[50,22],sR:[70,22],p:[60,55],hL:[56,56],hR:[64,56],kL:[55,82],kR:[65,82],fL:[55,107],fR:[65,107],eL:[45,37],wL:[54,31],eR:[75,37],wR:[66,31]}]},
+ bodyWave:{dur:2.6,A:{h:[61,17],n:[60,28],p:[60,64],k:[61,89],f:[60,114],e:[60,46],w:[61,62]},K:[{h:[68,19],n:[65,29],p:[57,64],k:[60,89],f:[60,114],e:[63,46],w:[62,62]},{h:[62,19],n:[60,30],p:[66,63],k:[61,89],f:[60,114],e:[57,47],w:[59,63]},{h:[56,22],n:[56,33],p:[60,67],k:[68,90],f:[60,114],e:[55,50],w:[57,66]}]},
+ trunkTwist:{front:1,dur:2,A:{h:[60,15],n:[60,26],sL:[54,29],sR:[66,29],p:[60,62],hL:[55,63],hR:[65,63],kL:[53,89],kR:[65,88],fL:[52,114],fR:[67,111],eL:[42,40],wL:[33,52],eR:[59,44],wR:[48,57]},K:[{h:[60,15],n:[60,26],sL:[50,29],sR:[70,29],p:[60,62],hL:[54,63],hR:[66,63],kL:[53,89],kR:[67,89],fL:[52,114],fR:[68,114],eL:[47,46],wL:[45,62],eR:[73,46],wR:[75,62]},{h:[60,15],n:[60,26],sL:[54,29],sR:[66,29],p:[60,62],hL:[55,63],hR:[65,63],kL:[55,88],kR:[67,89],fL:[53,111],fR:[68,114],eR:[78,40],wR:[87,52],eL:[61,44],wL:[72,57]},{h:[60,15],n:[60,26],sL:[50,29],sR:[70,29],p:[60,62],hL:[54,63],hR:[66,63],kL:[53,89],kR:[67,89],fL:[52,114],fR:[68,114],eL:[47,46],wL:[45,62],eR:[73,46],wR:[75,62]}]},
+ armSwingUp:{dur:1.9,A:{h:[59,15],n:[59,26],p:[60,62],k:[60,87],f:[60,113],e:[71,14],w:[81,4]},K:[{h:[61,19],n:[61,30],p:[60,66],k:[65,90],f:[60,114],e:[61,47],w:[62,63]},{h:[60,16],n:[60,27],p:[60,63],k:[60,88],f:[60,114],e:[53,42],w:[45,53]},{h:[61,19],n:[61,30],p:[60,66],k:[65,90],f:[60,114],e:[61,47],w:[62,63]}]},
+ golfSwing:{front:1,dur:2.8,T:[0,.38,.52,.8],thin:[['wL','c']],A:{h:[60,18],n:[60,29],sL:[55,31],sR:[67,31],p:[60,64],hL:[54,65],hR:[66,65],kL:[56,89],kR:[68,90],fL:[53,111],fR:[68,114],eL:[66,40],wL:[77,27],eR:[78,43],wR:[79,29],c:[95,14]},K:[{h:[60,18],n:[60,29],sL:[53,32],sR:[67,32],p:[60,64],hL:[54,65],hR:[66,65],kL:[52,90],kR:[68,90],fL:[52,114],fR:[68,114],eL:[56,46],wL:[59,59],eR:[64,46],wR:[61,59],c:[63,105]},{h:[60,18],n:[60,29],sL:[53,31],sR:[65,31],p:[60,64],hL:[54,65],hR:[66,65],kL:[52,90],kR:[64,89],fL:[52,114],fR:[67,111],eL:[42,43],wL:[41,29],eR:[54,40],wR:[43,27],c:[24,14]},{h:[60,18],n:[60,29],sL:[53,32],sR:[67,32],p:[60,64],hL:[54,65],hR:[66,65],kL:[52,90],kR:[68,90],fL:[52,114],fR:[68,114],eL:[56,46],wL:[59,59],eR:[64,46],wR:[61,59],c:[63,105]}]},
  curl:{A:{...ST,e:[60,46],w:[61,64]},B:{w:[74,36]},hold:'w',cable:{w:[66,116]}},
  frontRaise:{A:{...ST,e:[61,46],w:[62,64]},B:{e:[77,26],w:[95,24]},hold:'w'},
  uprightRow:{A:{...ST,e:[61,46],w:[62,64]},B:{e:[73,31],w:[66,38]},hold:'w'},
@@ -1213,11 +1213,16 @@ const TPL={
 };
 function fig(tid,eq,o={}){
   const tp=TPL[tid];if(!tp)return'';
-  const A=tp.A,B={...A,...(tp.B||{})},anim=o.anim!==false,D=o.dur||2.1;
-  const KS='keyTimes="0;0.5;1" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"';
-  const ani=(at,a,b)=>(!anim||a===b)?'':`<animate attributeName="${at}" values="${a};${b};${a}" dur="${D}s" repeatCount="indefinite" ${KS}/>`;
-  const L=(a1,a2,b1,b2,cls)=>`<line class="${cls}" x1="${a1[0]}" y1="${a1[1]}" x2="${a2[0]}" y2="${a2[1]}">${ani('x1',a1[0],b1[0])}${ani('y1',a1[1],b1[1])}${ani('x2',a2[0],b2[0])}${ani('y2',a2[1],b2[1])}</line>`;
-  const mv=(a,b,inner)=>`<g class="eq" transform="translate(${a[0]} ${a[1]})">${(!anim||(a[0]===b[0]&&a[1]===b[1]))?'':`<animateTransform attributeName="transform" type="translate" values="${a[0]} ${a[1]};${b[0]} ${b[1]};${a[0]} ${a[1]}" dur="${D}s" repeatCount="indefinite" ${KS}/>`}${inner}</g>`;
+  const A=tp.A,anim=o.anim!==false,D=tp.dur||o.dur||2.1;
+  // frames: classic A<->B, or several key poses (tp.K) played in order and looped
+  const P=tp.K?[A,...tp.K.map(k=>({...A,...k}))]:[A,{...A,...(tp.B||{})}],multi=P.length>2;
+  const kt=multi?(tp.T||P.map((_,i)=>i/P.length)).concat(1):[0,.5,1];
+  const KS=`keyTimes="${kt.map(x=>+(+x).toFixed(3)).join(';')}" calcMode="spline" keySplines="${Array(kt.length-1).fill('0.45 0 0.55 1').join(';')}"`;
+  const seq=v=>multi?v.concat([v[0]]):[v[0],v[1],v[0]];
+  const ani=(at,vals)=>{const v=seq(vals);return(!anim||v.every(x=>x===v[0]))?'':`<animate attributeName="${at}" values="${v.join(';')}" dur="${D}s" repeatCount="indefinite" ${KS}/>`};
+  const J=j=>P.map(q=>q[j]);
+  const L=(p1,p2,cls)=>`<line class="${cls}" x1="${p1[0][0]}" y1="${p1[0][1]}" x2="${p2[0][0]}" y2="${p2[0][1]}">${ani('x1',p1.map(q=>q[0]))}${ani('y1',p1.map(q=>q[1]))}${ani('x2',p2.map(q=>q[0]))}${ani('y2',p2.map(q=>q[1]))}</line>`;
+  const mv=(ps,inner)=>{const v=seq(ps.map(q=>q[0]+' '+q[1]));return`<g class="eq" transform="translate(${ps[0][0]} ${ps[0][1]})">${(!anim||v.every(x=>x===v[0]))?'':`<animateTransform attributeName="transform" type="translate" values="${v.join(';')}" dur="${D}s" repeatCount="indefinite" ${KS}/>`}${inner}</g>`};
   const SH={
     db:'<rect x="-6" y="-1.4" width="12" height="2.8" rx="1"/><rect x="-10" y="-5.2" width="4.6" height="10.4" rx="1.3"/><rect x="5.4" y="-5.2" width="4.6" height="10.4" rx="1.3"/>',
     plate:'<circle class="pl" r="9.5"/><circle r="2.6"/>',
@@ -1228,23 +1233,24 @@ function fig(tid,eq,o={}){
   if(!tp.noGround)s+='<line class="gr" x1="4" y1="116.5" x2="116" y2="116.5"/>';
   (tp.props||[]).forEach(p=>{if(p.r)s+=`<rect class="pr" x="${p.r[0]}" y="${p.r[1]}" width="${p.r[2]}" height="${p.r[3]}" rx="1.5"/>`;if(p.l)s+=`<line class="prl" x1="${p.l[0]}" y1="${p.l[1]}" x2="${p.l[2]}" y2="${p.l[3]}"/>`});
   const holds=[].concat(tp.hold||[]);
-  if((eq==='cable'||eq==='cablebar')&&tp.cable)Object.keys(tp.cable).forEach(j=>{const c=tp.cable[j];s+=L(c,A[j],c,B[j],'cb')});
+  if((eq==='cable'||eq==='cablebar')&&tp.cable)Object.keys(tp.cable).forEach(j=>{const c=tp.cable[j];s+=L(P.map(()=>c),J(j),'cb')});
   const bones=(tp.bones||(tp.front?FRONT:SIDE)).concat(tp.extra||[]);
-  bones.forEach(([a,b])=>{s+=L(A[a],A[b],B[a],B[b],'bn')});
-  s+=`<circle class="hd" cx="${A.h[0]}" cy="${A.h[1]}" r="7.5">${ani('cx',A.h[0],B.h[0])}${ani('cy',A.h[1],B.h[1])}</circle>`;
+  bones.forEach(([a,b])=>{s+=L(J(a),J(b),'bn')});
+  (tp.thin||[]).forEach(([a,b])=>{s+=L(J(a),J(b),'prl')});
+  s+=`<circle class="hd" cx="${A.h[0]}" cy="${A.h[1]}" r="7.5">${ani('cx',J('h').map(q=>q[0]))}${ani('cy',J('h').map(q=>q[1]))}</circle>`;
   // front-of-body cues: eyes show where the face points, orange line marks chest/belly
   const r1=v=>Math.round(v*10)/10;
-  const dot=(a,b,cls,r)=>`<circle class="${cls}" cx="${r1(a[0])}" cy="${r1(a[1])}" r="${r}">${ani('cx',r1(a[0]),r1(b[0]))}${ani('cy',r1(a[1]),r1(b[1]))}</circle>`;
-  if(tp.front||tp.face===0){const E=(P,dx)=>[P.h[0]+dx,P.h[1]-0.6];s+=dot(E(A,-2.6),E(B,-2.6),'eye',1.35)+dot(E(A,2.6),E(B,2.6),'eye',1.35)}
+  const dot=(ps,cls,r)=>`<circle class="${cls}" cx="${r1(ps[0][0])}" cy="${r1(ps[0][1])}" r="${r}">${ani('cx',ps.map(q=>r1(q[0])))}${ani('cy',ps.map(q=>r1(q[1])))}</circle>`;
+  if(tp.front||tp.face===0){const E=(Q,dx)=>[Q.h[0]+dx,Q.h[1]-0.6];s+=dot(P.map(q=>E(q,-2.6)),'eye',1.35)+dot(P.map(q=>E(q,2.6)),'eye',1.35)}
   else if(A.n&&A.p){const sg=tp.face??1;
-    const fr=P=>{let tx=P.n[0]-P.p[0],ty=P.n[1]-P.p[1];const L=Math.hypot(tx,ty)||1;tx/=L;ty/=L;return{t:[tx,ty],f:[-ty*sg,tx*sg]}};
-    const eye=P=>{const{t,f}=fr(P);return[P.h[0]+f[0]*3.6+t[0]*1.3,P.h[1]+f[1]*3.6+t[1]*1.3]};
-    const ch=(P,u)=>{const{f}=fr(P);return[r1(P.n[0]+(P.p[0]-P.n[0])*u+f[0]*4.9),r1(P.n[1]+(P.p[1]-P.n[1])*u+f[1]*4.9)]};
-    s+=(tp.nochest?'':L(ch(A,.1),ch(A,.75),ch(B,.1),ch(B,.75),"chest"))+dot(eye(A),eye(B),'eye',1.6)}
-  if(eq==='db'||eq==='kb'||eq==='ball')holds.forEach(j=>s+=mv(A[j],B[j],SH[eq]));
-  else if(eq==='bb'){if(holds.length===2){const[a,b]=holds;const e=(p,d)=>[p[0]+d,p[1]];s+=L(e(A[a],-12),e(A[b],12),e(B[a],-12),e(B[b],12),'eql')}else if(holds[0])s+=mv(A[holds[0]],B[holds[0]],SH.plate)}
-  else if(eq==='cablebar'){const[a,b]=holds;const e=(p,d)=>[p[0]+d,p[1]];s+=L(e(A[a],-7),e(A[b],7),e(B[a],-7),e(B[b],7),'eql')}
-  else if(eq==='cable')holds.forEach(j=>s+=mv(A[j],B[j],SH.handle));
+    const fr=Q=>{let tx=Q.n[0]-Q.p[0],ty=Q.n[1]-Q.p[1];const L=Math.hypot(tx,ty)||1;tx/=L;ty/=L;return{t:[tx,ty],f:[-ty*sg,tx*sg]}};
+    const eye=Q=>{const{t,f}=fr(Q);return[Q.h[0]+f[0]*3.6+t[0]*1.3,Q.h[1]+f[1]*3.6+t[1]*1.3]};
+    const ch=(Q,u)=>{const{f}=fr(Q);return[r1(Q.n[0]+(Q.p[0]-Q.n[0])*u+f[0]*4.9),r1(Q.n[1]+(Q.p[1]-Q.n[1])*u+f[1]*4.9)]};
+    s+=(tp.nochest?'':L(P.map(q=>ch(q,.1)),P.map(q=>ch(q,.75)),"chest"))+dot(P.map(eye),'eye',1.6)}
+  if(eq==='db'||eq==='kb'||eq==='ball')holds.forEach(j=>s+=mv(J(j),SH[eq]));
+  else if(eq==='bb'){if(holds.length===2){const[a,b]=holds;const e=(q,d)=>[q[0]+d,q[1]];s+=L(J(a).map(q=>e(q,-12)),J(b).map(q=>e(q,12)),'eql')}else if(holds[0])s+=mv(J(holds[0]),SH.plate)}
+  else if(eq==='cablebar'){const[a,b]=holds;const e=(q,d)=>[q[0]+d,q[1]];s+=L(J(a).map(q=>e(q,-7)),J(b).map(q=>e(q,7)),'eql')}
+  else if(eq==='cable')holds.forEach(j=>s+=mv(J(j),SH.handle));
   return s+'</svg>';
 }
 const exFig=(id,o)=>{const e=EXM[id];return e?fig(e.t,e.eq,o):''};
