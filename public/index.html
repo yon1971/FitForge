@@ -1013,6 +1013,7 @@ Object.assign(I18N.he,{"Edit exercise": "עריכת תרגיל", "Create your ow
 Object.assign(I18N.he,{"1 exercise you created. Tap it to see, edit or delete it.": "תרגיל אחד שיצרתם. הקישו עליו כדי לראות, לערוך או למחוק אותו."});
 Object.assign(I18N.he,{"Lymphatic Hops": "קפיצות לימפה", "Jump Twists": "קפיצות עם סיבוב", "Body Waves": "גלי גוף", "Standing Trunk Twists": "סיבובי גו בעמידה", "Arm Swings": "הנפות ידיים", "Golf Swings": "תנופות גולף", "Morning wake-up": "התעוררות של בוקר", "6 easy moves · about 5 minutes · no equipment": "6 תנועות קלות · כ־5 דקות · בלי ציוד", "Add to my plans": "הוספה לתוכניות שלי", "Added to your plans": "נוסף לתוכניות שלכם", "Ready-made: Morning wake-up": "מוכן מראש: התעוררות של בוקר", "Lymphatic hops, jump twists, body waves, trunk twists, arm and golf swings · 5 min": "קפיצות לימפה, קפיצות עם סיבוב, גלי גוף, סיבובי גו, הנפות ידיים ותנופות גולף · 5 דק׳"});
 Object.assign(I18N.he,{"What's new": "מה חדש", "You have version {v}": "הגרסה שלכם: {v}", "Latest": "אחרונה", "A new version of FitForge is available — tap to update": "גרסה חדשה של FitForge זמינה — הקישו לעדכון"});
+Object.assign(I18N.he,{"March Slaps": "צעידה עם טפיחות", "Lymphatic hops, march slaps, body waves, trunk twists, arm and golf swings · 5 min": "קפיצות לימפה, צעידה עם טפיחות, גלי גוף, סיבובי גו, הנפות ידיים ותנופות גולף · 5 דק׳"});
 I18P.he.unshift([/^If there's an account for (.+), we've sent it a code\. Enter it below with your new password\.$/,'אם יש חשבון עבור $1, שלחנו אליו קוד. הזינו אותו למטה יחד עם הסיסמה החדשה.'],[/^Your reset code is (\d+)$/,'קוד האיפוס שלכם הוא $1']);
 I18P.he.unshift(
  [/^Last time: (.+)$/,(m,x)=>'בפעם הקודמת: '+x.replace(/ kg/g,' ק״ג')],
@@ -1129,7 +1130,8 @@ const EX=[
  {id:'chairham',n:"Chair Hamstring Bridge",m:['hamstrings','glutes'],t:'chairHam',eq:'chair',home:1,reps:12},
  {id:'stepcalf',n:"Step Calf Raise",m:['calves'],t:'stepCalf',eq:'step',home:1,reps:20},
  {id:'pogo',n:"Pogo Hops",m:['calves'],t:'pogo',eq:'none',home:1,time:1,secs:30},
- {id:'lymphhop',n:"Lymphatic Hops",m:['calves'],t:'lymphHop',eq:'none',home:1,time:1,secs:60,warm:1},
+ {id:'lymphhop',n:"Lymphatic Hops",m:['calves'],t:'lymphHop',eq:'none',home:1,time:1,secs:40,warm:1},
+ {id:'marchslap',n:"March Slaps",m:['quads','abs'],t:'marchSlap',eq:'none',home:1,time:1,secs:40,warm:1},
  {id:'jumptwist',n:"Jump Twists",m:['obliques','calves'],t:'jumpTwist',eq:'none',home:1,time:1,secs:40,warm:1},
  {id:'bodywave',n:"Body Waves",m:['abs','lowerBack'],t:'bodyWave',eq:'none',home:1,time:1,secs:40,warm:1},
  {id:'trunktwist',n:"Standing Trunk Twists",m:['obliques','lowerBack'],t:'trunkTwist',eq:'none',home:1,time:1,secs:40,warm:1},
@@ -1145,6 +1147,7 @@ const SIDE=[['n','p'],['n','e'],['e','w'],['p','k'],['k','f']];
 const FRONT=[['n','p'],['sL','sR'],['sL','eL'],['eL','wL'],['sR','eR'],['eR','wR'],['hL','hR'],['hL','kL'],['kL','fL'],['hR','kR'],['kR','fR']];
 const PULLA={h:[60,35],n:[60,46],sL:[50,48],sR:[70,48],eL:[45,32],wL:[42,16],eR:[75,32],wR:[78,16],p:[60,79],hL:[54,80],hR:[66,80],kL:[53,97],kR:[67,97],fL:[52,113],fR:[68,113]};
 const TPL={
+ marchSlap:{front:1,dur:1.5,A:{h:[60,14],n:[60,25],sL:[50,28],sR:[70,28],p:[60,61],hL:[54,63],hR:[66,63],kL:[49,72],kR:[67,89],fL:[51,96],fR:[68,114],eL:[44,43],wL:[39,55],eR:[66,47],wR:[53,70]},K:[{h:[60,15],n:[60,26],sL:[50,29],sR:[70,29],p:[60,62],hL:[54,63],hR:[66,63],kL:[53,89],kR:[67,89],fL:[52,114],fR:[68,114],eL:[47,46],wL:[46,61],eR:[73,46],wR:[74,61]},{h:[60,14],n:[60,25],sL:[50,28],sR:[70,28],p:[60,61],hL:[54,63],hR:[66,63],kL:[53,89],kR:[71,72],fL:[52,114],fR:[69,96],eR:[76,43],wR:[81,55],eL:[54,47],wL:[67,70]},{h:[60,15],n:[60,26],sL:[50,29],sR:[70,29],p:[60,62],hL:[54,63],hR:[66,63],kL:[53,89],kR:[67,89],fL:[52,114],fR:[68,114],eL:[47,46],wL:[46,61],eR:[73,46],wR:[74,61]}]},
  lymphHop:{front:1,dur:.7,A:{h:[60,15],n:[60,26],sL:[50,29],sR:[70,29],p:[60,62],hL:[54,63],hR:[66,63],kL:[53,89],kR:[67,89],fL:[52,114],fR:[68,114],eL:[48,46],wL:[47,62],eR:[72,46],wR:[73,62]},K:[{h:[60,9],n:[60,20],sL:[50,23],sR:[70,23],p:[60,56],hL:[54,57],hR:[66,57],kL:[53,83],kR:[67,83],fL:[52,108],fR:[68,108],eL:[49,40],wL:[49,57],eR:[71,40],wR:[71,57]},{h:[60,18],n:[60,29],sL:[50,32],sR:[70,32],p:[60,65],hL:[54,66],hR:[66,66],kL:[51,91],kR:[69,91],fL:[52,114],fR:[68,114],eL:[46,49],wL:[40,59],eR:[74,49],wR:[80,59]}]},
  jumpTwist:{front:1,dur:1.5,A:{h:[61,17],n:[61,28],sL:[52,30],sR:[69,30],p:[60,64],hL:[57,65],hR:[63,65],kL:[50,90],kR:[57,91],fL:[46,114],fR:[54,114],eL:[58,43],wL:[68,40],eR:[79,41],wR:[88,36]},K:[{h:[60,8],n:[60,19],sL:[50,22],sR:[70,22],p:[60,55],hL:[56,56],hR:[64,56],kL:[55,82],kR:[65,82],fL:[55,107],fR:[65,107],eL:[45,37],wL:[54,31],eR:[75,37],wR:[66,31]},{h:[59,17],n:[59,28],sL:[51,30],sR:[68,30],p:[60,64],hL:[57,65],hR:[63,65],kL:[63,91],kR:[70,90],fL:[66,114],fR:[74,114],eL:[41,41],wL:[32,36],eR:[62,43],wR:[52,40]},{h:[60,8],n:[60,19],sL:[50,22],sR:[70,22],p:[60,55],hL:[56,56],hR:[64,56],kL:[55,82],kR:[65,82],fL:[55,107],fR:[65,107],eL:[45,37],wL:[54,31],eR:[75,37],wR:[66,31]}]},
  bodyWave:{dur:2.6,A:{h:[61,17],n:[60,28],p:[60,64],k:[61,89],f:[60,114],e:[60,46],w:[61,62]},K:[{h:[68,19],n:[65,29],p:[57,64],k:[60,89],f:[60,114],e:[63,46],w:[62,62]},{h:[62,19],n:[60,30],p:[66,63],k:[61,89],f:[60,114],e:[57,47],w:[59,63]},{h:[56,22],n:[56,33],p:[60,67],k:[68,90],f:[60,114],e:[55,50],w:[57,66]}]},
@@ -1549,7 +1552,7 @@ async function onAuthed(token,user,isReturn){Api.setToken(token);me=user;
   if(ws.settings&&ws.settings.lang&&LANGS[ws.settings.lang]&&ws.settings.lang!==LANG&&!LS.get('ff_lang',null)){LS.set('ff_lang',ws.settings.lang);location.reload();return}
   if(!ws.settings||ws.settings.lang!==LANG){ws.settings={...(ws.settings||{}),lang:LANG}}LS.set('ff_cache_'+me.id,ws);
   if(isReturn)Api.event('app_open');
-  myShared={};ws.weights=ws.weights||[];applyCustom();renderHome();if(!maybeOnboard())show('s-home');refreshMyShared();fbNew=0;startFbPolling()}
+  myShared={};ws.weights=ws.weights||[];applyCustom();try{migrateRoutines()}catch(_){}renderHome();if(!maybeOnboard())show('s-home');refreshMyShared();fbNew=0;startFbPolling()}
 async function logout(silent){if(!silent){try{await Sync.now()}catch(e){}Api.call('POST','/api/logout').catch(()=>{})}clearInterval(fbPollT);fbNew=0;Api.setToken(null);me=null;ws={plans:[],sessions:[]};applyCustom();$('#in-pass').value='';setAuthMode('signin');show('s-login');setTimeout(renderGoogleBtn,50)}
 
 /* ================= HOME ================= */
@@ -1930,8 +1933,10 @@ function myExercisesSheet(){const list=(ws.custom||[]).filter(c=>!c.arch);
 
 
 /* ================= VERSION & WHAT'S NEW ================= */
-const APP_VERSION='2.1.0';
+const APP_VERSION='2.2.0';
 const CHANGELOG=[
+ {v:'2.2.0',d:'2026-11-23',en:['Morning wake-up: every move is now 40 seconds','March Slaps replace Jump Twists in the Morning wake-up','The wake-up moves no longer suggest longer times by themselves — if you keep going past the beep, your plan saves that longer time for next time'],
+  he:['התעוררות של בוקר: כל תנועה עכשיו 40 שניות','צעידה עם טפיחות מחליפה את הקפיצות עם סיבוב בהתעוררות של בוקר','תנועות ההתעוררות כבר לא מציעות זמן ארוך יותר מעצמן — אם תמשיכו אחרי הצפצוף, התוכנית תשמור את הזמן הארוך יותר לפעם הבאה']},
  {v:'2.1.0',d:'2026-11-21',en:['Version number next to the FitForge name — tap it to see what\'s new','Smoother, more realistic animations for the Morning wake-up moves (small hops with dangling arms, twists, body waves, swings)','You\'ll be told when a newer version of the app is available'],
   he:['מספר גרסה ליד השם FitForge — הקישו עליו כדי לראות מה חדש','אנימציות חלקות ומדויקות יותר לתנועות של התעוררות הבוקר (קפיצות קטנות עם ידיים רפויות, סיבובים, גלי גוף, הנפות)','תקבלו הודעה כשגרסה חדשה של האפליקציה זמינה']},
  {v:'2.0.0',d:'2026-11-18',en:['Set logging, weight suggestions, personal records and a My progress page','Step-by-step instructions for every exercise','Verification emails and "Forgot password?"','Weekly goal, streaks, 23 badges, reminders and cheers','Create your own exercises','Ready-made Morning wake-up routine'],
@@ -1952,11 +1957,14 @@ function checkVersion(serverV){renderVer();if(serverV&&serverV!==APP_VERSION&&!w
   const b=document.createElement('button');b.className='upd-bar';b.innerHTML=`⬆️ ${t('A new version of FitForge is available — tap to update')}`;b.onclick=()=>{Sync.now&&Sync.now();setTimeout(()=>location.reload(),400)};document.body.appendChild(b)}}
 
 /* ================= READY-MADE ROUTINES ================= */
-const ROUTINES={morning:{name:'Morning wake-up',category:'full',items:[['lymphhop',60],['jumptwist',40],['bodywave',40],['trunktwist',40],['armswing',40],['golfswing',40]],rest:10}};
+const ROUTINES={morning:{name:'Morning wake-up',category:'full',items:[['lymphhop',40],['marchslap',40],['bodywave',40],['trunktwist',40],['armswing',40],['golfswing',40]],rest:10,v:2}};
 const routinePlan=k=>ws.plans.find(p=>p.tpl===k);
 function addRoutine(k,quiet){let p=routinePlan(k);if(p)return p;const r=ROUTINES[k];
-  p={id:'p'+uid(),tpl:k,name:t(r.name),category:r.category,mode:'straight',items:r.items.map(([exId,secs])=>({exId,sets:1,reps:10,secs,time:true,rest:r.rest,weight:0})),stretch:{mode:'off',min:5,auto:true},created:Date.now(),updated:Date.now()};
+  p={id:'p'+uid(),tpl:k,tplv:r.v||1,name:t(r.name),category:r.category,mode:'straight',items:r.items.map(([exId,secs])=>({exId,sets:1,reps:10,secs,time:true,rest:r.rest,weight:0})),stretch:{mode:'off',min:5,auto:true},created:Date.now(),updated:Date.now()};
   ws.plans.push(p);saveWS();Api.event('plan_created',{tpl:k});if(!quiet)toast(t('Added to your plans'));return p}
+function migrateRoutines(){let ch=false;(ws.plans||[]).forEach(p=>{if(p.tpl!=='morning'||(p.tplv||1)>=2)return;
+    p.items.forEach(it=>{if(it.exId==='jumptwist')it.exId='marchslap';if(EXM[it.exId]&&EXM[it.exId].warm){it.secs=40;it.time=true}});p.tplv=2;p.updated=Date.now();ch=true});
+  if(ch)saveWS()}
 function morningCard(){const h=new Date().getHours(),p=routinePlan('morning');if(h<4||h>=12)return'';
   if(LS.get('ff_morn_hide_'+startOfDay(Date.now()),false))return'';
   if(p&&ws.sessions.some(s=>s.planId===p.id&&s.at>=startOfDay(Date.now())))return'';
@@ -1965,7 +1973,7 @@ function morningCard(){const h=new Date().getHours(),p=routinePlan('morning');if
     <div class="mo-b"><button class="btn primary sm" data-morn="start">${ICON.play} ${t('Start')}</button>${p?'':`<button class="btn sm" data-morn="add">+ ${t('Add to my plans')}</button>`}</div></div>
     <button class="rx" data-morn="hide" aria-label="Hide">✕</button></div>`}
 function readyRow(){if(routinePlan('morning'))return'';
-  return`<button class="ready-row" data-morn="add"><span class="mo-sun sm">☀️</span><span><b>${t('Ready-made: Morning wake-up')}</b><small>${t('Lymphatic hops, jump twists, body waves, trunk twists, arm and golf swings · 5 min')}</small></span><span class="plus">+</span></button>`}
+  return`<button class="ready-row" data-morn="add"><span class="mo-sun sm">☀️</span><span><b>${t('Ready-made: Morning wake-up')}</b><small>${t('Lymphatic hops, march slaps, body waves, trunk twists, arm and golf swings · 5 min')}</small></span><span class="plus">+</span></button>`}
 document.addEventListener('click',e=>{const m=e.target.closest('[data-morn]');if(!m)return;const a=m.dataset.morn;
   if(a==='start'){const p=addRoutine('morning',true);startWorkout(p.id)}
   if(a==='add'){addRoutine('morning');renderHome()}
@@ -2136,6 +2144,7 @@ function exHistory(exId,beforeAt){return ws.sessions.filter(s=>s.log&&s.log.leng
 function suggestFor(it,beforeAt){const ex=EXM[it.exId];const h=exHistory(it.exId,beforeAt)[0];
   const s={reps:it.reps,secs:it.secs,weight:it.weight||0,last:null,why:null};if(!h)return s;s.last=h;
   const sets=h.sets;
+  if(it.time&&ex&&ex.warm){s.why=null;return s}
   if(it.time){const mx=Math.max(...sets.map(x=>x.secs||0)),ok=sets.every(x=>(x.secs||0)>=it.secs);s.secs=ok?Math.min(600,Math.max(it.secs,mx)+5):it.secs;s.why=ok?'up':'same';return s}
   const w=Math.max(...sets.map(x=>x.weight||0)),minR=Math.min(...sets.map(x=>x.reps||0)),avgR=sets.reduce((a,x)=>a+(x.reps||0),0)/sets.length;
   if(w>0){const inc=wInc(ex);s.weight=w;if(minR>=it.reps){s.weight=r1kg(w+inc);s.why='up'}else if(avgR<it.reps*0.7){s.weight=r1kg(Math.max(0,w-inc));s.why='down'}else s.why='same'}
@@ -2194,7 +2203,9 @@ function summaryLogEdit(cur,plan,btn){const[ix,k,d]=btn.dataset.se.split(':');co
   if(k==='r')l.reps=Math.max(0,(l.reps||0)+sg);if(k==='s')l.secs=Math.max(1,(l.secs||0)+5*sg);if(k==='w')l.weight=r1kg(Math.max(0,(l.weight||0)+inc*sg));
   rememberWeights(cur,plan);saveWS();const y=window.scrollY;renderSummary(cur,plan);window.scrollTo(0,y)}
 function rememberWeights(sess,plan){const p=ws.plans.find(x=>x.id===plan.id);if(!p||!sess.log)return;
-  p.items.forEach(it=>{const ls=sess.log.filter(l=>l.exId===it.exId&&l.weight);if(ls.length)it.weight=ls[ls.length-1].weight})}
+  p.items.forEach(it=>{const ls=sess.log.filter(l=>l.exId===it.exId&&l.weight);if(ls.length)it.weight=ls[ls.length-1].weight;
+    const ex=EXM[it.exId];if(it.time&&ex&&ex.warm){const ts=sess.log.filter(l=>l.exId===it.exId&&l.secs&&!l.reps);
+      if(ts.length){const base=Math.max(...ts.map(l=>l.target||0))||it.secs,mx=Math.max(...ts.map(l=>l.secs));it.secs=Math.min(600,Math.max(base,mx))}}})}
 
 /* ---- Progress page ---- */
 function openProgress(){show('s-progress');renderProgress()}

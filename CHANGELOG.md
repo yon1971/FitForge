@@ -11,6 +11,10 @@ The version lives in two places that must match:
 
 When they differ, a phone that still has the old page open shows an "update available" bar.
 
+## 2.2.0 — 2026-11-23
+- Morning wake-up: all moves 40 s; March Slaps replace Jump Twists (existing copies of the routine are updated automatically)
+- Wake-up moves no longer auto-suggest longer times; if the user goes past the beep, the plan saves that longer time
+
 ## 2.1.0 — 2026-11-21
 - Version number next to the FitForge name; tapping it opens "What's new"
 - Smoother multi-step animations for the Morning wake-up moves
