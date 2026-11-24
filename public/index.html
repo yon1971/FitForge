@@ -325,6 +325,14 @@ button.ver{border-bottom:1px dotted rgba(255,255,255,.25)}
 .wn-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}.wn-h b{font-size:15px}.wn-h span{color:var(--mute);font-size:12.5px}.wn-tag{background:var(--acc);color:#111!important;font-weight:800;font-size:10.5px!important;padding:2px 7px;border-radius:6px}
 .wn ul{margin:0;padding-inline-start:18px;display:grid;gap:5px;font-size:14px;line-height:1.4}
 .upd-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom));z-index:90;background:var(--acc);color:#111;border:0;border-radius:999px;padding:11px 18px;font-weight:700;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.5);width:max-content;max-width:92vw}
+.pt-r{display:flex;align-items:center;gap:6px}.pt-hold svg{width:18px;height:18px}
+.hold-ov{position:absolute;inset:0;z-index:40;background:rgba(10,12,16,.86);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:grid;place-items:center;padding:24px}
+#s-player{position:relative}
+.hold-card{width:min(360px,100%);text-align:center;display:grid;gap:12px}
+.hold-ico{width:72px;height:72px;border-radius:50%;margin:0 auto 4px;background:var(--acc);color:#111;display:grid;place-items:center}.hold-ico svg{width:30px;height:30px}
+.hold-card h2{margin:0;font-size:30px;letter-spacing:.02em}.hold-card p{margin:0;color:var(--mute)}
+.hold-info{display:flex;justify-content:space-between;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:14px}.hold-info span{color:var(--mute)}
+.hold-card .btn.big{margin-top:6px}
 .p-fig{width:min(68vw,330px);overflow:hidden;border-radius:30px;background:radial-gradient(ellipse at 50% 42%,#1d232d,#0f1217 72%);padding:18px;margin-bottom:18px}
 .p-name{font-size:clamp(34px,8vw,52px);margin:8px 0 10px}
 .p-set{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:.12em;color:var(--mute)}
@@ -1014,6 +1022,7 @@ Object.assign(I18N.he,{"1 exercise you created. Tap it to see, edit or delete it
 Object.assign(I18N.he,{"Lymphatic Hops": "קפיצות לימפה", "Jump Twists": "קפיצות עם סיבוב", "Body Waves": "גלי גוף", "Standing Trunk Twists": "סיבובי גו בעמידה", "Arm Swings": "הנפות ידיים", "Golf Swings": "תנופות גולף", "Morning wake-up": "התעוררות של בוקר", "6 easy moves · about 5 minutes · no equipment": "6 תנועות קלות · כ־5 דקות · בלי ציוד", "Add to my plans": "הוספה לתוכניות שלי", "Added to your plans": "נוסף לתוכניות שלכם", "Ready-made: Morning wake-up": "מוכן מראש: התעוררות של בוקר", "Lymphatic hops, jump twists, body waves, trunk twists, arm and golf swings · 5 min": "קפיצות לימפה, קפיצות עם סיבוב, גלי גוף, סיבובי גו, הנפות ידיים ותנופות גולף · 5 דק׳"});
 Object.assign(I18N.he,{"What's new": "מה חדש", "You have version {v}": "הגרסה שלכם: {v}", "Latest": "אחרונה", "A new version of FitForge is available — tap to update": "גרסה חדשה של FitForge זמינה — הקישו לעדכון"});
 Object.assign(I18N.he,{"March Slaps": "צעידה עם טפיחות", "Lymphatic hops, march slaps, body waves, trunk twists, arm and golf swings · 5 min": "קפיצות לימפה, צעידה עם טפיחות, גלי גוף, סיבובי גו, הנפות ידיים ותנופות גולף · 5 דק׳"});
+Object.assign(I18N.he,{"Paused": "מושהה", "All timers are stopped. Take your time.": "כל הטיימרים עצרו. קחו את הזמן.", "Workout time": "זמן אימון", "Paused on": "הושהה ב־", "Resume": "המשך", "End workout": "סיום אימון", "Pause workout": "השהיית האימון", "Rest": "מנוחה", "Warm-up": "חימום", "Stretching": "מתיחות"});
 I18P.he.unshift([/^If there's an account for (.+), we've sent it a code\. Enter it below with your new password\.$/,'אם יש חשבון עבור $1, שלחנו אליו קוד. הזינו אותו למטה יחד עם הסיסמה החדשה.'],[/^Your reset code is (\d+)$/,'קוד האיפוס שלכם הוא $1']);
 I18P.he.unshift(
  [/^Last time: (.+)$/,(m,x)=>'בפעם הקודמת: '+x.replace(/ kg/g,' ק״ג')],
@@ -1785,11 +1794,12 @@ function nextStretch(){P.si++;if(P.si<stretchList().length)return startStretch()
   else finishWorkout()}
 function beginCool(){P.workEndAt=Date.now();if(!P.cool.length)return finishWorkout();P.phase='cool';P.si=0;startStretch()}
 function nextPos(){const n=P.steps[P.k+1];return n?{...n,k:P.k+1}:null}
-function renderPlayer(){const it=P.items[P.i],ex=EXM[it.exId],el=$('#s-player');
+function renderPlayer(){_renderPlayer();if(P&&P.hold)drawHold()}
+function _renderPlayer(){const it=P.items[P.i],ex=EXM[it.exId],el=$('#s-player');
   const W=P.warm.length,S=P.steps.length,gi=P.phase==='warm'?P.si:P.phase==='cool'?W+S+P.si:W+P.k;
   const segs=[...P.warm.map(()=>'sw'),...P.steps.map(()=>''),...P.cool.map(()=>'sw')].map((c,k)=>`<i class="${c} ${k<gi?'d':k===gi?'c':''}"></i>`).join('');
   const isStr=P.phase==='warm'||P.phase==='cool';
-  const top=`<header class="ptop"><button class="icon-btn" data-act="quit" aria-label="End workout">${ICON.x}</button><div class="pt-mid"><div class="pt-name" data-notr>${esc(P.plan.name)}</div><div class="pt-clock" id="p-clock">${fmt((Date.now()-P.startAt)/1000)}</div></div><div class="pt-count">${isStr?(P.si+1)+'/'+stretchList().length:(P.k+1)+'/'+S}</div></header><div class="pbar">${segs}</div>`;
+  const top=`<header class="ptop"><button class="icon-btn" data-act="quit" aria-label="End workout">${ICON.x}</button><div class="pt-mid"><div class="pt-name" data-notr>${esc(P.plan.name)}</div><div class="pt-clock" id="p-clock">${fmt((Date.now()-P.startAt)/1000)}</div></div><div class="pt-r"><button class="icon-btn pt-hold" data-act="hold" aria-label="Pause workout"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></svg></button><div class="pt-count">${isStr?(P.si+1)+'/'+stretchList().length:(P.k+1)+'/'+S}</div></div></header><div class="pbar">${segs}</div>`;
   if(isStr){const r=stretchList()[P.si],x=STRM[r.id],warm=P.phase==='warm',nxt=stretchList()[P.si+1];
     el.innerHTML=top+`<div class="stage stretch">
       ${!warm&&P.si===0?'<div class="cool-banner">💪 Workout done! Now let\'s stretch it out</div>':''}
@@ -1823,7 +1833,7 @@ function renderPlayer(){const it=P.items[P.i],ex=EXM[it.exId],el=$('#s-player');
       <div class="upnext"><div class="un-fig">${fig(nex.t,nex.eq)}</div><div><div class="eyebrow">Up next${P.circuit?(n.set!==P.set?` · round ${n.set}`:''):(n.i!==P.i?' · new exercise':'')}</div><div class="un-name">${esc(nex.n)}</div><button class="how-btn" data-how="${nex.id}" style="margin:2px 0 4px;padding:4px 10px;font-size:12.5px"><span class="ii">i</span>How to</button><div class="mute" style="font-size:13.5px">${P.circuit?`Round ${n.set} of ${P.rounds}`:`Set ${n.set} of ${nit.sets}`} · ${nit.time?nit.secs+' sec':nit.reps+' reps'}${nit.weight?' · '+nit.weight+' kg':''}</div></div></div></div>`;
   }}
 const isTouch=()=>matchMedia('(pointer:coarse)').matches;
-function tick(){if(!P)return;const now=Date.now();const c=$('#p-clock');if(c)c.textContent=fmt((now-P.startAt)/1000);
+function tick(){if(!P||P.hold)return;const now=Date.now();const c=$('#p-clock');if(c)c.textContent=fmt((now-P.startAt)/1000);
   if(P.phase==='warm'||P.phase==='cool'){if(P.paused)return;const rem=(P.sEnd-now)/1000,t=$('#p-st'),b=$('#p-sbar');
     if(t)t.innerHTML=Math.max(0,Math.ceil(rem))+'<small> SEC</small>';if(b)b.style.width=(100*(1-Math.max(0,rem)/P.sTotal))+'%';
     const s=Math.ceil(rem);if(s<=3&&s>0&&!P.beeped['s'+s+P.sideN]){P.beeped['s'+s+P.sideN]=1;beep(660,.08,.15)}
@@ -1841,6 +1851,7 @@ function goWork(n){P.k=n.k;P.i=n.i;P.set=n.set;P.phase='work';P.workStart=Date.n
 function completeSet(){logSet();P.done++;const n=nextPos();if(!n)return beginCool();const it=P.items[P.i];
   if(it.rest>0){P.phase='rest';P.restTotal=it.rest;P.restEnd=Date.now()+it.rest*1000;P.beeped={};renderPlayer()}else goWork(n)}
 $('#s-player').addEventListener('click',async e=>{ensureAudio();const a=e.target.closest('[data-act]');if(!a||!P)return;const act=a.dataset.act;
+  if(act==='hold'){holdWorkout();return}if(act==='resume'){resumeWorkout();return}if(P.hold&&act!=='quit')return;
   if(act==='w-'||act==='w+'){const c=curFor(),inc=wInc(EXM[P.items[P.i].exId]);c.weight=r1kg(Math.max(0,c.weight+(act==='w+'?inc:-inc)));const w=$('#p-w');if(w)w.textContent=c.weight;return}
   if(act.startsWith('lg-')){logAct(act);return}
   if(act==='tap'&&P.phase==='work'){beep(520,.06,.15);completeSet()}
@@ -1853,10 +1864,25 @@ $('#s-player').addEventListener('click',async e=>{ensureAudio();const a=e.target
   if(act==='finishcool'){finishWorkout();return}
   if(act==='quit'&&P.phase==='cool'){finishWorkout();return}
   if(act==='quit'){if(await confirmBox('End this workout?','Your progress in this session will not be saved.','End workout',true)){Api.event('workout_quit',{planId:P.plan.id,sets:P.done});stopPlayer();renderHome();show('s-home')}}});
+
+/* ---- pause the whole workout ---- */
+function holdWorkout(){if(!P||P.hold)return;P.hold=Date.now();if(!P.realStart)P.realStart=P.startAt;beep(440,.08,.12);drawHold()}
+function resumeWorkout(){if(!P||!P.hold)return;const d=Date.now()-P.hold;P.hold=null;P.pausedMs=(P.pausedMs||0)+d;
+  ['startAt','workStart','restEnd','sEnd','workStartAt'].forEach(k=>{if(typeof P[k]==='number')P[k]+=d});
+  $('#p-hold')?.remove();beep(880,.1,.15);tick()}
+function drawHold(){$('#p-hold')?.remove();const el=document.createElement('div');el.className='hold-ov';el.id='p-hold';
+  const ph=P.phase==='rest'?t('Rest'):P.phase==='warm'?t('Warm-up'):P.phase==='cool'?t('Stretching'):(EXM[P.items[P.i].exId]||{}).n||'';
+  el.innerHTML=`<div class="hold-card"><div class="hold-ico"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></svg></div>
+    <h2>${t('Paused')}</h2><p>${t('All timers are stopped. Take your time.')}</p>
+    <div class="hold-info"><span>${t('Workout time')}</span><b dir="ltr">${fmt((P.hold-P.startAt)/1000)}</b></div>
+    <div class="hold-info"><span>${t('Paused on')}</span><b ${P.phase==='work'&&(EXM[P.items[P.i].exId]||{}).custom?'data-notr':''}>${esc(ph)}</b></div>
+    <button class="btn primary big" data-act="resume">▶ ${t('Resume')}</button>
+    <button class="btn ghost" data-act="quit">${t('End workout')}</button></div>`;
+  $('#s-player').appendChild(el)}
 function stopPlayer(){clearInterval(tickT);tickT=null;P=null;try{wake&&wake.release()}catch(e){}wake=null}
 function finishWorkout(){const now=Date.now(),plan=P.plan;const ws0=P.workStartAt||P.startAt,we=P.workEndAt||now;
   const dur=Math.round((we-ws0)/1000),stretch=Math.max(0,Math.round((now-P.startAt)/1000)-dur);
-  const sess={id:uid(),planId:plan.id,at:P.startAt,dur,sets:P.done,...(stretch>5?{stretch}:{}),log:P.log};ws.sessions.push(sess);rememberWeights(sess,plan);saveWS();Api.event('workout_complete',{planId:plan.id,dur});stopPlayer();
+  const sess={id:uid(),planId:plan.id,at:P.realStart||P.startAt,...(P.pausedMs>1000?{paused:Math.round(P.pausedMs/1000)}:{}),dur,sets:P.done,...(stretch>5?{stretch}:{}),log:P.log};ws.sessions.push(sess);rememberWeights(sess,plan);saveWS();Api.event('workout_complete',{planId:plan.id,dur});stopPlayer();
   beep(784,.15);setTimeout(()=>beep(1046,.3),160);buzz([100,60,100,60,250]);renderSummary(sess,plan);show('s-summary')}
 
 /* ================= CUSTOM EXERCISES ================= */
@@ -1933,8 +1959,10 @@ function myExercisesSheet(){const list=(ws.custom||[]).filter(c=>!c.arch);
 
 
 /* ================= VERSION & WHAT'S NEW ================= */
-const APP_VERSION='2.2.2';
+const APP_VERSION='2.3.0';
 const CHANGELOG=[
+ {v:'2.3.0',d:'2026-11-24',en:['Pause button in the workout player (top bar) — it stops every timer: the exercise, rest, warm-up/stretching and total workout time. Tap Resume to carry on where you left off','Paused time doesn\'t count toward your workout time'],
+  he:['כפתור השהיה בנגן האימון (בסרגל העליון) — הוא עוצר את כל הטיימרים: התרגיל, המנוחה, החימום/המתיחות וזמן האימון הכולל. הקישו על „המשך” כדי להמשיך מאותה נקודה','זמן ההשהיה לא נספר בזמן האימון']},
  {v:'2.2.2',d:'2026-11-24',en:['Body Waves: the arms now swing up in front of the body (forward and up), not out to the sides'],
   he:['גלי גוף: הידיים עולות עכשיו מלפנים (קדימה ולמעלה), ולא מהצדדים']},
  {v:'2.2.1',d:'2026-11-24',en:['Body Waves animation: the arms now swing up as the chest moves back, and down as the chest pushes forward'],
@@ -2100,9 +2128,9 @@ function renderBadges(){const st=motStats(),got=S().badges||{},seen=S().badgeSee
    <div class="bgrid">${BADGES.map(b=>{const on=!!got[b.id],v=Math.min(1,b.v(st)/b.g);return`<div class="bdg ${on?'on':''} ${on&&got[b.id]>seen?'new':''}"><div class="bi">${b.ic}</div><b data-notr>${esc(bName(b))}</b><small data-notr>${esc(bDesc(b))}</small>${on?`<span class="bdate" data-notr>${new Date(got[b.id]).toLocaleDateString(LOC(),{day:'numeric',month:'short',year:'numeric'})}</span>`:`<div class="bbar"><i style="width:${Math.round(v*100)}%"></i></div><span class="bdate" dir="ltr" data-notr>${prog(b)}</span>`}</div>`}).join('')}</div>`}
 
 /* ---- player & summary hooks ---- */
-function workCheer(it){if(P.circuit){if(P.k===0)return pickMsg('start',P.startAt);if(P.set===P.rounds&&P.i===0)return pickMsg('last',P.k);return''}
-  if(P.k===0)return pickMsg('start',P.startAt);if(P.set===it.sets&&it.sets>1)return pickMsg('last',P.k);return''}
-function restCheer(){const S2=P.steps.length;if(S2>3&&P.k+1===Math.ceil(S2/2))return pickMsg('half',P.startAt);return pickMsg('rest',P.k+(P.startAt/1000|0))}
+function workCheer(it){if(P.circuit){if(P.k===0)return pickMsg('start',P.realStart||P.startAt);if(P.set===P.rounds&&P.i===0)return pickMsg('last',P.k);return''}
+  if(P.k===0)return pickMsg('start',P.realStart||P.startAt);if(P.set===it.sets&&it.sets>1)return pickMsg('last',P.k);return''}
+function restCheer(){const S2=P.steps.length;if(S2>3&&P.k+1===Math.ceil(S2/2))return pickMsg('half',P.realStart||P.startAt);return pickMsg('rest',P.k+((P.realStart||P.startAt)/1000|0))}
 const motCache={};
 function summaryMot(cur){if(motCache[cur.id])return motCache[cur.id];const wi=weekInfo(),{fresh}=syncBadges();const parts=[];
   const wk=wi.met?(wi.done===wi.goal?`🎯 ${t('Weekly goal reached!')} ${wi.streak>1?t('{n}-week streak 🔥',{n:wi.streak}):''}`:`🎯 ${t('{d} workouts this week — {x} over your goal!',{d:wi.done,x:wi.done-wi.goal})}`):`🎯 ${t('{d} of {g} workouts this week',{d:wi.done,g:wi.goal})}`;

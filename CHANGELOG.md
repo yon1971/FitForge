@@ -11,6 +11,9 @@ The version lives in two places that must match:
 
 When they differ, a phone that still has the old page open shows an "update available" bar.
 
+## 2.3.0 — 2026-11-24
+- Pause button in the workout player: freezes exercise, rest, warm-up/stretching and total timers; paused time is excluded from workout time (stored as `paused` seconds on the session)
+
 ## 2.2.2 — 2026-11-24
 - Body Waves: arms swing forward and up in front of the body (added a straight-out-in-front key pose)
 
