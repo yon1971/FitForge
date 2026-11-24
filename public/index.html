@@ -333,6 +333,10 @@ button.ver{border-bottom:1px dotted rgba(255,255,255,.25)}
 .hold-card h2{margin:0;font-size:30px;letter-spacing:.02em}.hold-card p{margin:0;color:var(--mute)}
 .hold-info{display:flex;justify-content:space-between;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:14px}.hold-info span{color:var(--mute)}
 .hold-card .btn.big{margin-top:6px}
+.nt-row{padding:12px 0;border-bottom:1px solid var(--line)}.nt-row .tx{flex:1;min-width:0;display:flex;flex-direction:column}.nt-row .tx small{color:var(--mute);font-size:12.5px}
+.nt-subs{display:grid;gap:0}.nt-subs.dis{opacity:.45;pointer-events:none}.nt-subs .btn{margin-top:12px}
+.nt-warn{background:rgba(255,196,77,.1);border:1px solid rgba(255,196,77,.4);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.45}
+.switch-row.busy{opacity:.6;pointer-events:none}
 .p-fig{width:min(68vw,330px);overflow:hidden;border-radius:30px;background:radial-gradient(ellipse at 50% 42%,#1d232d,#0f1217 72%);padding:18px;margin-bottom:18px}
 .p-name{font-size:clamp(34px,8vw,52px);margin:8px 0 10px}
 .p-set{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:.12em;color:var(--mute)}
@@ -1023,6 +1027,7 @@ Object.assign(I18N.he,{"Lymphatic Hops": "קפיצות לימפה", "Jump Twists
 Object.assign(I18N.he,{"What's new": "מה חדש", "You have version {v}": "הגרסה שלכם: {v}", "Latest": "אחרונה", "A new version of FitForge is available — tap to update": "גרסה חדשה של FitForge זמינה — הקישו לעדכון"});
 Object.assign(I18N.he,{"March Slaps": "צעידה עם טפיחות", "Lymphatic hops, march slaps, body waves, trunk twists, arm and golf swings · 5 min": "קפיצות לימפה, צעידה עם טפיחות, גלי גוף, סיבובי גו, הנפות ידיים ותנופות גולף · 5 דק׳"});
 Object.assign(I18N.he,{"Paused": "מושהה", "All timers are stopped. Take your time.": "כל הטיימרים עצרו. קחו את הזמן.", "Workout time": "זמן אימון", "Paused on": "הושהה ב־", "Resume": "המשך", "End workout": "סיום אימון", "Pause workout": "השהיית האימון", "Rest": "מנוחה", "Warm-up": "חימום", "Stretching": "מתיחות"});
+Object.assign(I18N.he,{"Notifications": "התראות", "Notifications on this device": "התראות במכשיר הזה", "Lock screen and smartwatch": "מסך הנעילה ושעון חכם", "Time's up": "נגמר הזמן", "Time's up!": "נגמר הזמן!", "When a timed exercise reaches its time": "כשתרגיל עם זמן מגיע לזמן שלו", "Rest over": "המנוחה נגמרה", "When rest ends, with what's next": "כשהמנוחה נגמרת, עם מה שבא אחר כך", "Send a test notification": "שליחת התראת ניסיון", "Get a buzz on your wrist during workouts — when a timed exercise is done and when rest is over. On iPhone they also appear on a paired Apple Watch while the phone is locked.": "קבלו רטט על פרק היד בזמן האימון — כשתרגיל עם זמן מסתיים וכשהמנוחה נגמרת. באייפון ההתראות מופיעות גם ב־Apple Watch המחובר כשהטלפון נעול.", "Sent only during a workout, when the app is in the background or the phone is locked. Each device is turned on separately.": "נשלחות רק בזמן אימון, כשהאפליקציה ברקע או שהטלפון נעול. מפעילים בכל מכשיר בנפרד.", "Done": "סיום", "On iPhone, notifications only work in the FitForge app on your Home Screen. Open FitForge from its Home Screen icon (Safari → Share → Add to Home Screen), then turn them on here.": "באייפון התראות עובדות רק באפליקציית FitForge שבמסך הבית. פתחו את FitForge מהאייקון במסך הבית (ספארי ← שיתוף ← הוספה למסך הבית), ואז הפעילו אותן כאן.", "This browser doesn't support notifications.": "הדפדפן הזה לא תומך בהתראות.", "Notifications are blocked. Allow them for FitForge in your phone settings, then try again.": "ההתראות חסומות. אפשרו אותן ל־FitForge בהגדרות הטלפון ונסו שוב.", "Notifications turned off": "ההתראות כובו", "Notifications turned on": "ההתראות הופעלו", "Test sent — lock your phone to see it on your watch": "נשלחה התראת ניסיון — נעלו את הטלפון כדי לראות אותה בשעון", "{x} — tap done when you finish.": "{x} — הקישו על סיום כשאתם מסיימים.", "Next: {x} · set {s} · {d}": "הבא: {x} · סט {s} · {d}", "sec": "שנ׳", "reps": "חזרות"});
 I18P.he.unshift([/^If there's an account for (.+), we've sent it a code\. Enter it below with your new password\.$/,'אם יש חשבון עבור $1, שלחנו אליו קוד. הזינו אותו למטה יחד עם הסיסמה החדשה.'],[/^Your reset code is (\d+)$/,'קוד האיפוס שלכם הוא $1']);
 I18P.he.unshift(
  [/^Last time: (.+)$/,(m,x)=>'בפעם הקודמת: '+x.replace(/ kg/g,' ק״ג')],
@@ -1494,7 +1499,7 @@ $('#auth-form').addEventListener('submit',async e=>{e.preventDefault();const err
   }finally{btn.disabled=false}});
 /* Sign in with Google (Google Identity Services) */
 let CFG={};
-async function loadConfig(){try{CFG=await Api.call('GET','/api/config')}catch(e){CFG={}}try{checkVersion(CFG.version)}catch(_){}
+async function loadConfig(){try{CFG=await Api.call('GET','/api/config')}catch(e){CFG={}}try{checkVersion(CFG.version)}catch(_){}ntInit();
   $('#auth-fine').textContent=CFG.emailEnabled?'':'Beta: email verification codes are shown on screen until email sending is switched on.';
   if(!CFG.googleClientId)return;
   $('#social-box').style.display='';
@@ -1602,8 +1607,8 @@ $('#btn-coach').addEventListener('click',()=>openCoach());
 $('#btn-progress').addEventListener('click',()=>openProgress());
 $('#btn-fb').addEventListener('click',()=>openFeedback());
 $('#btn-account').addEventListener('click',()=>{sheet(`<h3 data-notr>${esc(me.name)}</h3><p>${me.provider==='email'?esc(me.email):'Signed in with '+me.provider[0].toUpperCase()+me.provider.slice(1)}${me.isAdmin?' · <span style="color:var(--acc)">Admin</span>':''}</p>
-  <div class="menu">${me.isAdmin?`<button data-a="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Admin dashboard<span id="acct-fb-n" class="nbadge-inline">${fbNew||''}</span></button>`:''}<button data-a="myex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg>My exercises</button><button data-a="feedback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5z"/><path d="M8 9h8M8 12h5"/></svg>Send feedback</button><button data-a="lang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>Language · <span data-notr>${LANGS[LANG].n}</span></button><button data-a="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/></svg>My profile</button><button data-a="out">${ICON.logout}Log out</button><button class="red" data-a="del">${ICON.trash}Delete my account</button></div>
-  <p style="margin:12px 0 0;font-size:12.5px"><a href="${legal('privacy')}" style="color:var(--mute)">Privacy Policy</a> · <a href="${legal('terms')}" style="color:var(--mute)">Terms</a></p>`,(el,close)=>{el.addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='out'){close();logout()}if(a==='admin'){close();openAdmin()}if(a==='myex'){close();myExercisesSheet()}if(a==='feedback'){close();openFeedback()}if(a==='profile'){close();openProfile('edit')}if(a==='lang'){close();langSheet()}
+  <div class="menu">${me.isAdmin?`<button data-a="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Admin dashboard<span id="acct-fb-n" class="nbadge-inline">${fbNew||''}</span></button>`:''}<button data-a="notif"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>Notifications</button><button data-a="myex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg>My exercises</button><button data-a="feedback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5z"/><path d="M8 9h8M8 12h5"/></svg>Send feedback</button><button data-a="lang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>Language · <span data-notr>${LANGS[LANG].n}</span></button><button data-a="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/></svg>My profile</button><button data-a="out">${ICON.logout}Log out</button><button class="red" data-a="del">${ICON.trash}Delete my account</button></div>
+  <p style="margin:12px 0 0;font-size:12.5px"><a href="${legal('privacy')}" style="color:var(--mute)">Privacy Policy</a> · <a href="${legal('terms')}" style="color:var(--mute)">Terms</a></p>`,(el,close)=>{el.addEventListener('click',async e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a==='out'){close();logout()}if(a==='admin'){close();openAdmin()}if(a==='myex'){close();myExercisesSheet()}if(a==='notif'){close();notifSheet()}if(a==='feedback'){close();openFeedback()}if(a==='profile'){close();openProfile('edit')}if(a==='lang'){close();langSheet()}
     if(a==='del'){close();if(await confirmBox('Delete your account?','This permanently deletes your account, all workout plans and your workout history. This cannot be undone.','Delete forever',true)){try{await Api.call('DELETE','/api/me');LS.del('ff_cache_'+me.id);Api.setToken(null);me=null;toast('Your account was deleted');logout(true)}catch(x){toast(x.message)}}}})})});
 $('#h-admin').addEventListener('click',()=>openAdmin());
 function planMenu(id){const p=ws.plans.find(x=>x.id===id);if(!p)return;
@@ -1846,7 +1851,7 @@ function tick(){if(!P||P.hold)return;const now=Date.now();const c=$('#p-clock');
     if(r)r.textContent=Math.max(0,Math.ceil(rem));if(rg)rg.style.strokeDashoffset=String(100*(1-Math.max(0,rem)/P.restTotal));
     $('#p-ring')?.classList.toggle('low',rem<=5);
     const s=Math.ceil(rem);if(s<=3&&s>0&&!P.beeped['r'+s]){P.beeped['r'+s]=1;beep(660,.1)}
-    if(rem<=0){beep(988,.3);buzz(300);goWork(nextPos())}}}
+    if(rem<=0){beep(988,.3);buzz(300);const late=now-P.restEnd;goWork(nextPos());if(late>1500&&late<300000)P.workStart=P.restEnd}}}
 function goWork(n){P.k=n.k;P.i=n.i;P.set=n.set;P.phase='work';P.workStart=Date.now();P.beeped={};renderPlayer()}
 function completeSet(){logSet();P.done++;const n=nextPos();if(!n)return beginCool();const it=P.items[P.i];
   if(it.rest>0){P.phase='rest';P.restTotal=it.rest;P.restEnd=Date.now()+it.rest*1000;P.beeped={};renderPlayer()}else goWork(n)}
@@ -1865,8 +1870,58 @@ $('#s-player').addEventListener('click',async e=>{ensureAudio();const a=e.target
   if(act==='quit'&&P.phase==='cool'){finishWorkout();return}
   if(act==='quit'){if(await confirmBox('End this workout?','Your progress in this session will not be saved.','End workout',true)){Api.event('workout_quit',{planId:P.plan.id,sets:P.done});stopPlayer();renderHome();show('s-home')}}});
 
+
+/* ================= NOTIFICATIONS (phone lock screen + smartwatch) ================= */
+const NT={reg:null,sub:null,key:null};
+const pushSupported=()=>'serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window;
+const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const nset=()=>{const s0=S();const n=s0.notif||(s0.notif={});if(n.timeup==null)n.timeup=true;if(n.rest==null)n.rest=true;return n};
+const ntOn=()=>!!NT.sub&&typeof Notification!=='undefined'&&Notification.permission==='granted';
+async function ntInit(){if(!pushSupported())return;try{NT.reg=await navigator.serviceWorker.register('/sw.js');NT.sub=await NT.reg.pushManager.getSubscription()}catch(_){}}
+function b64u(x){const pad='='.repeat((4-x.length%4)%4);const b=atob((x+pad).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from([...b].map(c=>c.charCodeAt(0)))}
+async function ntEnable(){if(!pushSupported())throw new Error(t("This browser doesn't support notifications."));
+  const perm=await Notification.requestPermission();
+  if(perm!=='granted')throw new Error(t('Notifications are blocked. Allow them for FitForge in your phone settings, then try again.'));
+  if(!NT.reg)NT.reg=await navigator.serviceWorker.register('/sw.js');await navigator.serviceWorker.ready;
+  if(!NT.key)NT.key=(await Api.call('GET','/api/push/key')).key;
+  NT.sub=(await NT.reg.pushManager.getSubscription())||(await NT.reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(NT.key)}));
+  await Api.call('POST','/api/push/subscribe',{subscription:NT.sub.toJSON()})}
+async function ntDisable(){const sub=NT.sub;NT.sub=null;if(!sub)return;try{await Api.call('POST','/api/push/unsubscribe',{endpoint:sub.endpoint})}catch(_){}try{await sub.unsubscribe()}catch(_){}}
+// what to send while the phone is locked / app in background
+function ntPlan(){if(!P||P.hold||!ntOn())return[];const n=nset(),out=[],now=Date.now();
+  const nm=id=>{const e=EXM[id];return e?(e.custom?e.n:t(e.n)):''};
+  const tu=(it,inMs)=>({inMs,tag:'ff-timeup',title:'⏱ '+t("Time's up!"),body:t('{x} — tap done when you finish.',{x:nm(it.exId)})});
+  if(P.phase==='work'){const it=P.items[P.i];if(it.time&&n.timeup){const tg=((P.cur&&P.curK===P.k?P.cur.secs:0)||it.secs)*1000,at=P.workStart+tg;if(at>now)out.push(tu(it,at-now))}}
+  else if(P.phase==='rest'&&P.restEnd>now){const nx=nextPos();if(nx){const it2=P.items[nx.i];
+    if(n.rest)out.push({inMs:P.restEnd-now,tag:'ff-rest',title:'🔔 '+t('Rest over'),body:t('Next: {x} · set {s} · {d}',{x:nm(it2.exId),s:nx.set,d:it2.time?it2.secs+' '+t('sec'):it2.reps+' '+t('reps')})});
+    if(it2.time&&n.timeup)out.push(tu(it2,P.restEnd-now+it2.secs*1000))}}
+  return out}
+function ntSync(items){if(!NT.sub||!Api.token)return;try{fetch('/api/push/schedule',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json','X-Lang':LANG,Authorization:'Bearer '+Api.token},body:JSON.stringify({endpoint:NT.sub.endpoint,items})}).catch(()=>{})}catch(_){}}
+document.addEventListener('visibilitychange',()=>{if(!P||!ntOn())return;if(document.hidden)ntSync(ntPlan());else ntSync([])});
+window.addEventListener('pagehide',()=>{if(P&&ntOn())ntSync(ntPlan())});
+function notifSheet(){const n=nset(),sup=pushSupported(),needHome=isIOS&&!isStandalone();let on=ntOn();
+  const body=()=>needHome?`<div class="nt-warn">📲 ${t('On iPhone, notifications only work in the FitForge app on your Home Screen. Open FitForge from its Home Screen icon (Safari → Share → Add to Home Screen), then turn them on here.')}</div>`
+   :!sup?`<div class="nt-warn">${t("This browser doesn't support notifications.")}</div>`
+   :`<div class="switch-row nt-row" data-n="main"><div class="tx"><b>${t('Notifications on this device')}</b><small>${t('Lock screen and smartwatch')}</small></div><div class="sw ${on?'on':''}"></div></div>
+    <div class="nt-subs ${on?'':'dis'}">
+     <div class="switch-row nt-row" data-n="timeup"><div class="tx"><b>⏱ ${t("Time's up")}</b><small>${t('When a timed exercise reaches its time')}</small></div><div class="sw ${n.timeup?'on':''}"></div></div>
+     <div class="switch-row nt-row" data-n="rest"><div class="tx"><b>🔔 ${t('Rest over')}</b><small>${t("When rest ends, with what's next")}</small></div><div class="sw ${n.rest?'on':''}"></div></div>
+     <button class="btn" data-n="test" ${on?'':'disabled'}>${t('Send a test notification')}</button></div>`;
+  sheet(`<h3>${t('Notifications')}</h3><p class="mute" style="margin:0 0 12px">${t('Get a buzz on your wrist during workouts — when a timed exercise is done and when rest is over. On iPhone they also appear on a paired Apple Watch while the phone is locked.')}</p>
+    <div id="nt-body">${body()}</div><div class="err" id="nt-err"></div>
+    <p class="mute" style="font-size:12.5px;margin:12px 0 0">${t('Sent only during a workout, when the app is in the background or the phone is locked. Each device is turned on separately.')}</p>
+    <div class="m-actions"><button class="btn primary" data-a="ok">${t('Done')}</button></div>`,(el,close)=>{
+    const redraw=()=>{on=ntOn();el.querySelector('#nt-body').innerHTML=body()};
+    el.addEventListener('click',async e=>{const r=e.target.closest('[data-n]'),a=e.target.closest('[data-a]');const err=el.querySelector('#nt-err');
+      if(a&&a.dataset.a==='ok'){close();return}if(!r)return;const k=r.dataset.n;err.textContent='';
+      if(k==='main'){r.classList.add('busy');try{if(ntOn()){await ntDisable();toast(t('Notifications turned off'))}else{await ntEnable();toast(t('Notifications turned on'))}}catch(x){err.textContent=x.message}redraw();return}
+      if(!ntOn())return;
+      if(k==='timeup'||k==='rest'){n[k]=!n[k];saveWS();redraw()}
+      if(k==='test'){r.disabled=true;try{await Api.call('POST','/api/push/test',{endpoint:NT.sub.endpoint});toast(t('Test sent — lock your phone to see it on your watch'));Api.event('push_test')}catch(x){err.textContent=x.message}finally{r.disabled=false}}})})}
+
 /* ---- pause the whole workout ---- */
-function holdWorkout(){if(!P||P.hold)return;P.hold=Date.now();if(!P.realStart)P.realStart=P.startAt;beep(440,.08,.12);drawHold()}
+function holdWorkout(){if(!P||P.hold)return;P.hold=Date.now();if(NT.sub)ntSync([]);if(!P.realStart)P.realStart=P.startAt;beep(440,.08,.12);drawHold()}
 function resumeWorkout(){if(!P||!P.hold)return;const d=Date.now()-P.hold;P.hold=null;P.pausedMs=(P.pausedMs||0)+d;
   ['startAt','workStart','restEnd','sEnd','workStartAt'].forEach(k=>{if(typeof P[k]==='number')P[k]+=d});
   $('#p-hold')?.remove();beep(880,.1,.15);tick()}
@@ -1879,7 +1934,7 @@ function drawHold(){$('#p-hold')?.remove();const el=document.createElement('div'
     <button class="btn primary big" data-act="resume">▶ ${t('Resume')}</button>
     <button class="btn ghost" data-act="quit">${t('End workout')}</button></div>`;
   $('#s-player').appendChild(el)}
-function stopPlayer(){clearInterval(tickT);tickT=null;P=null;try{wake&&wake.release()}catch(e){}wake=null}
+function stopPlayer(){try{if(NT.sub)ntSync([])}catch(_){}clearInterval(tickT);tickT=null;P=null;try{wake&&wake.release()}catch(e){}wake=null}
 function finishWorkout(){const now=Date.now(),plan=P.plan;const ws0=P.workStartAt||P.startAt,we=P.workEndAt||now;
   const dur=Math.round((we-ws0)/1000),stretch=Math.max(0,Math.round((now-P.startAt)/1000)-dur);
   const sess={id:uid(),planId:plan.id,at:P.realStart||P.startAt,...(P.pausedMs>1000?{paused:Math.round(P.pausedMs/1000)}:{}),dur,sets:P.done,...(stretch>5?{stretch}:{}),log:P.log};ws.sessions.push(sess);rememberWeights(sess,plan);saveWS();Api.event('workout_complete',{planId:plan.id,dur});stopPlayer();
@@ -1959,8 +2014,10 @@ function myExercisesSheet(){const list=(ws.custom||[]).filter(c=>!c.arch);
 
 
 /* ================= VERSION & WHAT'S NEW ================= */
-const APP_VERSION='2.3.0';
+const APP_VERSION='2.4.0';
 const CHANGELOG=[
+ {v:'2.4.0',d:'2026-11-24',en:['Notifications on your phone\'s lock screen and smartwatch (including Apple Watch): "Time\'s up" when a timed exercise is done and "Rest over" with what\'s next','Turn them on or off in the account menu → Notifications, with a switch for each type and a test button','On iPhone, open FitForge from its Home Screen icon to use notifications'],
+  he:['התראות במסך הנעילה ובשעון החכם (כולל Apple Watch): „נגמר הזמן” כשתרגיל עם זמן מסתיים ו„המנוחה נגמרה” עם מה שבא אחר כך','הפעלה וכיבוי בתפריט החשבון ← התראות, עם מתג לכל סוג וכפתור ניסיון','באייפון, פתחו את FitForge מהאייקון במסך הבית כדי להשתמש בהתראות']},
  {v:'2.3.0',d:'2026-11-24',en:['Pause button in the workout player (top bar) — it stops every timer: the exercise, rest, warm-up/stretching and total workout time. Tap Resume to carry on where you left off','Paused time doesn\'t count toward your workout time'],
   he:['כפתור השהיה בנגן האימון (בסרגל העליון) — הוא עוצר את כל הטיימרים: התרגיל, המנוחה, החימום/המתיחות וזמן האימון הכולל. הקישו על „המשך” כדי להמשיך מאותה נקודה','זמן ההשהיה לא נספר בזמן האימון']},
  {v:'2.2.2',d:'2026-11-24',en:['Body Waves: the arms now swing up in front of the body (forward and up), not out to the sides'],

@@ -11,6 +11,10 @@ The version lives in two places that must match:
 
 When they differ, a phone that still has the old page open shows an "update available" bar.
 
+## 2.4.0 — 2026-11-24
+- Web push notifications (lock screen + smartwatch/Apple Watch): "Time's up" and "Rest over", scheduled by the server only while a workout is running and the app is hidden/locked
+- Account menu → Notifications: per-device on/off, per-type switches, test button; `public/sw.js` (notifications only, no caching); VAPID keys auto-generated and stored in the `app_kv` table; subscriptions in `push_subs`
+
 ## 2.3.0 — 2026-11-24
 - Pause button in the workout player: freezes exercise, rest, warm-up/stretching and total timers; paused time is excluded from workout time (stored as `paused` seconds on the session)
 

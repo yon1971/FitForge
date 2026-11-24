@@ -345,7 +345,7 @@ app.put('/api/data', wrap(auth), wrap(async (req, res) => {
   res.json({ ok: true });
 }));
 
-const EVENT_TYPES = new Set(['app_open', 'helper_used', 'workout_start', 'workout_complete', 'workout_quit', 'plan_saved', 'plan_deleted', 'howto_open', 'goal_set', 'custom_ex']);
+const EVENT_TYPES = new Set(['app_open', 'helper_used', 'workout_start', 'workout_complete', 'workout_quit', 'plan_saved', 'plan_deleted', 'howto_open', 'goal_set', 'custom_ex', 'push_test']);
 app.post('/api/event', wrap(auth), wrap(async (req, res) => {
   const type = String(req.body.type || '');
   if (!EVENT_TYPES.has(type)) return res.status(400).json({ error: 'Unknown event' });
@@ -512,6 +512,91 @@ function userStats(u, evBy, now) {
   };
 }
 
+// ---------- Push notifications (phone lock screen + paired watch) ----------
+// VAPID keys are generated once and kept in the database, so no setup is needed.
+const webpush = require('web-push');
+let PUSH_PUBLIC = null;
+async function migratePush() {
+  await q(`CREATE TABLE IF NOT EXISTS app_kv (k TEXT PRIMARY KEY, v TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS push_subs (
+      id SERIAL PRIMARY KEY,
+      user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      endpoint TEXT NOT NULL UNIQUE,
+      keys JSONB NOT NULL,
+      ua TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      last_ok TIMESTAMPTZ
+    );`);
+  let pub = (await q("SELECT v FROM app_kv WHERE k='vapid_public'")).rows[0], priv = (await q("SELECT v FROM app_kv WHERE k='vapid_private'")).rows[0];
+  if (!pub || !priv) {
+    const k = webpush.generateVAPIDKeys();
+    await q("INSERT INTO app_kv(k,v) VALUES('vapid_public',$1),('vapid_private',$2) ON CONFLICT (k) DO NOTHING", [k.publicKey, k.privateKey]);
+    pub = (await q("SELECT v FROM app_kv WHERE k='vapid_public'")).rows[0]; priv = (await q("SELECT v FROM app_kv WHERE k='vapid_private'")).rows[0];
+  }
+  PUSH_PUBLIC = pub.v;
+  webpush.setVapidDetails(ADMIN_EMAILS[0] ? 'mailto:' + ADMIN_EMAILS[0] : 'https://fitforge-app-rygc.onrender.com', pub.v, priv.v);
+}
+async function sendPush(sub, payload) {
+  try {
+    await webpush.sendNotification({ endpoint: sub.endpoint, keys: sub.keys }, JSON.stringify(payload), { TTL: 120, urgency: 'high' });
+    q('UPDATE push_subs SET last_ok=now() WHERE endpoint=$1', [sub.endpoint]).catch(() => {});
+    return true;
+  } catch (e) {
+    if (e.statusCode === 404 || e.statusCode === 410) await q('DELETE FROM push_subs WHERE endpoint=$1', [sub.endpoint]).catch(() => {});
+    else console.error('push failed', e.statusCode || '', (e.body || e.message || '').toString().slice(0, 200));
+    return false;
+  }
+}
+// scheduled notifications live in memory: they are only seconds or minutes ahead (rest timers)
+const pushTimers = new Map(); // key userId|endpoint -> [timeouts]
+const pushKey = (uid, ep) => uid + '|' + ep;
+function clearScheduled(uid, ep) { const k = pushKey(uid, ep); (pushTimers.get(k) || []).forEach(clearTimeout); pushTimers.delete(k); }
+const cleanTxt = (s, n) => String(s || '').replace(/[\u0000-\u001f]/g, ' ').slice(0, n);
+
+app.get('/api/push/key', (req, res) => res.json({ key: PUSH_PUBLIC }));
+app.post('/api/push/subscribe', wrap(auth), wrap(async (req, res) => {
+  const s = req.body.subscription || {};
+  if (typeof s.endpoint !== 'string' || !/^https:\/\//.test(s.endpoint) || s.endpoint.length > 1000 || !s.keys || !s.keys.p256dh || !s.keys.auth) return res.status(400).json({ error: 'Bad subscription' });
+  await q(`INSERT INTO push_subs(user_id,endpoint,keys,ua) VALUES($1,$2,$3,$4)
+           ON CONFLICT (endpoint) DO UPDATE SET user_id=EXCLUDED.user_id, keys=EXCLUDED.keys, ua=EXCLUDED.ua`,
+    [req.user.id, s.endpoint, JSON.stringify({ p256dh: String(s.keys.p256dh), auth: String(s.keys.auth) }), cleanTxt(req.headers['user-agent'], 200)]);
+  await logEvent(req.user.id, 'push_on');
+  res.json({ ok: true });
+}));
+app.post('/api/push/unsubscribe', wrap(auth), wrap(async (req, res) => {
+  const ep = String(req.body.endpoint || '');
+  clearScheduled(req.user.id, ep);
+  await q('DELETE FROM push_subs WHERE user_id=$1 AND endpoint=$2', [req.user.id, ep]);
+  await logEvent(req.user.id, 'push_off');
+  res.json({ ok: true });
+}));
+app.post('/api/push/test', wrap(auth), wrap(async (req, res) => {
+  const sub = (await q('SELECT * FROM push_subs WHERE user_id=$1 AND endpoint=$2', [req.user.id, String(req.body.endpoint || '')])).rows[0];
+  if (!sub) return res.status(404).json({ error: 'Notifications are not on for this device.' });
+  const he = req.headers['x-lang'] === 'he';
+  const ok = await sendPush(sub, { title: he ? 'FitForge 💪' : 'FitForge 💪', body: he ? 'ההתראות פועלות! כך הן ייראו בטלפון ובשעון.' : "Notifications are on! This is how they'll look on your phone and watch.", tag: 'ff-test' });
+  if (!ok) return res.status(502).json({ error: 'Sending failed. Try turning notifications off and on again.' });
+  res.json({ ok: true });
+}));
+// replace this device's scheduled workout notifications (empty list = cancel all)
+app.post('/api/push/schedule', wrap(auth), wrap(async (req, res) => {
+  const ep = String(req.body.endpoint || '');
+  clearScheduled(req.user.id, ep);
+  const items = Array.isArray(req.body.items) ? req.body.items.slice(0, 4) : [];
+  if (!items.length) return res.json({ ok: true, scheduled: 0 });
+  const sub = (await q('SELECT * FROM push_subs WHERE user_id=$1 AND endpoint=$2', [req.user.id, ep])).rows[0];
+  if (!sub) return res.status(404).json({ error: 'not subscribed' });
+  const now = Date.now(), timers = [];
+  items.forEach(it => {
+    const delay = Math.round(Number(it.inMs));
+    if (!(delay >= 0 && delay <= 2 * 3600 * 1000)) return;
+    const payload = { title: cleanTxt(it.title, 80), body: cleanTxt(it.body, 180), tag: /^ff-[a-z]{2,12}$/.test(it.tag) ? it.tag : 'ff-workout' };
+    timers.push(setTimeout(() => sendPush(sub, payload), delay));
+  });
+  pushTimers.set(pushKey(req.user.id, ep), timers);
+  res.json({ ok: true, scheduled: timers.length, at: now });
+}));
+
 app.get('/api/admin/email', wrap(auth), adminOnly, (req, res) => res.json({ enabled: EMAIL_ENABLED, provider: MAIL_PROVIDER || null, from: EMAIL_ENABLED ? mailAddr() : null, last: lastMail }));
 app.post('/api/admin/test-email', wrap(auth), adminOnly, wrap(async (req, res) => {
   if (!EMAIL_ENABLED) return res.status(400).json({ error: 'Email sending is not set up yet.' });
@@ -597,6 +682,7 @@ app.delete('/api/me', wrap(auth), wrap(async (req, res) => {
 }));
 
 app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));
+app.get('/sw.js', (req, res) => { res.set('Cache-Control', 'no-cache'); res.set('Service-Worker-Allowed', '/'); res.sendFile(path.join(__dirname, 'public', 'sw.js')); });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: '5m' }));
 app.get('/privacy', (req, res) => res.sendFile(path.join(__dirname, 'public', 'privacy.html')));
 app.get('/terms', (req, res) => res.sendFile(path.join(__dirname, 'public', 'terms.html')));
@@ -645,5 +731,5 @@ async function copyFromOld() {
   } finally { await old.end(); }
 }
 
-migrate().then(copyFromOld).then(() => console.log('[db] using ' + (NEW_URL ? 'NEW_DATABASE_URL' : 'DATABASE_URL'))).then(() => app.listen(PORT, () => console.log('FitForge listening on ' + PORT + (ADMIN_EMAILS.length ? ' · admins: ' + ADMIN_EMAILS.length : ' · no ADMIN_EMAILS set'))))
+migrate().then(migratePush).then(copyFromOld).then(() => console.log('[db] using ' + (NEW_URL ? 'NEW_DATABASE_URL' : 'DATABASE_URL'))).then(() => app.listen(PORT, () => console.log('FitForge listening on ' + PORT + (ADMIN_EMAILS.length ? ' · admins: ' + ADMIN_EMAILS.length : ' · no ADMIN_EMAILS set'))))
   .catch(e => { console.error('DB migration failed', e); process.exit(1); });
