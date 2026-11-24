@@ -11,6 +11,9 @@ The version lives in two places that must match:
 
 When they differ, a phone that still has the old page open shows an "update available" bar.
 
+## 2.2.2 — 2026-11-24
+- Body Waves: arms swing forward and up in front of the body (added a straight-out-in-front key pose)
+
 ## 2.2.1 — 2026-11-24
 - Body Waves animation and instructions: arms swing up as the chest goes back, down as the chest goes forward
 
