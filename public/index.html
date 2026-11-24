@@ -140,17 +140,22 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 
 /* ---------- FIGURES ---------- */
 .fig{display:block;width:100%;height:auto;max-width:100%;aspect-ratio:1/1;overflow:hidden}
-.fig .bn{stroke:var(--fig);stroke-width:6.6;stroke-linecap:round;fill:none}
-.fig .hd{fill:var(--fig)}
+.fig .bn{stroke:var(--fig);stroke-linecap:round;stroke-linejoin:round;fill:none}
+.fig .bo{stroke:#07090c;stroke-linecap:round;fill:none}
+.fig .bn.hi{stroke:var(--acc)}.fig .bn.hi2{stroke:#9ccc3d}
+.fig .tor{fill:var(--fig);stroke:var(--fig);stroke-width:1;stroke-linejoin:round}.fig .tor.hi{fill:var(--acc);stroke:var(--acc)}.fig .tor.hi2{fill:#9ccc3d;stroke:#9ccc3d}
+.fig .tor-o{fill:#07090c;stroke:#07090c;stroke-width:3.6;stroke-linejoin:round}
+.fig .shd{fill:rgba(0,0,0,.5)}
+.fig .hd{fill:var(--fig);stroke:#07090c;stroke-width:2.4}
 .fig .eye{fill:#0d0f13}
 .fig .chest{stroke:var(--acc2);stroke-width:3.4;stroke-linecap:round;opacity:.95}
 .fig .gr{stroke:#2c333f;stroke-width:2;stroke-linecap:round}
 .fig .pr{fill:#353d4b}
 .fig .prl{stroke:#4c5567;stroke-width:3.6;stroke-linecap:round}
 .fig .cb{stroke:#8a93a5;stroke-width:1.3;stroke-dasharray:2.5 2}
-.fig .eq{fill:var(--acc)}
-.fig .eq .pl{fill:none;stroke:var(--acc);stroke-width:3.6}
-.fig .eql{stroke:var(--acc);stroke-width:3.2;stroke-linecap:round}
+.fig .eq{fill:#b9c2cf}
+.fig .eq .pl{fill:none;stroke:#b9c2cf;stroke-width:3.6}
+.fig .eql{stroke:#b9c2cf;stroke-width:3.2;stroke-linecap:round}
 
 /* ---------- BUILDER ---------- */
 .name-in{flex:1;min-width:0;height:42px;background:transparent;border:1px solid transparent;border-radius:10px;padding:0 10px;font-family:var(--disp);font-size:24px;font-weight:700;outline:none}
@@ -337,6 +342,18 @@ button.ver{border-bottom:1px dotted rgba(255,255,255,.25)}
 .nt-subs{display:grid;gap:0}.nt-subs.dis{opacity:.45;pointer-events:none}.nt-subs .btn{margin-top:12px}
 .nt-warn{background:rgba(255,196,77,.1);border:1px solid rgba(255,196,77,.4);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.45}
 .switch-row.busy{opacity:.6;pointer-events:none}
+.mmap{width:132px;height:auto;flex:none}.mmap.sm{width:58px}
+.mmap .mb *{fill:#252c37}.mmap .mo{fill:#353e4c}.mmap .mp{fill:var(--acc)}.mmap .ms{fill:#86ad2c}.mmap .ml{fill:var(--mute);font-size:7px;font-weight:700;text-anchor:middle;letter-spacing:.06em;text-transform:uppercase}
+.mpanel{display:flex;align-items:center;gap:14px;background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:10px 14px;margin:10px 0 0;text-align:start}
+.mp-t{flex:1;min-width:0}.mp-t .eyebrow{margin-bottom:6px}.mchips{gap:5px}.chip.mmain::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--acc);margin-inline-end:5px;vertical-align:1px}.mchips .chip{font-size:12px;padding:4px 9px}
+.mp-key{display:flex;gap:12px;margin-top:8px;font-size:11.5px;color:var(--mute)}.mp-key i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-inline-end:5px;vertical-align:-1px}.mp-key .k1{background:var(--acc)}.mp-key .k2{background:#86ad2c}
+.ex-mus{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;font-size:11px;color:var(--mute)}.ex-mus span{background:#1b2028;border-radius:6px;padding:2px 6px}.ex-mus .m1{background:rgba(200,255,46,.14);color:var(--acc);font-weight:700}
+.p-mus{display:flex;align-items:center;justify-content:center;gap:10px;margin:2px 0 6px}.p-mus .mchips{justify-content:flex-start;max-width:230px}
+.p-next{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:14px;font-size:13.5px;color:var(--mute)}.p-next .t{width:30px;height:30px;border-radius:8px;background:#151920;flex:none}.p-next .t .fig{width:100%;height:100%}.p-next b{color:var(--text)}
+.upnext.big{max-width:440px;padding:12px 14px 12px 12px;border-color:rgba(200,255,46,.35);background:linear-gradient(135deg,rgba(200,255,46,.08),#151920 60%);margin:4px 0 6px}
+.upnext.big .un-fig{width:108px;height:108px;border-radius:16px}.upnext.big .un-name{font-size:20px;font-weight:800;line-height:1.15;margin:2px 0 4px}.un-t{flex:1;min-width:0}.un-meta{font-size:13.5px;color:var(--mute);margin-bottom:6px}.un-meta b{color:var(--text)}
+.stage.rest .ring{width:min(54vw,230px);height:min(54vw,230px)}
+.r-btns .btn{white-space:nowrap}
 .p-fig{width:min(68vw,330px);overflow:hidden;border-radius:30px;background:radial-gradient(ellipse at 50% 42%,#1d232d,#0f1217 72%);padding:18px;margin-bottom:18px}
 .p-name{font-size:clamp(34px,8vw,52px);margin:8px 0 10px}
 .p-set{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:.12em;color:var(--mute)}
@@ -881,7 +898,7 @@ function startOfDay(t){const d=new Date(t);d.setHours(0,0,0,0);return d.getTime(
 function howTo(id){const e=EXM[id];if(!e)return;if(e.custom)return howToCustom(e);const src=(LANG==='he'&&window.HOWTO_HE&&window.HOWTO_HE[id])?window.HOWTO_HE:window.HOWTO_EN;const d=src&&src[id];
   if(!d){toast('Instructions are still loading — try again in a moment');return}
   const[st,tp,mi]=d.map(x=>x.split('|'));const li=a=>a.map(x=>`<li>${esc(x)}</li>`).join('');
-  sheet(`<div class="how"><div class="how-fig">${fig(e.t,e.eq,{dur:1.9})}</div><div class="chips">${e.m.map((x,i)=>`<span class="chip ${i?'':'acc'}">${MUSCLES[x].n}</span>`).join('')}<span class="chip">${EQN[e.eq]}</span></div><h3>${esc(e.n)}</h3>
+  sheet(`<div class="how"><div class="how-fig">${fig(e.t,e.eq,{m:e.m,dur:1.9})}</div><h3>${esc(e.n)}</h3>${musclePanel(e.m)}<div class="chips" style="justify-content:center;margin-top:8px"><span class="chip">${EQN[e.eq]}</span>${e.time?`<span class="chip">${t('Timed')}</span>`:''}</div>
    <div class="how-h">How to do it</div><ol data-notr>${li(st)}</ol>
    <div class="how-h good">Tips</div><ul class="good" data-notr>${li(tp)}</ul>
    <div class="how-h bad">Common mistakes</div><ul class="bad" data-notr>${li(mi)}</ul>
@@ -1028,6 +1045,7 @@ Object.assign(I18N.he,{"What's new": "מה חדש", "You have version {v}": "ה�
 Object.assign(I18N.he,{"March Slaps": "צעידה עם טפיחות", "Lymphatic hops, march slaps, body waves, trunk twists, arm and golf swings · 5 min": "קפיצות לימפה, צעידה עם טפיחות, גלי גוף, סיבובי גו, הנפות ידיים ותנופות גולף · 5 דק׳"});
 Object.assign(I18N.he,{"Paused": "מושהה", "All timers are stopped. Take your time.": "כל הטיימרים עצרו. קחו את הזמן.", "Workout time": "זמן אימון", "Paused on": "הושהה ב־", "Resume": "המשך", "End workout": "סיום אימון", "Pause workout": "השהיית האימון", "Rest": "מנוחה", "Warm-up": "חימום", "Stretching": "מתיחות"});
 Object.assign(I18N.he,{"Notifications": "התראות", "Notifications on this device": "התראות במכשיר הזה", "Lock screen and smartwatch": "מסך הנעילה ושעון חכם", "Time's up": "נגמר הזמן", "Time's up!": "נגמר הזמן!", "When a timed exercise reaches its time": "כשתרגיל עם זמן מגיע לזמן שלו", "Rest over": "המנוחה נגמרה", "When rest ends, with what's next": "כשהמנוחה נגמרת, עם מה שבא אחר כך", "Send a test notification": "שליחת התראת ניסיון", "Get a buzz on your wrist during workouts — when a timed exercise is done and when rest is over. On iPhone they also appear on a paired Apple Watch while the phone is locked.": "קבלו רטט על פרק היד בזמן האימון — כשתרגיל עם זמן מסתיים וכשהמנוחה נגמרת. באייפון ההתראות מופיעות גם ב־Apple Watch המחובר כשהטלפון נעול.", "Sent only during a workout, when the app is in the background or the phone is locked. Each device is turned on separately.": "נשלחות רק בזמן אימון, כשהאפליקציה ברקע או שהטלפון נעול. מפעילים בכל מכשיר בנפרד.", "Done": "סיום", "On iPhone, notifications only work in the FitForge app on your Home Screen. Open FitForge from its Home Screen icon (Safari → Share → Add to Home Screen), then turn them on here.": "באייפון התראות עובדות רק באפליקציית FitForge שבמסך הבית. פתחו את FitForge מהאייקון במסך הבית (ספארי ← שיתוף ← הוספה למסך הבית), ואז הפעילו אותן כאן.", "This browser doesn't support notifications.": "הדפדפן הזה לא תומך בהתראות.", "Notifications are blocked. Allow them for FitForge in your phone settings, then try again.": "ההתראות חסומות. אפשרו אותן ל־FitForge בהגדרות הטלפון ונסו שוב.", "Notifications turned off": "ההתראות כובו", "Notifications turned on": "ההתראות הופעלו", "Test sent — lock your phone to see it on your watch": "נשלחה התראת ניסיון — נעלו את הטלפון כדי לראות אותה בשעון", "{x} — tap done when you finish.": "{x} — הקישו על סיום כשאתם מסיימים.", "Next: {x} · set {s} · {d}": "הבא: {x} · סט {s} · {d}", "sec": "שנ׳", "reps": "חזרות"});
+Object.assign(I18N.he,{"Front": "מלפנים", "Back": "מאחור", "Muscles worked": "שרירים שעובדים", "Main": "עיקרי", "Also works": "עובד גם על", "Timed": "לפי זמן", "Next": "הבא", "Last set of the workout": "הסט האחרון באימון", "Up next": "הבא בתור", "new exercise": "תרגיל חדש", "round {n}": "סבב {n}", "Round {a} of {b}": "סבב {a} מתוך {b}", "Set {a} of {b}": "סט {a} מתוך {b}"});
 I18P.he.unshift([/^If there's an account for (.+), we've sent it a code\. Enter it below with your new password\.$/,'אם יש חשבון עבור $1, שלחנו אליו קוד. הזינו אותו למטה יחד עם הסיסמה החדשה.'],[/^Your reset code is (\d+)$/,'קוד האיפוס שלכם הוא $1']);
 I18P.he.unshift(
  [/^Last time: (.+)$/,(m,x)=>'בפעם הקודמת: '+x.replace(/ kg/g,' ק״ג')],
@@ -1250,18 +1268,31 @@ function fig(tid,eq,o={}){
   const SH={
     db:'<rect x="-6" y="-1.4" width="12" height="2.8" rx="1"/><rect x="-10" y="-5.2" width="4.6" height="10.4" rx="1.3"/><rect x="5.4" y="-5.2" width="4.6" height="10.4" rx="1.3"/>',
     plate:'<circle class="pl" r="9.5"/><circle r="2.6"/>',
-    kb:'<circle cy="5" r="6.3"/><path d="M-4.2 1.5Q0-7.5 4.2 1.5" fill="none" stroke="#c8ff2e" stroke-width="2.6"/>',
+    kb:'<circle cy="5" r="6.3"/><path d="M-4.2 1.5Q0-7.5 4.2 1.5" fill="none" stroke="#b9c2cf" stroke-width="2.6"/>',
     ball:'<circle r="7"/>',handle:'<circle r="3.2"/>'
   };
   let s='<svg viewBox="0 0 120 120" class="fig" aria-hidden="true">';
-  if(!tp.noGround)s+='<line class="gr" x1="4" y1="116.5" x2="116" y2="116.5"/>';
+  if(!tp.noGround)s+='<line class="gr" x1="4" y1="116.5" x2="116" y2="116.5"/><ellipse class="shd" cx="60" cy="117.2" rx="26" ry="2.4"/>';
   (tp.props||[]).forEach(p=>{if(p.r)s+=`<rect class="pr" x="${p.r[0]}" y="${p.r[1]}" width="${p.r[2]}" height="${p.r[3]}" rx="1.5"/>`;if(p.l)s+=`<line class="prl" x1="${p.l[0]}" y1="${p.l[1]}" x2="${p.l[2]}" y2="${p.l[3]}"/>`});
   const holds=[].concat(tp.hold||[]);
   if((eq==='cable'||eq==='cablebar')&&tp.cable)Object.keys(tp.cable).forEach(j=>{const c=tp.cable[j];s+=L(P.map(()=>c),J(j),'cb')});
-  const bones=(tp.bones||(tp.front?FRONT:SIDE)).concat(tp.extra||[]);
-  bones.forEach(([a,b])=>{s+=L(J(a),J(b),'bn')});
+  let bones=(tp.bones||(tp.front?FRONT:SIDE)).concat(tp.extra||[]);
+  // body segments: thickness + which muscles they show (worked muscles are tinted)
+  const M=o.m||[],pri=M[0],sec=M.slice(1);
+  const SEGM={torso:['chest','abs','obliques','lowerBack','lats','traps'],sh:['shoulders','traps'],upper:['shoulders','biceps','triceps'],fore:['forearms'],hip:['glutes'],thigh:['quads','hamstrings','glutes'],shin:['calves']};
+  const SEGK={'n-p':'torso','n-e':'upper','e-w':'fore','p-k':'thigh','k-f':'shin','sL-sR':'sh','sL-eL':'upper','sR-eR':'upper','eL-wL':'fore','eR-wR':'fore','hL-hR':'hip','hL-kL':'thigh','hR-kR':'thigh','kL-fL':'shin','kR-fR':'shin'};
+  const WID={torso:10.5,sh:6.4,upper:6.2,fore:5.3,hip:7,thigh:8,shin:6.3};
+  const tone=g=>{if(!g||!M.length)return'';const ms=SEGM[g];return ms.includes(pri)?' hi':sec.some(x=>ms.includes(x))?' hi2':''};
+  const Lw=(p1,p2,cls,w)=>L(p1,p2,cls).replace('<line ','<line stroke-width="'+w+'" ');
+  const torsoPoly=tp.front&&A.sL&&A.hL&&!tp.bones;
+  if(torsoPoly)bones=bones.filter(([a,b])=>!(a==='n'&&b==='p'));
+  const segs=bones.map(([a,b])=>{const g=SEGK[a+'-'+b]||null;return{a,b,g,w:g?WID[g]:4.6}});
+  if(torsoPoly){const pts=q=>[[q.sL[0]-1,q.sL[1]-1],[q.sR[0]+1,q.sR[1]-1],q.hR,q.hL].map(v=>v[0]+','+v[1]).join(' ');const v=P.map(pts);
+    const poly=c=>`<polygon class="${c}" points="${v[0]}">${ani('points',v)}</polygon>`;s+=poly('tor-o')+poly('tor'+tone('torso'))}
+  segs.forEach(x=>s+=Lw(J(x.a),J(x.b),'bo',(x.w+2.6).toFixed(1)));
+  segs.forEach(x=>s+=Lw(J(x.a),J(x.b),'bn'+tone(x.g),x.w));
   (tp.thin||[]).forEach(([a,b])=>{s+=L(J(a),J(b),'prl')});
-  s+=`<circle class="hd" cx="${A.h[0]}" cy="${A.h[1]}" r="7.5">${ani('cx',J('h').map(q=>q[0]))}${ani('cy',J('h').map(q=>q[1]))}</circle>`;
+  s+=`<circle class="hd" cx="${A.h[0]}" cy="${A.h[1]}" r="7.4">${ani('cx',J('h').map(q=>q[0]))}${ani('cy',J('h').map(q=>q[1]))}</circle>`;
   // front-of-body cues: eyes show where the face points, orange line marks chest/belly
   const r1=v=>Math.round(v*10)/10;
   const dot=(ps,cls,r)=>`<circle class="${cls}" cx="${r1(ps[0][0])}" cy="${r1(ps[0][1])}" r="${r}">${ani('cx',ps.map(q=>r1(q[0])))}${ani('cy',ps.map(q=>r1(q[1])))}</circle>`;
@@ -1277,7 +1308,7 @@ function fig(tid,eq,o={}){
   else if(eq==='cable')holds.forEach(j=>s+=mv(J(j),SH.handle));
   return s+'</svg>';
 }
-const exFig=(id,o)=>{const e=EXM[id];return e?fig(e.t,e.eq,o):''};
+const exFig=(id,o)=>{const e=EXM[id];return e?fig(e.t,e.eq,{m:e.m,m:e.m,...(o||{})}):''};
 /* ---- stretch & warm-up figure templates ---- */
 Object.assign(TPL,{
  armCircles:{front:1,A:{...FB,eL:[38,30],wL:[18,30],eR:[82,30],wR:[102,30]},B:{eL:[42,17],wL:[32,5],eR:[78,17],wR:[88,5]}},
@@ -1679,7 +1710,7 @@ function chooseMuscle(m){Bd.muscle=m;Body.sel=m;Body.paint();setLabel(m);$$('#b-
   clearTimeout(advT);advT=setTimeout(()=>{if(Bd.step==='body')setStep('ex')},Body.ok?650:150)}
 
 // step 2: exercises
-function exCard(e){return`<button class="excard" data-ex="${e.id}"><span class="how-i" data-how="${e.id}" role="button" aria-label="How to do it" title="How to do it">i</span><div class="pic">${fig(e.t,e.eq)}</div><b ${e.custom?'data-notr':''}>${esc(e.n)}</b><div class="tags">${e.custom?'<span class="yourt">Yours</span>':''}${e.home?'<span class="homet">At home</span>':''}<span>${EQN[e.eq]}</span>${e.time?'<span>Timed</span>':''}${e.m.slice(1,3).map(x=>`<span>+ ${MUSCLES[x].n}</span>`).join('')}</div></button>`}
+function exCard(e){return`<button class="excard" data-ex="${e.id}"><span class="how-i" data-how="${e.id}" role="button" aria-label="How to do it" title="How to do it">i</span><div class="pic">${fig(e.t,e.eq,{m:e.m,m:e.m})}</div><b ${e.custom?'data-notr':''}>${esc(e.n)}</b><div class="tags">${e.custom?'<span class="yourt">Yours</span>':''}${e.home?'<span class="homet">At home</span>':''}<span>${EQN[e.eq]}</span>${e.time?'<span>Timed</span>':''}</div><div class="ex-mus"><span class="m1">${MUSCLES[e.m[0]].n}</span>${e.m.slice(1,3).map(x=>`<span>${MUSCLES[x].n}</span>`).join('')}</div></button>`}
 let homeOnly=!!LS.get('ff_home',false);
 function renderExStep(){const m=Bd.muscle,M=MUSCLES[m];const ok=e=>!homeOnly||e.home;
   const prim=EX.filter(e=>e.m[0]===m&&ok(e)),sec=EX.filter(e=>e.m[0]!==m&&e.m.includes(m)&&ok(e));
@@ -1697,9 +1728,9 @@ function renderCfgStep(){const it=Bd.edit!=null?Bd.plan.items[Bd.edit]:null;cons
   cfgV=it?{...it}:{exId:e.id,sets:3,reps:e.reps||12,secs:e.secs||30,time:!!e.time,rest:60,weight:0};
   const stepper=(k,lbl,sub)=>`<div class="row"><div class="lbl"><b>${lbl}</b><small>${sub}</small></div><div class="stepper"><button data-s="${k}" data-d="-1" aria-label="Decrease">−</button><input type="number" inputmode="decimal" data-k="${k}" value="${cfgV[k]}"><button data-s="${k}" data-d="1" aria-label="Increase">+</button></div></div>`;
   $('#b-cfg').innerHTML=`<div class="step-h"><button class="icon-btn" data-a="back">${ICON.back}</button><div><h2>${it?'Edit exercise':'Set your reps & rest'}</h2><p>${it?'Update this exercise in your plan':'Exercise '+(Bd.plan.items.length+1)+' of your plan'}</p></div></div>
-   <div class="cfg"><div class="cfg-pic">${fig(e.t,e.eq,{dur:1.9})}</div>
+   <div class="cfg"><div class="cfg-pic">${fig(e.t,e.eq,{m:e.m,dur:1.9})}</div>
    <div><div class="chips" style="margin-bottom:6px">${e.m.map((x,i)=>`<span class="chip ${i?'':'acc'}">${MUSCLES[x].n}</span>`).join('')}<span class="chip">${EQN[e.eq]}</span></div>
-    <h2 class="cfg-name">${esc(e.n)}</h2><button class="how-btn" data-how="${e.id}"><span class="ii">i</span>How to do it</button>
+    <h2 class="cfg-name">${esc(e.n)}</h2><button class="how-btn" data-how="${e.id}"><span class="ii">i</span>How to do it</button>${musclePanel(e.m)}
     <div class="ctl" id="cfg-ctl">
      ${stepper('sets','Sets','How many rounds of this exercise')}
      <div id="cfg-target">${cfgV.time?stepper('secs','Duration (seconds)','Hold or work time per set'):stepper('reps','Reps','Repetitions per set')}</div>
@@ -1821,21 +1852,24 @@ function _renderPlayer(){const it=P.items[P.i],ex=EXM[it.exId],el=$('#s-player')
     return}
   if(P.phase==='work'){
     el.innerHTML=top+`<div class="stage work" data-act="tap" id="p-stage">
-      <div class="p-figw"><div class="p-fig">${fig(ex.t,ex.eq,{dur:1.8})}</div><button class="how-btn" data-how="${ex.id}"><span class="ii">i</span>How to</button></div>
-      <div class="chips" style="justify-content:center">${ex.m.slice(0,2).map((x,i)=>`<span class="chip ${i?'':'acc'}">${MUSCLES[x].n}</span>`).join('')}</div>
+      <div class="p-figw"><div class="p-fig">${fig(ex.t,ex.eq,{m:ex.m,dur:1.8})}</div><button class="how-btn" data-how="${ex.id}"><span class="ii">i</span>How to</button></div>
       <h1 class="p-name">${esc(ex.n)}</h1>
+      <div class="p-mus">${muscleMap(ex.m,{sm:1})}${muscleChips(ex.m)}</div>
       <div class="p-set">${P.circuit?`ROUND <b>${P.set}</b> / ${P.rounds}`:`SET <b>${P.set}</b> / ${it.sets}`}</div>${P.circuit?`<div class="mute" style="font-size:13px;margin-top:2px">Exercise ${P.i+1} of ${P.items.length} in this round</div>`:''}
       <div class="p-target">${it.time?`<span id="p-tt">0:00</span><small> / ${fmt(curFor().secs)}</small>`:`${curFor().reps}<small> REPS</small>`}</div>
       ${weightAdj(it)}${suggestLine(it)}${(c=>c?`<div class="cheer" data-notr>${c}</div>`:'')(workCheer(it))}
-      <div class="p-tap"><span class="tap-ring"></span><span id="p-taptxt">${it.time?'Tap anywhere when you finish the set':(isTouch()?'Tap the screen':'Click anywhere')+' when you finish the set'}</span></div></div>`;
+      <div class="p-tap"><span class="tap-ring"></span><span id="p-taptxt">${it.time?'Tap anywhere when you finish the set':(isTouch()?'Tap the screen':'Click anywhere')+' when you finish the set'}</span></div>
+      ${(()=>{const n=nextPos();if(!n)return`<div class="p-next">🏁 ${t('Last set of the workout')}</div>`;const ni=P.items[n.i],ne=EXM[ni.exId];return`<div class="p-next"><span>${t('Next')}:</span><span class="t">${fig(ne.t,ne.eq,{m:ne.m,anim:false})}</span><b ${ne.custom?'data-notr':''}>${esc(ne.n)}</b><span class="mute">· ${ni.time?ni.secs+' '+t('sec'):ni.reps+' '+t('reps')}</span></div>`})()}</div>`;
   }else{const n=nextPos(),nit=P.items[n.i],nex=EXM[nit.exId];
     el.innerHTML=top+`<div class="stage rest">
       <div class="ring" id="p-ring"><svg viewBox="0 0 200 200"><circle class="rg-bg" cx="100" cy="100" r="88"/><circle id="p-rg" class="rg" cx="100" cy="100" r="88" pathLength="100" stroke-dasharray="100" stroke-dashoffset="0" transform="rotate(-90 100 100)"/></svg>
         <div class="ring-in"><div class="ring-lbl">REST</div><div class="ring-t" id="p-rest">${Math.ceil(P.restTotal)}</div></div></div>
       <div class="r-btns"><button class="btn" data-act="minus">−10s</button><button class="btn primary" data-act="skip">Skip rest</button><button class="btn" data-act="plus">+10s</button></div>
+      <div class="upnext big"><div class="un-fig">${fig(nex.t,nex.eq,{m:nex.m,dur:1.9})}</div><div class="un-t"><div class="eyebrow">${t('Up next')}${P.circuit?(n.set!==P.set?` · ${t('round {n}',{n:n.set})}`:''):(n.i!==P.i?` · ${t('new exercise')}`:'')}</div><div class="un-name" ${nex.custom?'data-notr':''}>${esc(nex.n)}</div>
+        <div class="un-meta">${P.circuit?`${t('Round {a} of {b}',{a:n.set,b:P.rounds})}`:`${t('Set {a} of {b}',{a:n.set,b:nit.sets})}`} · <b>${nit.time?nit.secs+' '+t('sec'):nit.reps+' '+t('reps')}</b>${nit.weight?' · <b>'+nit.weight+' kg</b>':''}</div>
+        ${muscleChips(nex.m)}<button class="how-btn" data-how="${nex.id}" style="margin:6px 0 0;padding:4px 10px;font-size:12.5px"><span class="ii">i</span>How to</button></div></div>
       <div class="cheer rest" data-notr>${restCheer()}</div>
-      ${logEditor()}
-      <div class="upnext"><div class="un-fig">${fig(nex.t,nex.eq)}</div><div><div class="eyebrow">Up next${P.circuit?(n.set!==P.set?` · round ${n.set}`:''):(n.i!==P.i?' · new exercise':'')}</div><div class="un-name">${esc(nex.n)}</div><button class="how-btn" data-how="${nex.id}" style="margin:2px 0 4px;padding:4px 10px;font-size:12.5px"><span class="ii">i</span>How to</button><div class="mute" style="font-size:13.5px">${P.circuit?`Round ${n.set} of ${P.rounds}`:`Set ${n.set} of ${nit.sets}`} · ${nit.time?nit.secs+' sec':nit.reps+' reps'}${nit.weight?' · '+nit.weight+' kg':''}</div></div></div></div>`;
+      ${logEditor()}</div>`;
   }}
 const isTouch=()=>matchMedia('(pointer:coarse)').matches;
 function tick(){if(!P||P.hold)return;const now=Date.now();const c=$('#p-clock');if(c)c.textContent=fmt((now-P.startAt)/1000);
@@ -1975,7 +2009,7 @@ function openCxEditor(existing,muscle,onSaved){
       el.querySelector('#cx-time').innerHTML=`<button type="button" class="cxc ${!c.time?'on':''}" data-ctime="0">Reps</button><button type="button" class="cxc ${c.time?'on':''}" data-ctime="1">Time (seconds)</button>`;
       let list=showAll?Object.keys(TPL):tplFor(c.m[0]);if(!list.length)list=Object.keys(TPL);
       if(!c.t||!TPL[c.t])c.t=list[0];if(!list.includes(c.t))list=[c.t,...list];
-      el.querySelector('#cx-figs').innerHTML=list.map(k=>`<button type="button" class="cxf ${c.t===k?'on':''}" data-ct="${k}">${fig(k,c.eq,{anim:c.t===k})}</button>`).join('');
+      el.querySelector('#cx-figs').innerHTML=list.map(k=>`<button type="button" class="cxf ${c.t===k?'on':''}" data-ct="${k}">${fig(k,c.eq,{anim:c.t===k,m:c.m})}</button>`).join('');
       el.querySelector('#cx-all').textContent=showAll?t('Show suggested moves only'):t('Show all {n} moves',{n:Object.keys(TPL).length})};
     draw();
     el.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
@@ -1990,7 +2024,7 @@ function openCxEditor(existing,muscle,onSaved){
         applyCustom();saveWS();Api.event('custom_ex',{edit:!!existing});close();toast(existing?t('Exercise updated'):t('Exercise created'));if(onSaved)onSaved(c)}})})}
 
 function howToCustom(e){const own=myCx(e.id),steps=(e.notes||'').split(/\n+/).map(x=>x.replace(/^\s*(\d+[.)]|[-•*])\s*/,'').trim()).filter(Boolean);
-  sheet(`<div class="how"><div class="how-fig">${fig(e.t,e.eq,{dur:1.9})}</div><div class="chips">${e.m.map((x,i)=>`<span class="chip ${i?'':'acc'}">${MUSCLES[x].n}</span>`).join('')}<span class="chip">${EQN[e.eq]||''}</span><span class="chip yourc">${own?'Your exercise':'Custom exercise'}</span></div><h3 data-notr dir="auto">${esc(e.n)}</h3>
+  sheet(`<div class="how"><div class="how-fig">${fig(e.t,e.eq,{m:e.m,dur:1.9})}</div><h3 data-notr dir="auto">${esc(e.n)}</h3>${musclePanel(e.m)}<div class="chips" style="justify-content:center;margin-top:8px"><span class="chip">${EQN[e.eq]||''}</span><span class="chip yourc">${own?'Your exercise':'Custom exercise'}</span></div>
    ${steps.length?`<div class="how-h">How to do it</div><ol data-notr>${steps.map(s=>`<li dir="auto">${esc(s)}</li>`).join('')}</ol>`:`<p class="mute" style="text-align:center">${own?'No instructions yet. Tap Edit to add your own steps.':'No instructions were added for this exercise.'}</p>`}
    <p class="note">Breathe out on the hard part. Stop if you feel sharp pain — some burn in the muscle is normal, joint pain is not.</p>
    <div class="m-actions">${own?`<button class="btn" data-a="edit">${ICON.edit} Edit</button><button class="btn red" data-a="del">${ICON.trash} Delete</button>`:''}<button class="btn primary" data-a="ok">Got it</button></div></div>`,(el,close)=>{
@@ -2006,16 +2040,43 @@ function refreshAfterCx(){try{if($('#s-builder').classList.contains('active')){i
 
 function myExercisesSheet(){const list=(ws.custom||[]).filter(c=>!c.arch);
   sheet(`<h3>My exercises</h3><p>${list.length?(list.length===1?t('1 exercise you created. Tap it to see, edit or delete it.'):t('{n} exercises you created. Tap one to see, edit or delete it.',{n:list.length})):'You haven\'t created any exercises yet. You can also create one while building a plan.'}</p>
-   <div class="cx-list">${list.map(c=>{const e=EXM[c.id];return`<button class="cx-row" data-cx="${c.id}"><span class="t">${fig(e.t,e.eq,{anim:false})}</span><span class="cxr-t"><b data-notr>${esc(e.n)}</b><small>${MUSCLES[e.m[0]].n} · ${EQN[e.eq]}</small></span><span class="mute">›</span></button>`}).join('')}</div>
+   <div class="cx-list">${list.map(c=>{const e=EXM[c.id];return`<button class="cx-row" data-cx="${c.id}"><span class="t">${fig(e.t,e.eq,{m:e.m,anim:false})}</span><span class="cxr-t"><b data-notr>${esc(e.n)}</b><small>${MUSCLES[e.m[0]].n} · ${EQN[e.eq]}</small></span><span class="mute">›</span></button>`}).join('')}</div>
    <div class="m-actions"><button class="btn" data-a="no">Close</button><button class="btn primary" data-a="new">+ Create exercise</button></div>`,(el,close)=>{
     el.addEventListener('click',ev=>{const r=ev.target.closest('[data-cx]'),a=ev.target.closest('[data-a]')?.dataset.a;
       if(r){close();howToCustom(EXM[r.dataset.cx])}if(a==='no')close();if(a==='new'){close();openCxEditor(null,'chest',()=>myExercisesSheet())}})})}
 
 
 
+
+/* ================= MUSCLE MAP (front + back) ================= */
+const MMAP={F:{shoulders:['e:20.5,24.5,4.6,4','e:43.5,24.5,4.6,4'],chest:['e:27,28,5.2,4.3','e:37,28,5.2,4.3'],biceps:['e:17.6,35.5,3.1,6.2','e:46.4,35.5,3.1,6.2'],forearms:['e:15,49.5,2.7,6.6','e:49,49.5,2.7,6.6'],
+   abs:['r:28.6,33.5,6.8,21,2.6'],obliques:['e:24.6,44.5,2.5,8','e:39.4,44.5,2.5,8'],quads:['e:27.1,75,4.7,12.5','e:36.9,75,4.7,12.5'],calves:['e:27,99,2.9,8','e:37,99,2.9,8']},
+ B:{traps:['p:88,18.5 97,24 88,34 79,24'],shoulders:['e:76.5,24.5,4.6,4','e:99.5,24.5,4.6,4'],lats:['e:82,38,4.4,9.5','e:94,38,4.4,9.5'],triceps:['e:73.6,35.5,3.1,6.2','e:102.4,35.5,3.1,6.2'],forearms:['e:71,49.5,2.7,6.6','e:105,49.5,2.7,6.6'],
+   lowerBack:['r:84.4,45,7.2,12,2.4'],glutes:['e:83.6,64.5,5,5.3','e:92.4,64.5,5,5.3'],hamstrings:['e:83.2,79,4.4,10.5','e:92.8,79,4.4,10.5'],calves:['e:83,99,3.3,8.2','e:93,99,3.3,8.2']}};
+function mmShape(d,cls){const[k,v]=d.split(':');const n=v.split(/[ ,]/).map(Number);
+  if(k==='e')return`<ellipse class="${cls}" cx="${n[0]}" cy="${n[1]}" rx="${n[2]}" ry="${n[3]}"/>`;
+  if(k==='r')return`<rect class="${cls}" x="${n[0]}" y="${n[1]}" width="${n[2]}" height="${n[3]}" rx="${n[4]}"/>`;
+  return`<polygon class="${cls}" points="${v}"/>`}
+function mmBody(cx){const L=cx-10,R=cx+10;return`<circle cx="${cx}" cy="10.5" r="6.2"/><rect x="${cx-2.5}" y="15" width="5" height="5" rx="1.5"/>
+  <path d="M${L-3} 21 Q${cx} 17 ${R+3} 21 L${R} 46 L${R+1} 60 L${L-1} 60 L${L} 46 Z"/>
+  <rect x="${L-7.5}" y="21" width="6.4" height="22" rx="3.2"/><rect x="${R+1.1}" y="21" width="6.4" height="22" rx="3.2"/>
+  <rect x="${L-9.6}" y="40" width="5.6" height="20" rx="2.8"/><rect x="${R+4}" y="40" width="5.6" height="20" rx="2.8"/>
+  <circle cx="${L-6.8}" cy="62" r="2.6"/><circle cx="${R+6.8}" cy="62" r="2.6"/>
+  <rect x="${cx-10}" y="58" width="9.6" height="31" rx="4.6"/><rect x="${cx+0.4}" y="58" width="9.6" height="31" rx="4.6"/>
+  <rect x="${cx-8.8}" y="88" width="7.4" height="23" rx="3.6"/><rect x="${cx+1.4}" y="88" width="7.4" height="23" rx="3.6"/>
+  <ellipse cx="${cx-5.6}" cy="112.5" rx="4" ry="2"/><ellipse cx="${cx+5.6}" cy="112.5" rx="4" ry="2"/>`}
+function muscleMap(m,o={}){m=m||[];const pri=m[0],sec=new Set(m.slice(1));
+  const part=(side)=>Object.entries(MMAP[side]).map(([k,arr])=>arr.map(d=>mmShape(d,k===pri?'mp':sec.has(k)?'ms':'mo')).join('')).join('');
+  return`<svg class="mmap ${o.sm?'sm':''}" viewBox="0 0 120 124" role="img" aria-label="${esc(m.map(x=>MUSCLES[x]?MUSCLES[x].n:x).join(', '))}"><g class="mb">${mmBody(32)}${mmBody(88)}</g>${part('F')}${part('B')}
+   ${o.sm?'':`<text x="32" y="122" class="ml">${t('Front')}</text><text x="88" y="122" class="ml">${t('Back')}</text>`}</svg>`}
+const muscleChips=(m)=>`<div class="chips mchips">${(m||[]).map((x,i)=>`<span class="chip ${i?'':'acc mmain'}">${MUSCLES[x]?MUSCLES[x].n:x}</span>`).join('')}</div>`;
+function musclePanel(m){return`<div class="mpanel">${muscleMap(m)}<div class="mp-t"><div class="eyebrow">${t('Muscles worked')}</div>${muscleChips(m)}<div class="mp-key"><span><i class="k1"></i>${t('Main')}</span><span><i class="k2"></i>${t('Also works')}</span></div></div></div>`}
+
 /* ================= VERSION & WHAT'S NEW ================= */
-const APP_VERSION='2.4.0';
+const APP_VERSION='2.5.0';
 const CHANGELOG=[
+ {v:'2.5.0',d:'2026-11-24',en:['New look for the exercise figures: solid, outlined bodies with the worked muscles highlighted in green','Every exercise now shows a front-and-back body map of the muscles it works — in the instructions, the sets screen and during the workout','During rest, a big "Up next" card shows the next exercise with its animation, sets, reps and muscles; the workout screen also shows what\'s next'],
+  he:['מראה חדש לדמויות התרגילים: גוף מלא עם קו מתאר, והשרירים שעובדים מודגשים בירוק','כל תרגיל מציג עכשיו מפת גוף מלפנים ומאחור של השרירים שהוא מפעיל — בהוראות, במסך הסטים ובזמן האימון','בזמן המנוחה, כרטיס „הבא בתור” גדול מציג את התרגיל הבא עם האנימציה, הסטים, החזרות והשרירים; גם מסך התרגיל מראה מה הבא']},
  {v:'2.4.0',d:'2026-11-24',en:['Notifications on your phone\'s lock screen and smartwatch (including Apple Watch): "Time\'s up" when a timed exercise is done and "Rest over" with what\'s next','Turn them on or off in the account menu → Notifications, with a switch for each type and a test button','On iPhone, open FitForge from its Home Screen icon to use notifications'],
   he:['התראות במסך הנעילה ובשעון החכם (כולל Apple Watch): „נגמר הזמן” כשתרגיל עם זמן מסתיים ו„המנוחה נגמרה” עם מה שבא אחר כך','הפעלה וכיבוי בתפריט החשבון ← התראות, עם מתג לכל סוג וכפתור ניסיון','באייפון, פתחו את FitForge מהאייקון במסך הבית כדי להשתמש בהתראות']},
  {v:'2.3.0',d:'2026-11-24',en:['Pause button in the workout player (top bar) — it stops every timer: the exercise, rest, warm-up/stretching and total workout time. Tap Resume to carry on where you left off','Paused time doesn\'t count toward your workout time'],

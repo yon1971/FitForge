@@ -11,6 +11,11 @@ The version lives in two places that must match:
 
 When they differ, a phone that still has the old page open shows an "update available" bar.
 
+## 2.5.0 — 2026-11-24
+- Figures: per-segment thickness, dark outline pass, filled front torso, ground shadow; worked muscles tinted (main = accent, others = lighter green)
+- Muscle map (`muscleMap`, `musclePanel`): front/back body with main and secondary muscles, in how-to sheets, the sets screen, the player and the exercise picker
+- Rest screen: large Up next card (animation, set/reps/weight, muscles) above the log editor; work screen shows the next exercise
+
 ## 2.4.0 — 2026-11-24
 - Web push notifications (lock screen + smartwatch/Apple Watch): "Time's up" and "Rest over", scheduled by the server only while a workout is running and the app is hidden/locked
 - Account menu → Notifications: per-device on/off, per-type switches, test button; `public/sw.js` (notifications only, no caching); VAPID keys auto-generated and stored in the `app_kv` table; subscriptions in `push_subs`
