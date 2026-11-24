@@ -142,7 +142,7 @@ h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:.01em;line-height:1.05}
 .fig{display:block;width:100%;height:auto;max-width:100%;aspect-ratio:1/1;overflow:hidden}
 .fig .bn{stroke:var(--fig);stroke-linecap:round;stroke-linejoin:round;fill:none}
 .fig .bo{stroke:#07090c;stroke-linecap:round;fill:none}
-.fig .bn.hi{stroke:var(--acc)}.fig .bn.hi2{stroke:#9ccc3d}
+.fig .bn.hi{stroke:var(--acc)}.fig .bn.hi2{stroke:#9ccc3d}.fig .bn.far{stroke:#aeb6c2}.fig .bn.hi.far{stroke:#a3d12a}.fig .bn.hi2.far{stroke:#7fa832}
 .fig .tor{fill:var(--fig);stroke:var(--fig);stroke-width:1;stroke-linejoin:round}.fig .tor.hi{fill:var(--acc);stroke:var(--acc)}.fig .tor.hi2{fill:#9ccc3d;stroke:#9ccc3d}
 .fig .tor-o{fill:#07090c;stroke:#07090c;stroke-width:3.6;stroke-linejoin:round}
 .fig .shd{fill:rgba(0,0,0,.5)}
@@ -1230,7 +1230,7 @@ const TPL={
  inclinePush:{A:{h:[92,62],n:[84,66],p:[50,88],k:[32,100],f:[14,112],e:[74,80],w:[80,90]},B:{h:[94,52],n:[86,56],p:[52,80],k:[33,96],e:[84,72]},props:[{r: [72, 92, 26, 5]}, {r: [73, 97, 3, 19]}, {r: [94, 97, 3, 19]}]},
  declinePush:{A:{h:[100,106],n:[90,106],p:[52,90],k:[34,88],f:[16,84],e:[80,104],w:[90,114]},B:{h:[100,88],n:[90,92],p:[54,86],k:[34,86],e:[90,103]},props:[{r: [4, 88, 26, 5]}, {r: [5, 93, 3, 23]}, {r: [26, 93, 3, 23]}]},
  pike:{A:{h:[84,98],n:[78,90],p:[56,64],k:[44,88],f:[32,112],e:[84,102],w:[88,114]},B:{h:[90,108],n:[82,100],p:[58,68],e:[74,104]}},
- shtap:{A:{h:[100,70],n:[90,76],p:[58,90],k:[38,100],f:[18,111],e:[89,95],w:[88,114]},B:{e:[98,90],w:[90,80]}},
+ shtap:{dur:1.8,bones:[['n','p'],['n','e2'],['e2','w2'],['n','e'],['e','w'],['p','k'],['k','f']],far:['e2','w2'],A:{h:[100,70],n:[90,76],p:[58,90],k:[38,100],f:[18,111],e:[88,95],w:[87,114],e2:[93,95],w2:[94,114]},K:[{e:[97,91],w:[91,79]},{},{e2:[100,91],w2:[94,80]},{}]},
  tableRow:{face:-1,noGround:0,A:{f:[10,112],k:[26,104],p:[44,96],n:[72,84],h:[81,88],e:[70,66],w:[68,48]},B:{p:[46,82],k:[27,98],n:[70,64],h:[80,64],e:[56,60]},props:[{r:[60,43,56,5]},{r:[110,48,4,68]}]},
  chairDip:{face:-1,A:{h:[60,30],n:[64,41],p:[62,72],k:[38,80],f:[18,112],e:[70,56],w:[76,70]},B:{h:[58,46],n:[62,57],p:[58,90],k:[38,92],e:[86,58]},props:[{r: [72, 72, 26, 5]}, {r: [73, 77, 3, 39]}, {r: [94, 77, 3, 39]}, {r: [94, 30, 4, 42]}]},
  revCrunch:{A:{h:[20,107],n:[30,110],p:[60,110],k:[76,96],f:[92,100],e:[42,114],w:[54,114]},B:{p:[58,104],k:[54,84],f:[72,78]}},
@@ -1286,11 +1286,11 @@ function fig(tid,eq,o={}){
   const Lw=(p1,p2,cls,w)=>L(p1,p2,cls).replace('<line ','<line stroke-width="'+w+'" ');
   const torsoPoly=tp.front&&A.sL&&A.hL&&!tp.bones;
   if(torsoPoly)bones=bones.filter(([a,b])=>!(a==='n'&&b==='p'));
-  const segs=bones.map(([a,b])=>{const g=SEGK[a+'-'+b]||null;return{a,b,g,w:g?WID[g]:4.6}});
+  const FAR=tp.far||[];const segs=bones.map(([a,b])=>{const g=SEGK[a+'-'+b]||SEGK[a.replace('2','')+'-'+b.replace('2','')]||null;return{a,b,g,w:g?WID[g]:4.6,far:FAR.includes(a)||FAR.includes(b)}});
   if(torsoPoly){const pts=q=>[[q.sL[0]-1,q.sL[1]-1],[q.sR[0]+1,q.sR[1]-1],q.hR,q.hL].map(v=>v[0]+','+v[1]).join(' ');const v=P.map(pts);
     const poly=c=>`<polygon class="${c}" points="${v[0]}">${ani('points',v)}</polygon>`;s+=poly('tor-o')+poly('tor'+tone('torso'))}
   segs.forEach(x=>s+=Lw(J(x.a),J(x.b),'bo',(x.w+2.6).toFixed(1)));
-  segs.forEach(x=>s+=Lw(J(x.a),J(x.b),'bn'+tone(x.g),x.w));
+  segs.forEach(x=>s+=Lw(J(x.a),J(x.b),'bn'+tone(x.g)+(x.far?' far':''),x.w));
   (tp.thin||[]).forEach(([a,b])=>{s+=L(J(a),J(b),'prl')});
   s+=`<circle class="hd" cx="${A.h[0]}" cy="${A.h[1]}" r="7.4">${ani('cx',J('h').map(q=>q[0]))}${ani('cy',J('h').map(q=>q[1]))}</circle>`;
   // front-of-body cues: eyes show where the face points, orange line marks chest/belly
@@ -2073,8 +2073,10 @@ const muscleChips=(m)=>`<div class="chips mchips">${(m||[]).map((x,i)=>`<span cl
 function musclePanel(m){return`<div class="mpanel">${muscleMap(m)}<div class="mp-t"><div class="eyebrow">${t('Muscles worked')}</div>${muscleChips(m)}<div class="mp-key"><span><i class="k1"></i>${t('Main')}</span><span><i class="k2"></i>${t('Also works')}</span></div></div></div>`}
 
 /* ================= VERSION & WHAT'S NEW ================= */
-const APP_VERSION='2.5.0';
+const APP_VERSION='2.5.1';
 const CHANGELOG=[
+ {v:'2.5.1',d:'2026-11-24',en:['Plank Shoulder Taps animation: one hand taps the opposite shoulder while the other stays on the floor, alternating sides'],
+  he:['אנימציית נגיעות בכתף בפלאנק: יד אחת נוגעת בכתף הנגדית בזמן שהשנייה נשארת על הרצפה, לסירוגין']},
  {v:'2.5.0',d:'2026-11-24',en:['New look for the exercise figures: solid, outlined bodies with the worked muscles highlighted in green','Every exercise now shows a front-and-back body map of the muscles it works — in the instructions, the sets screen and during the workout','During rest, a big "Up next" card shows the next exercise with its animation, sets, reps and muscles; the workout screen also shows what\'s next'],
   he:['מראה חדש לדמויות התרגילים: גוף מלא עם קו מתאר, והשרירים שעובדים מודגשים בירוק','כל תרגיל מציג עכשיו מפת גוף מלפנים ומאחור של השרירים שהוא מפעיל — בהוראות, במסך הסטים ובזמן האימון','בזמן המנוחה, כרטיס „הבא בתור” גדול מציג את התרגיל הבא עם האנימציה, הסטים, החזרות והשרירים; גם מסך התרגיל מראה מה הבא']},
  {v:'2.4.0',d:'2026-11-24',en:['Notifications on your phone\'s lock screen and smartwatch (including Apple Watch): "Time\'s up" when a timed exercise is done and "Rest over" with what\'s next','Turn them on or off in the account menu → Notifications, with a switch for each type and a test button','On iPhone, open FitForge from its Home Screen icon to use notifications'],

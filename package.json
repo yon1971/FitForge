@@ -1,6 +1,6 @@
 {
   "name": "fitforge",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "private": true,
   "description": "FitForge workout planner: web app + API + admin dashboard",
   "main": "server.js",

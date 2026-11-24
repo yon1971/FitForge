@@ -11,6 +11,9 @@ The version lives in two places that must match:
 
 When they differ, a phone that still has the old page open shows an "update available" bar.
 
+## 2.5.1 — 2026-11-24
+- Plank Shoulder Taps: both arms drawn (far arm `far` shade); hands alternate, the other stays planted. `fig()` supports `far:[joints]` and `*2` joints map to the same muscle segments
+
 ## 2.5.0 — 2026-11-24
 - Figures: per-segment thickness, dark outline pass, filled front torso, ground shadow; worked muscles tinted (main = accent, others = lighter green)
 - Muscle map (`muscleMap`, `musclePanel`): front/back body with main and secondary muscles, in how-to sheets, the sets screen, the player and the exercise picker
