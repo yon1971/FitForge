@@ -11,6 +11,9 @@ The version lives in two places that must match:
 
 When they differ, a phone that still has the old page open shows an "update available" bar.
 
+## 2.2.1 — 2026-11-24
+- Body Waves animation and instructions: arms swing up as the chest goes back, down as the chest goes forward
+
 ## 2.2.0 — 2026-11-23
 - Morning wake-up: all moves 40 s; March Slaps replace Jump Twists (existing copies of the routine are updated automatically)
 - Wake-up moves no longer auto-suggest longer times; if the user goes past the beep, the plan saves that longer time
