@@ -11,6 +11,10 @@ The version lives in two places that must match:
 
 When they differ, a phone that still has the old page open shows an "update available" bar.
 
+## 2.7.0 — 2026-11-28
+- More realistic 3D body on the muscle screen: one smooth sculpted mesh (`public/body-mesh.bin`, built by `tools/build-body.js`) with real proportions, defined muscles and filmic studio lighting.
+- Selected muscle is highlighted with soft edges; tap picking unchanged.
+
 ## 2.6.0 — 2026-11-28
 - Yoga (15 poses, `yoga:1`, grouped by `yg`: stand/balance/floor; default 1 set, 10 s rest) and Calisthenics (`isCali`: bodyweight/chair/table/step + bar moves, grouped Push/Pull/Legs/Core/Full body/Skills; new Burpees, Pistol Squat, L-Sit, Wall Handstand Hold, Hanging Knee Raise)
 - Muscle step: "Or browse by style" cards; exercise step filter chips All / At home / Calisthenics / Yoga; plan categories `yoga` and `cali` (server whitelist too)
