@@ -355,7 +355,7 @@ app.post('/api/event', wrap(auth), wrap(async (req, res) => {
 }));
 
 /* ---------- shared plans (community) ---------- */
-const CATEGORIES = ['upper', 'lower', 'full', 'push', 'pull', 'core', 'arms', 'mixed'];
+const CATEGORIES = ['upper', 'lower', 'full', 'push', 'pull', 'core', 'arms', 'yoga', 'cali', 'mixed'];
 const MUSCLE_KEYS = ['chest', 'shoulders', 'biceps', 'forearms', 'abs', 'obliques', 'quads', 'traps', 'lats', 'triceps', 'lowerBack', 'glutes', 'hamstrings', 'calves'];
 const CX_EQ = ['none', 'db', 'bb', 'kb', 'cable', 'band', 'machine', 'chair', 'step', 'other'];
 function cleanCustom(list) {

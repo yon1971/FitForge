@@ -354,6 +354,11 @@ button.ver{border-bottom:1px dotted rgba(255,255,255,.25)}
 .upnext.big .un-fig{width:108px;height:108px;border-radius:16px}.upnext.big .un-name{font-size:20px;font-weight:800;line-height:1.15;margin:2px 0 4px}.un-t{flex:1;min-width:0}.un-meta{font-size:13.5px;color:var(--mute);margin-bottom:6px}.un-meta b{color:var(--text)}
 .stage.rest .ring{width:min(54vw,230px);height:min(54vw,230px)}
 .r-btns .btn{white-space:nowrap}
+.style-row{display:grid;gap:8px}
+.style-card{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--panel);border:1px solid var(--line);color:var(--text);text-align:start;width:100%}
+.style-card:hover{border-color:rgba(200,255,46,.4)}.sc-ic{font-size:28px;line-height:1}.sc-t{flex:1;min-width:0;display:flex;flex-direction:column}.sc-t b{font-size:15.5px}.sc-t small{color:var(--mute);font-size:12.5px;line-height:1.35}
+.sc-n{min-width:30px;height:30px;border-radius:10px;background:rgba(200,255,46,.12);color:var(--acc);font-weight:800;font-size:13px;display:grid;place-items:center;padding:0 6px}
+.tags .ygt{background:rgba(160,120,255,.16);color:#cbb6ff;border-color:rgba(160,120,255,.4)}.tags .clt{background:rgba(80,190,255,.14);color:#9fdcff;border-color:rgba(80,190,255,.4)}
 .p-fig{width:min(68vw,330px);overflow:hidden;border-radius:30px;background:radial-gradient(ellipse at 50% 42%,#1d232d,#0f1217 72%);padding:18px;margin-bottom:18px}
 .p-name{font-size:clamp(34px,8vw,52px);margin:8px 0 10px}
 .p-set{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:.12em;color:var(--mute)}
@@ -808,6 +813,8 @@ html.lang-he .eyebrow,html.lang-he .ring-lbl,html.lang-he .p-set,html.lang-he .s
           <h2>Which muscle do you want to train?</h2>
           <p class="mute">Tap a muscle on the 3D body, or pick one from the list.</p>
           <div class="mgrid" id="b-mgrid"></div>
+          <div class="eyebrow" style="margin:18px 0 8px">Or browse by style</div>
+          <div class="style-row" id="b-styles"></div>
         </div>
       </div>
     </div>
@@ -1046,6 +1053,7 @@ Object.assign(I18N.he,{"March Slaps": "צעידה עם טפיחות", "Lymphatic
 Object.assign(I18N.he,{"Paused": "מושהה", "All timers are stopped. Take your time.": "כל הטיימרים עצרו. קחו את הזמן.", "Workout time": "זמן אימון", "Paused on": "הושהה ב־", "Resume": "המשך", "End workout": "סיום אימון", "Pause workout": "השהיית האימון", "Rest": "מנוחה", "Warm-up": "חימום", "Stretching": "מתיחות"});
 Object.assign(I18N.he,{"Notifications": "התראות", "Notifications on this device": "התראות במכשיר הזה", "Lock screen and smartwatch": "מסך הנעילה ושעון חכם", "Time's up": "נגמר הזמן", "Time's up!": "נגמר הזמן!", "When a timed exercise reaches its time": "כשתרגיל עם זמן מגיע לזמן שלו", "Rest over": "המנוחה נגמרה", "When rest ends, with what's next": "כשהמנוחה נגמרת, עם מה שבא אחר כך", "Send a test notification": "שליחת התראת ניסיון", "Get a buzz on your wrist during workouts — when a timed exercise is done and when rest is over. On iPhone they also appear on a paired Apple Watch while the phone is locked.": "קבלו רטט על פרק היד בזמן האימון — כשתרגיל עם זמן מסתיים וכשהמנוחה נגמרת. באייפון ההתראות מופיעות גם ב־Apple Watch המחובר כשהטלפון נעול.", "Sent only during a workout, when the app is in the background or the phone is locked. Each device is turned on separately.": "נשלחות רק בזמן אימון, כשהאפליקציה ברקע או שהטלפון נעול. מפעילים בכל מכשיר בנפרד.", "Done": "סיום", "On iPhone, notifications only work in the FitForge app on your Home Screen. Open FitForge from its Home Screen icon (Safari → Share → Add to Home Screen), then turn them on here.": "באייפון התראות עובדות רק באפליקציית FitForge שבמסך הבית. פתחו את FitForge מהאייקון במסך הבית (ספארי ← שיתוף ← הוספה למסך הבית), ואז הפעילו אותן כאן.", "This browser doesn't support notifications.": "הדפדפן הזה לא תומך בהתראות.", "Notifications are blocked. Allow them for FitForge in your phone settings, then try again.": "ההתראות חסומות. אפשרו אותן ל־FitForge בהגדרות הטלפון ונסו שוב.", "Notifications turned off": "ההתראות כובו", "Notifications turned on": "ההתראות הופעלו", "Test sent — lock your phone to see it on your watch": "נשלחה התראת ניסיון — נעלו את הטלפון כדי לראות אותה בשעון", "{x} — tap done when you finish.": "{x} — הקישו על סיום כשאתם מסיימים.", "Next: {x} · set {s} · {d}": "הבא: {x} · סט {s} · {d}", "sec": "שנ׳", "reps": "חזרות"});
 Object.assign(I18N.he,{"Front": "מלפנים", "Back": "מאחור", "Muscles worked": "שרירים שעובדים", "Main": "עיקרי", "Also works": "עובד גם על", "Timed": "לפי זמן", "Next": "הבא", "Last set of the workout": "הסט האחרון באימון", "Up next": "הבא בתור", "new exercise": "תרגיל חדש", "round {n}": "סבב {n}", "Round {a} of {b}": "סבב {a} מתוך {b}", "Set {a} of {b}": "סט {a} מתוך {b}"});
+Object.assign(I18N.he,{"Yoga": "יוגה", "Calisthenics": "קליסטניקס", "Poses for strength, balance and flexibility": "תנוחות לכוח, שיווי משקל וגמישות", "Bodyweight training — push, pull, legs, core and skills": "אימון במשקל גוף — דחיפה, משיכה, רגליים, בטן ומיומנויות", "Poses are held for a set time. For one-sided poses, do the set on each side.": "מחזיקים כל תנוחה לזמן קבוע. בתנוחות של צד אחד, עשו את הסט בכל צד.", "Standing poses": "תנוחות עמידה", "Balance": "שיווי משקל", "Floor poses": "תנוחות על הרצפה", "Push": "דחיפה", "Pull": "משיכה", "Legs": "רגליים", "Core": "בטן ומרכז", "Full body": "כל הגוף", "Skills": "מיומנויות", "Or browse by style": "או לפי סגנון", "🧘 Yoga": "🧘 יוגה", "🤸 Calisthenics": "🤸 קליסטניקס", "Downward-Facing Dog": "כלב מביט מטה", "Cobra Pose": "תנוחת הקוברה", "Warrior I": "לוחם 1", "Warrior II": "לוחם 2", "Triangle Pose": "תנוחת המשולש", "Tree Pose": "תנוחת העץ", "Chair Pose": "תנוחת הכיסא", "Boat Pose": "תנוחת הסירה", "Crescent Lunge": "מכרע סהר", "Chaturanga": "צ׳טורנגה", "Child's Pose": "תנוחת התינוק", "Cat-Cow": "חתול-פרה", "Pigeon Pose": "תנוחת היונה", "Seated Forward Fold": "כפיפה קדימה בישיבה", "Bridge Pose": "תנוחת הגשר", "Burpees": "ברפיז", "Pistol Squat": "סקוואט פיסטול", "L-Sit": "ישיבת L", "Wall Handstand Hold": "עמידת ידיים ליד קיר", "Hanging Knee Raise": "הרמת ברכיים בתלייה"});
 I18P.he.unshift([/^If there's an account for (.+), we've sent it a code\. Enter it below with your new password\.$/,'אם יש חשבון עבור $1, שלחנו אליו קוד. הזינו אותו למטה יחד עם הסיסמה החדשה.'],[/^Your reset code is (\d+)$/,'קוד האיפוס שלכם הוא $1']);
 I18P.he.unshift(
  [/^Last time: (.+)$/,(m,x)=>'בפעם הקודמת: '+x.replace(/ kg/g,' ק״ג')],
@@ -1163,6 +1171,26 @@ const EX=[
  {id:'stepcalf',n:"Step Calf Raise",m:['calves'],t:'stepCalf',eq:'step',home:1,reps:20},
  {id:'pogo',n:"Pogo Hops",m:['calves'],t:'pogo',eq:'none',home:1,time:1,secs:30},
  {id:'lymphhop',n:"Lymphatic Hops",m:['calves'],t:'lymphHop',eq:'none',home:1,time:1,secs:40,warm:1},
+ {id:'downdog',n:"Downward-Facing Dog",m:['hamstrings', 'shoulders', 'calves'],t:'ygDownDog',eq:'none',home:1,time:1,secs:30,yoga:1,yg:'floor',sets:1,rest:10},
+ {id:'cobrapose',n:"Cobra Pose",m:['lowerBack', 'chest', 'abs'],t:'ygCobra',eq:'none',home:1,time:1,secs:30,yoga:1,yg:'floor',sets:1,rest:10},
+ {id:'warrior1',n:"Warrior I",m:['quads', 'glutes', 'shoulders'],t:'ygWarrior1',eq:'none',home:1,time:1,secs:30,yoga:1,yg:'stand',sets:1,rest:10},
+ {id:'warrior2',n:"Warrior II",m:['quads', 'glutes', 'shoulders'],t:'ygWarrior2',eq:'none',home:1,time:1,secs:30,yoga:1,yg:'stand',sets:1,rest:10},
+ {id:'trianglepose',n:"Triangle Pose",m:['obliques', 'hamstrings'],t:'ygTriangle',eq:'none',home:1,time:1,secs:30,yoga:1,yg:'stand',sets:1,rest:10},
+ {id:'treepose',n:"Tree Pose",m:['glutes', 'calves', 'abs'],t:'ygTree',eq:'none',home:1,time:1,secs:30,yoga:1,yg:'balance',sets:1,rest:10},
+ {id:'chairpose',n:"Chair Pose",m:['quads', 'glutes', 'shoulders'],t:'ygChair',eq:'none',home:1,time:1,secs:30,yoga:1,yg:'stand',sets:1,rest:10},
+ {id:'boatpose',n:"Boat Pose",m:['abs', 'obliques'],t:'ygBoat',eq:'none',home:1,time:1,secs:30,yoga:1,yg:'floor',sets:1,rest:10},
+ {id:'crescent',n:"Crescent Lunge",m:['quads', 'glutes', 'abs'],t:'ygCrescent',eq:'none',home:1,time:1,secs:30,yoga:1,yg:'stand',sets:1,rest:10},
+ {id:'chaturanga',n:"Chaturanga",m:['chest', 'triceps', 'abs'],t:'ygChaturanga',eq:'none',home:1,time:1,secs:15,yoga:1,yg:'floor',sets:1,rest:10},
+ {id:'childposey',n:"Child's Pose",m:['lowerBack', 'lats'],t:'childPose',eq:'none',home:1,time:1,secs:40,yoga:1,yg:'floor',sets:1,rest:10},
+ {id:'catcowy',n:"Cat-Cow",m:['lowerBack', 'abs'],t:'catCow',eq:'none',home:1,time:1,secs:40,yoga:1,yg:'floor',sets:1,rest:10},
+ {id:'pigeon',n:"Pigeon Pose",m:['glutes', 'quads'],t:'ygPigeon',eq:'none',home:1,time:1,secs:40,yoga:1,yg:'floor',sets:1,rest:10},
+ {id:'seatedfold',n:"Seated Forward Fold",m:['hamstrings', 'lowerBack'],t:'hamSt',eq:'none',home:1,time:1,secs:40,yoga:1,yg:'floor',sets:1,rest:10},
+ {id:'bridgepose',n:"Bridge Pose",m:['glutes', 'hamstrings', 'lowerBack'],t:'bridge',eq:'none',home:1,time:1,secs:30,yoga:1,yg:'floor',sets:1,rest:10},
+ {id:'burpee',n:"Burpees",m:['quads', 'chest', 'abs'],t:'cBurpee',eq:'none',home:1,reps:10,cali:1,grp:'Full body'},
+ {id:'pistol',n:"Pistol Squat",m:['quads', 'glutes'],t:'cPistol',eq:'none',home:1,reps:6,cali:1,grp:'Skills'},
+ {id:'lsit',n:"L-Sit",m:['abs', 'triceps'],t:'cLsit',eq:'none',home:1,time:1,secs:20,cali:1,grp:'Skills'},
+ {id:'handstand',n:"Wall Handstand Hold",m:['shoulders', 'triceps'],t:'cHandstand',eq:'none',home:1,time:1,secs:20,cali:1,grp:'Skills'},
+ {id:'hangknee',n:"Hanging Knee Raise",m:['abs', 'forearms'],t:'cHangKnee',eq:'none',home:0,reps:12,cali:1,grp:'Core'},
  {id:'marchslap',n:"March Slaps",m:['quads','abs'],t:'marchSlap',eq:'none',home:1,time:1,secs:40,warm:1},
  {id:'jumptwist',n:"Jump Twists",m:['obliques','calves'],t:'jumpTwist',eq:'none',home:1,time:1,secs:40,warm:1},
  {id:'bodywave',n:"Body Waves",m:['abs','lowerBack'],t:'bodyWave',eq:'none',home:1,time:1,secs:40,warm:1},
@@ -1179,6 +1207,22 @@ const SIDE=[['n','p'],['n','e'],['e','w'],['p','k'],['k','f']];
 const FRONT=[['n','p'],['sL','sR'],['sL','eL'],['eL','wL'],['sR','eR'],['eR','wR'],['hL','hR'],['hL','kL'],['kL','fL'],['hR','kR'],['kR','fR']];
 const PULLA={h:[60,35],n:[60,46],sL:[50,48],sR:[70,48],eL:[45,32],wL:[42,16],eR:[75,32],wR:[78,16],p:[60,79],hL:[54,80],hR:[66,80],kL:[53,97],kR:[67,97],fL:[52,113],fR:[68,113]};
 const TPL={
+ ygDownDog:{dur:4,A:{h:[84,93],n:[78,84],p:[56,60],k:[44,87],f:[31,113],e:[83,99],w:[88,114]},B:{n:[77,86],p:[54,57],h:[83,95]}},
+ ygCobra:{dur:4,A:{h:[93,85],n:[85,95],p:[60,112],k:[40,113],f:[20,113],e:[84,106],w:[86,114]},B:{h:[95,81],n:[87,92],e:[85,104]}},
+ ygWarrior1:{dur:4,bones:[['n','p'],['n','e'],['e','w'],['p','k2'],['k2','f2'],['p','k'],['k','f']],far:['k2','f2'],A:{h:[61,21],n:[60,32],p:[58,68],k:[75,88],f:[80,114],k2:[44,89],f2:[30,114],e:[62,17],w:[64,3]},B:{h:[61,23],n:[60,34],p:[58,70],k:[76,90],e:[62,19],w:[64,5]}},
+ ygWarrior2:{front:1,dur:4,A:{h:[60,17],n:[60,28],sL:[50,31],sR:[70,31],p:[60,66],hL:[54,67],hR:[66,67],kL:[40,92],kR:[77,90],fL:[33,114],fR:[88,114],eL:[36,31],wL:[21,31],eR:[84,31],wR:[99,31]},B:{h:[60,19],n:[60,30],sL:[50,33],sR:[70,33],p:[60,68],hL:[54,69],hR:[66,69],kL:[39,94],kR:[78,92],eL:[36,33],wL:[21,33],eR:[84,33],wR:[99,33]}},
+ ygTriangle:{front:1,dur:4.5,A:{h:[85,32],n:[78,42],sL:[71,36],sR:[85,48],p:[60,64],hL:[55,63],hR:[65,65],kL:[45,89],kR:[76,89],fL:[36,114],fR:[86,114],eL:[67,20],wL:[63,5],eR:[86,66],wR:[87,83]},B:{h:[86,34],n:[79,44],sL:[72,38],sR:[86,50],eL:[68,22],wL:[64,7],eR:[87,68],wR:[88,85]}},
+ ygTree:{front:1,dur:4,A:{h:[60,19],n:[60,30],sL:[50,33],sR:[70,33],p:[60,64],hL:[55,65],hR:[65,65],kL:[39,79],kR:[65,89],fL:[61,86],fR:[65,114],eL:[51,16],wL:[58,4],eR:[69,16],wR:[62,4]},B:{h:[61,19],n:[61,30],sL:[51,33],sR:[71,33],p:[60,64],eL:[52,16],wL:[59,4],eR:[70,16],wR:[63,4]}},
+ ygChair:{dur:4,A:{h:[70,34],n:[63,44],p:[48,74],k:[67,90],f:[60,114],e:[72,30],w:[80,16]},B:{h:[70,37],n:[63,47],p:[48,77],k:[68,92],e:[72,33],w:[80,19]}},
+ ygBoat:{dur:3.5,A:{h:[38,70],n:[44,80],p:[58,108],k:[72,92],f:[86,77],e:[56,86],w:[68,86]},B:{h:[37,71],n:[43,81],k:[72,91],f:[86,75],e:[55,87],w:[67,87]}},
+ ygCrescent:{dur:4,bones:[['n','p'],['n','e'],['e','w'],['p','k2'],['k2','f2'],['p','k'],['k','f']],far:['k2','f2'],A:{h:[63,23],n:[61,34],p:[56,69],k:[73,88],f:[79,114],k2:[40,92],f2:[22,111],e:[63,19],w:[65,5]},B:{h:[63,25],n:[61,36],p:[56,71],k:[74,90],e:[63,21],w:[65,7]}},
+ ygChaturanga:{dur:3.5,A:{h:[96,94],n:[86,97],p:[56,101],k:[38,106],f:[22,110],e:[79,105],w:[86,114]},B:{h:[96,92],n:[86,95],p:[56,100],e:[80,104]}},
+ ygPigeon:{dur:4,bones:[['n','p'],['n','e'],['e','w'],['p','k2'],['k2','f2'],['p','k'],['k','f']],far:['k2','f2'],A:{h:[62,56],n:[60,68],p:[58,104],k:[72,106],f:[58,112],k2:[38,110],f2:[18,112],e:[64,88],w:[68,110]},B:{h:[63,58],n:[61,70],e:[65,90]}},
+ cBurpee:{dur:2.6,A:{h:[60,17],n:[60,28],p:[60,64],k:[60,89],f:[60,114],e:[61,46],w:[62,62]},K:[{h:[74,74],n:[66,78],p:[50,96],k:[64,94],f:[58,114],e:[72,96],w:[76,114]},{h:[96,90],n:[86,94],p:[56,102],k:[38,108],f:[22,112],e:[86,104],w:[86,114]},{h:[74,74],n:[66,78],p:[50,96],k:[64,94],f:[58,114],e:[72,96],w:[76,114]},{h:[60,9],n:[60,20],p:[60,56],k:[61,81],f:[60,104],e:[64,8],w:[66,-4]}]},
+ cPistol:{dur:3,bones:[['n','p'],['n','e'],['e','w'],['p','k2'],['k2','f2'],['p','k'],['k','f']],far:['k2','f2'],A:{h:[61,17],n:[60,28],p:[60,64],k:[60,89],f:[60,114],k2:[68,86],f2:[74,108],e:[66,44],w:[76,48]},B:{h:[70,58],n:[62,67],p:[52,98],k:[70,98],f:[61,114],k2:[78,98],f2:[100,96],e:[74,70],w:[88,70]}},
+ cLsit:{dur:3,props:[{r:[44,96,28,3]},{l:[48,99,48,114]},{l:[68,99,68,114]}],A:{h:[60,53],n:[58,65],p:[56,99],k:[76,99],f:[96,99],e:[58,81],w:[58,97]},B:{h:[60,51],n:[58,63],p:[56,97],k:[76,96],f:[96,95]}},
+ cHandstand:{dur:3.5,props:[{l:[70,0,70,116]}],A:{h:[65,92],n:[60,83],p:[61,47],k:[62,23],f:[63,2],e:[60,98],w:[60,114]},B:{p:[60,47],k:[61,23],f:[62,2]}},
+ cHangKnee:{dur:2.4,noGround:1,props:[{l:[38,7,82,7]}],A:{h:[65,30],n:[60,37],p:[60,73],k:[60,96],f:[60,114],e:[60,22],w:[60,8]},B:{p:[62,74],k:[78,66],f:[70,90]}},
  marchSlap:{front:1,dur:1.5,A:{h:[60,14],n:[60,25],sL:[50,28],sR:[70,28],p:[60,61],hL:[54,63],hR:[66,63],kL:[49,72],kR:[67,89],fL:[51,96],fR:[68,114],eL:[44,43],wL:[39,55],eR:[66,47],wR:[53,70]},K:[{h:[60,15],n:[60,26],sL:[50,29],sR:[70,29],p:[60,62],hL:[54,63],hR:[66,63],kL:[53,89],kR:[67,89],fL:[52,114],fR:[68,114],eL:[47,46],wL:[46,61],eR:[73,46],wR:[74,61]},{h:[60,14],n:[60,25],sL:[50,28],sR:[70,28],p:[60,61],hL:[54,63],hR:[66,63],kL:[53,89],kR:[71,72],fL:[52,114],fR:[69,96],eR:[76,43],wR:[81,55],eL:[54,47],wL:[67,70]},{h:[60,15],n:[60,26],sL:[50,29],sR:[70,29],p:[60,62],hL:[54,63],hR:[66,63],kL:[53,89],kR:[67,89],fL:[52,114],fR:[68,114],eL:[47,46],wL:[46,61],eR:[73,46],wR:[74,61]}]},
  lymphHop:{front:1,dur:.7,A:{h:[60,15],n:[60,26],sL:[50,29],sR:[70,29],p:[60,62],hL:[54,63],hR:[66,63],kL:[53,89],kR:[67,89],fL:[52,114],fR:[68,114],eL:[48,46],wL:[47,62],eR:[72,46],wR:[73,62]},K:[{h:[60,9],n:[60,20],sL:[50,23],sR:[70,23],p:[60,56],hL:[54,57],hR:[66,57],kL:[53,83],kR:[67,83],fL:[52,108],fR:[68,108],eL:[49,40],wL:[49,57],eR:[71,40],wR:[71,57]},{h:[60,18],n:[60,29],sL:[50,32],sR:[70,32],p:[60,65],hL:[54,66],hR:[66,66],kL:[51,91],kR:[69,91],fL:[52,114],fR:[68,114],eL:[46,49],wL:[40,59],eR:[74,49],wR:[80,59]}]},
  jumpTwist:{front:1,dur:1.5,A:{h:[61,17],n:[61,28],sL:[52,30],sR:[69,30],p:[60,64],hL:[57,65],hR:[63,65],kL:[50,90],kR:[57,91],fL:[46,114],fR:[54,114],eL:[58,43],wL:[68,40],eR:[79,41],wR:[88,36]},K:[{h:[60,8],n:[60,19],sL:[50,22],sR:[70,22],p:[60,55],hL:[56,56],hR:[64,56],kL:[55,82],kR:[65,82],fL:[55,107],fR:[65,107],eL:[45,37],wL:[54,31],eR:[75,37],wR:[66,31]},{h:[59,17],n:[59,28],sL:[51,30],sR:[68,30],p:[60,64],hL:[57,65],hR:[63,65],kL:[63,91],kR:[70,90],fL:[66,114],fR:[74,114],eL:[41,41],wL:[32,36],eR:[62,43],wR:[52,40]},{h:[60,8],n:[60,19],sL:[50,22],sR:[70,22],p:[60,55],hL:[56,56],hR:[64,56],kL:[55,82],kR:[65,82],fL:[55,107],fR:[65,107],eL:[45,37],wL:[54,31],eR:[75,37],wR:[66,31]}]},
@@ -1663,7 +1707,7 @@ function openBuilder(p){
   Bd.orig=p?p.id:null;Bd.dirty=false;Bd.muscle=null;Bd.ex=null;Bd.edit=null;
   $('#b-name').value=Bd.plan.name;show('s-builder');setStep(p&&p.items.length?'review':'body')}
 $('#b-name').addEventListener('input',()=>{Bd.plan.name=$('#b-name').value;Bd.dirty=true});
-function setStep(st){Bd.step=st;$$('.bstep').forEach(s=>s.classList.toggle('on',s.id==='b-'+({body:'body',ex:'ex',cfg:'cfg',review:'review'}[st])));
+function setStep(st){Bd.step=st;if(st==='body'){Bd.style=null;const sr=$('#b-styles');if(sr)sr.innerHTML=styleCards()}$$('.bstep').forEach(s=>s.classList.toggle('on',s.id==='b-'+({body:'body',ex:'ex',cfg:'cfg',review:'review'}[st])));
   window.scrollTo(0,0);renderCrumbs();renderTray();
   if(st==='body')renderBodyStep();else Body.stop();
   if(st==='ex')renderExStep();if(st==='cfg')renderCfgStep();if(st==='review')renderReview()}
@@ -1706,26 +1750,28 @@ function setLabel(m,hover){const l=$('#b-label');if(!l)return;if(!m){m=Body.sel;
 function syncTog(v){v=v||Body.facing();$$('#b-tog button').forEach(b=>b.classList.toggle('on',b.dataset.v===v))}
 $('#b-tog').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;Body.face(b.dataset.v);syncTog(b.dataset.v)});
 $('#b-mgrid').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;const m=b.dataset.m;if(Body.ok){Body.face(MUSCLES[m].side);syncTog(MUSCLES[m].side)}chooseMuscle(m)});
-function chooseMuscle(m){Bd.muscle=m;Body.sel=m;Body.paint();setLabel(m);$$('#b-mgrid .mbtn').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+function chooseMuscle(m){Bd.style=null;Bd.muscle=m;Body.sel=m;Body.paint();setLabel(m);$$('#b-mgrid .mbtn').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
   clearTimeout(advT);advT=setTimeout(()=>{if(Bd.step==='body')setStep('ex')},Body.ok?650:150)}
 
 // step 2: exercises
-function exCard(e){return`<button class="excard" data-ex="${e.id}"><span class="how-i" data-how="${e.id}" role="button" aria-label="How to do it" title="How to do it">i</span><div class="pic">${fig(e.t,e.eq,{m:e.m,m:e.m})}</div><b ${e.custom?'data-notr':''}>${esc(e.n)}</b><div class="tags">${e.custom?'<span class="yourt">Yours</span>':''}${e.home?'<span class="homet">At home</span>':''}<span>${EQN[e.eq]}</span>${e.time?'<span>Timed</span>':''}</div><div class="ex-mus"><span class="m1">${MUSCLES[e.m[0]].n}</span>${e.m.slice(1,3).map(x=>`<span>${MUSCLES[x].n}</span>`).join('')}</div></button>`}
+function exCard(e){return`<button class="excard" data-ex="${e.id}"><span class="how-i" data-how="${e.id}" role="button" aria-label="How to do it" title="How to do it">i</span><div class="pic">${fig(e.t,e.eq,{m:e.m,m:e.m})}</div><b ${e.custom?'data-notr':''}>${esc(e.n)}</b><div class="tags">${e.yoga?'<span class="ygt">🧘 Yoga</span>':''}${e.cali&&!e.yoga?'<span class="clt">🤸 Calisthenics</span>':''}${e.custom?'<span class="yourt">Yours</span>':''}${e.home?'<span class="homet">At home</span>':''}<span>${EQN[e.eq]}</span>${e.time?'<span>Timed</span>':''}</div><div class="ex-mus"><span class="m1">${MUSCLES[e.m[0]].n}</span>${e.m.slice(1,3).map(x=>`<span>${MUSCLES[x].n}</span>`).join('')}</div></button>`}
 let homeOnly=!!LS.get('ff_home',false);
-function renderExStep(){const m=Bd.muscle,M=MUSCLES[m];const ok=e=>!homeOnly||e.home;
+function exFilter(){const f=LS.get('ff_exflt',null);return ['all','home','cali','yoga'].includes(f)?f:(homeOnly?'home':'all')}
+function renderExStep(){if(Bd.style)return renderStyleStep();const m=Bd.muscle,M=MUSCLES[m];const flt=exFilter();const ok=e=>flt==='home'?e.home:flt==='cali'?isCali(e):flt==='yoga'?isYoga(e):true;
   const prim=EX.filter(e=>e.m[0]===m&&ok(e)),sec=EX.filter(e=>e.m[0]!==m&&e.m.includes(m)&&ok(e));
   const nHome=EX.filter(e=>e.m.includes(m)&&e.home).length,nAll=EX.filter(e=>e.m.includes(m)).length;
   $('#b-ex').innerHTML=`<div class="step-h"><button class="icon-btn" data-a="back">${ICON.back}</button><div><h2>${M.n} exercises</h2><p>Pick exercise ${Bd.plan.items.length+1} for your plan</p></div></div>
-   <div class="fchips" style="margin-bottom:6px"><button class="fchip ${homeOnly?'':'on'}" data-home="0">All exercises <i>${nAll}</i></button><button class="fchip ${homeOnly?'on':''}" data-home="1">At home · no weights <i>${nHome}</i></button></div>
+   <div class="fchips" style="margin-bottom:6px"><button class="fchip ${flt==='all'?'on':''}" data-flt="all">All exercises <i>${nAll}</i></button><button class="fchip ${flt==='home'?'on':''}" data-flt="home">At home · no weights <i>${nHome}</i></button>${(n=>n?`<button class="fchip ${flt==='cali'?'on':''}" data-flt="cali">🤸 ${t('Calisthenics')} <i>${n}</i></button>`:'')(EX.filter(e=>e.m.includes(m)&&isCali(e)).length)}${(n=>n?`<button class="fchip ${flt==='yoga'?'on':''}" data-flt="yoga">🧘 ${t('Yoga')} <i>${n}</i></button>`:'')(EX.filter(e=>e.m.includes(m)&&isYoga(e)).length)}</div>
    <p class="fig-hint"><span class="fh-line"></span>Orange line = front of the body (chest &amp; belly) <span class="fh-eye"></span>dot = eyes</p>
-   ${homeOnly?'<p class="mute" style="font-size:13px;margin:0 0 12px">Bodyweight exercises you can do at home — at most you\'ll need a sturdy chair, table or a step.</p>':''}
+   ${flt==='home'?'<p class="mute" style="font-size:13px;margin:0 0 12px">Bodyweight exercises you can do at home — at most you\'ll need a sturdy chair, table or a step.</p>':''}
    <div class="exgrid"><button class="excard newcx" data-newcx><span class="nc-plus">+</span><b>Create your own exercise</b><small>Can't find yours? Add it with a name, muscles and a picture.</small></button>${prim.map(exCard).join('')}</div>${sec.length?`<h3 class="subsec">Also works your ${M.n.toLowerCase()}</h3><div class="exgrid">${sec.map(exCard).join('')}</div>`:''}`}
-$('#b-ex').addEventListener('click',e=>{if(e.target.closest('[data-a=back]'))return setStep('body');const hb=e.target.closest('[data-home]');if(hb){homeOnly=hb.dataset.home==='1';LS.set('ff_home',homeOnly);renderExStep();return}if(e.target.closest('[data-newcx]')){openCxEditor(null,Bd.muscle,c=>{Bd.ex=c.id;Bd.edit=null;setStep('cfg')});return}const c=e.target.closest('[data-ex]');if(c){Bd.ex=c.dataset.ex;Bd.edit=null;setStep('cfg')}});
+$('#b-styles').addEventListener('click',e=>{const c=e.target.closest('[data-style]');if(!c)return;Bd.style=c.dataset.style;Bd.muscle=null;Api.event('style_open',{style:Bd.style});setStep('ex')});
+$('#b-ex').addEventListener('click',e=>{if(e.target.closest('[data-a=back]'))return setStep('body');const fb=e.target.closest('[data-flt]');if(fb){LS.set('ff_exflt',fb.dataset.flt);homeOnly=fb.dataset.flt==='home';LS.set('ff_home',homeOnly);renderExStep();return}if(e.target.closest('[data-newcx]')){openCxEditor(null,Bd.muscle||'chest',c=>{Bd.ex=c.id;Bd.edit=null;setStep('cfg')});return}const c=e.target.closest('[data-ex]');if(c){Bd.ex=c.dataset.ex;Bd.edit=null;setStep('cfg')}});
 
 // step 3: config
 let cfgV={};
 function renderCfgStep(){const it=Bd.edit!=null?Bd.plan.items[Bd.edit]:null;const e=EXM[it?it.exId:Bd.ex];
-  cfgV=it?{...it}:{exId:e.id,sets:3,reps:e.reps||12,secs:e.secs||30,time:!!e.time,rest:60,weight:0};
+  cfgV=it?{...it}:{exId:e.id,sets:e.sets||3,reps:e.reps||12,secs:e.secs||30,time:!!e.time,rest:e.rest??60,weight:0};
   const stepper=(k,lbl,sub)=>`<div class="row"><div class="lbl"><b>${lbl}</b><small>${sub}</small></div><div class="stepper"><button data-s="${k}" data-d="-1" aria-label="Decrease">−</button><input type="number" inputmode="decimal" data-k="${k}" value="${cfgV[k]}"><button data-s="${k}" data-d="1" aria-label="Increase">+</button></div></div>`;
   $('#b-cfg').innerHTML=`<div class="step-h"><button class="icon-btn" data-a="back">${ICON.back}</button><div><h2>${it?'Edit exercise':'Set your reps & rest'}</h2><p>${it?'Update this exercise in your plan':'Exercise '+(Bd.plan.items.length+1)+' of your plan'}</p></div></div>
    <div class="cfg"><div class="cfg-pic">${fig(e.t,e.eq,{m:e.m,dur:1.9})}</div>
@@ -2073,8 +2119,10 @@ const muscleChips=(m)=>`<div class="chips mchips">${(m||[]).map((x,i)=>`<span cl
 function musclePanel(m){return`<div class="mpanel">${muscleMap(m)}<div class="mp-t"><div class="eyebrow">${t('Muscles worked')}</div>${muscleChips(m)}<div class="mp-key"><span><i class="k1"></i>${t('Main')}</span><span><i class="k2"></i>${t('Also works')}</span></div></div></div>`}
 
 /* ================= VERSION & WHAT'S NEW ================= */
-const APP_VERSION='2.5.1';
+const APP_VERSION='2.6.0';
 const CHANGELOG=[
+ {v:'2.6.0',d:'2026-11-28',en:['New 🧘 Yoga category: 15 poses (Downward Dog, Warrior I & II, Tree, Triangle, Cobra, Pigeon and more) with animations and instructions','New 🤸 Calisthenics category: all bodyweight exercises grouped into Push, Pull, Legs, Core and Skills, plus Burpees, Pistol Squat, L-Sit, Wall Handstand and Hanging Knee Raise','Browse them from "Or browse by style" on the muscle screen, or filter any muscle by Yoga or Calisthenics. Plans can also be categorised as Yoga or Calisthenics'],
+  he:['קטגוריית 🧘 יוגה חדשה: 15 תנוחות (כלב מביט מטה, לוחם 1 ו־2, עץ, משולש, קוברה, יונה ועוד) עם אנימציות והוראות','קטגוריית 🤸 קליסטניקס חדשה: כל תרגילי משקל הגוף מחולקים לדחיפה, משיכה, רגליים, בטן ומיומנויות, ועוד ברפיז, סקוואט פיסטול, ישיבת L, עמידת ידיים ליד קיר והרמת ברכיים בתלייה','בחרו ב„או לפי סגנון” במסך השרירים, או סננו כל שריר לפי יוגה או קליסטניקס. אפשר גם לסווג תוכניות כיוגה או קליסטניקס']},
  {v:'2.5.1',d:'2026-11-24',en:['Plank Shoulder Taps animation: one hand taps the opposite shoulder while the other stays on the floor, alternating sides'],
   he:['אנימציית נגיעות בכתף בפלאנק: יד אחת נוגעת בכתף הנגדית בזמן שהשנייה נשארת על הרצפה, לסירוגין']},
  {v:'2.5.0',d:'2026-11-24',en:['New look for the exercise figures: solid, outlined bodies with the worked muscles highlighted in green','Every exercise now shows a front-and-back body map of the muscles it works — in the instructions, the sets screen and during the workout','During rest, a big "Up next" card shows the next exercise with its animation, sets, reps and muscles; the workout screen also shows what\'s next'],
@@ -2107,6 +2155,21 @@ renderVer();
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)Api.call('GET','/api/config').then(c=>checkVersion(c&&c.version)).catch(()=>{})});
 function checkVersion(serverV){renderVer();if(serverV&&serverV!==APP_VERSION&&!window.__updShown){window.__updShown=1;
   const b=document.createElement('button');b.className='upd-bar';b.innerHTML=`⬆️ ${t('A new version of FitForge is available — tap to update')}`;b.onclick=()=>{Sync.now&&Sync.now();setTimeout(()=>location.reload(),400)};document.body.appendChild(b)}}
+
+
+/* ================= EXERCISE STYLES: Yoga & Calisthenics ================= */
+const CALI_IDS=new Set(['pullup','chinup','chestdip','tridip','legraise','deadhang']);
+const isCali=e=>!!e&&!e.yoga&&!e.warm&&!e.custom&&(e.cali||CALI_IDS.has(e.id)||['none','chair','table','step'].includes(e.eq));
+const isYoga=e=>!!e&&!!e.yoga;
+const CALI_GRP={chest:'Push',shoulders:'Push',triceps:'Push',lats:'Pull',biceps:'Pull',traps:'Pull',forearms:'Pull',quads:'Legs',glutes:'Legs',hamstrings:'Legs',calves:'Legs',abs:'Core',obliques:'Core',lowerBack:'Core'};
+const caliGrp=e=>e.grp||CALI_GRP[e.m[0]]||'Full body';
+const STYLES={yoga:{ic:'🧘',n:'Yoga',d:'Poses for strength, balance and flexibility',test:isYoga,groups:[['stand','Standing poses'],['balance','Balance'],['floor','Floor poses']],gOf:e=>e.yg},
+  cali:{ic:'🤸',n:'Calisthenics',d:'Bodyweight training — push, pull, legs, core and skills',test:isCali,groups:[['Push','Push'],['Pull','Pull'],['Legs','Legs'],['Core','Core'],['Full body','Full body'],['Skills','Skills']],gOf:caliGrp}};
+function styleCards(){return Object.entries(STYLES).map(([k,v])=>`<button class="style-card" data-style="${k}"><span class="sc-ic">${v.ic}</span><span class="sc-t"><b>${t(v.n)}</b><small>${t(v.d)}</small></span><span class="sc-n">${EX.filter(v.test).length}</span></button>`).join('')}
+function renderStyleStep(){const st=STYLES[Bd.style];const list=EX.filter(st.test);
+  $('#b-ex').innerHTML=`<div class="step-h"><button class="icon-btn" data-a="back">${ICON.back}</button><div><h2>${st.ic} ${t(st.n)}</h2><p>Pick exercise ${Bd.plan.items.length+1} for your plan</p></div></div>
+   <p class="mute" style="font-size:13.5px;margin:0 0 6px">${t(st.d)}</p>${Bd.style==='yoga'?`<p class="mute" style="font-size:12.5px;margin:0 0 10px">${t('Poses are held for a set time. For one-sided poses, do the set on each side.')}</p>`:''}
+   ${st.groups.map(([g,lbl])=>{const xs=list.filter(e=>st.gOf(e)===g);return xs.length?`<h3 class="subsec">${t(lbl)} <i class="mute" style="font-style:normal;font-weight:600">· ${xs.length}</i></h3><div class="exgrid">${xs.map(exCard).join('')}</div>`:''}).join('')}`}
 
 /* ================= READY-MADE ROUTINES ================= */
 const ROUTINES={morning:{name:'Morning wake-up',category:'full',items:[['lymphhop',40],['marchslap',40],['bodywave',40],['trunktwist',40],['armswing',40],['golfswing',40]],rest:10,v:2}};
@@ -2528,7 +2591,7 @@ function candidates(muscle,a){
   const avoid=new Set((a.avoid||[]).flatMap(k=>AVOID[k]||[]));
   if(a.age==='55+')['jumpsquat','pogo','climber','deadlift','goodmorning','decpush','pike','chestdip','tridip','legraise'].forEach(x=>avoid.add(x));
   return EX.filter(e=>{
-    if(e.custom||e.warm||!e.m.includes(muscle))return false;
+    if(e.custom||e.warm||e.yoga||e.grp==='Skills'||!e.m.includes(muscle))return false;
     if(avoid.has(e.id))return false;
     if(a.where==='home'&&!e.home)return false;
     if(a.where==='homedb'&&!(e.home||e.eq==='db'))return false;
@@ -2652,7 +2715,7 @@ function coachResultClick(e){const a=e.target.closest('[data-a]')?.dataset.a,ed=
   if(ed){const p=CH.plans[+ed.dataset.edit];openBuilder(null);Bd.plan={...p,items:JSON.parse(JSON.stringify(p.items))};Bd.dirty=true;$('#b-name').value=Bd.plan.name;setStep('review')}}
 
 /* ================= CATEGORIES & SHARED PLANS ================= */
-const CATS={upper:'Upper body',lower:'Lower body',full:'Full body',push:'Push',pull:'Pull',core:'Core & abs',arms:'Arms',mixed:'Mixed'};
+const CATS={upper:'Upper body',lower:'Lower body',full:'Full body',push:'Push',pull:'Pull',core:'Core & abs',arms:'Arms',yoga:'Yoga',cali:'Calisthenics',mixed:'Mixed'};
 const CAT_HINT={upper:'Chest, back, shoulders, arms',lower:'Legs & glutes',full:'Upper + lower body',push:'Chest, shoulders, triceps',pull:'Back, biceps, rear delts',core:'Abs, obliques, lower back',arms:'Biceps, triceps, forearms',mixed:'A bit of everything'};
 function suggestCat(items){const ms=new Set(items.map(it=>EXM[it.exId]?.m[0]).filter(Boolean));if(!ms.size)return null;
   const U=['chest','shoulders','biceps','triceps','forearms','traps','lats'],L=['quads','hamstrings','glutes','calves'],C=['abs','obliques','lowerBack'];

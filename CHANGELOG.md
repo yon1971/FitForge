@@ -11,6 +11,11 @@ The version lives in two places that must match:
 
 When they differ, a phone that still has the old page open shows an "update available" bar.
 
+## 2.6.0 — 2026-11-28
+- Yoga (15 poses, `yoga:1`, grouped by `yg`: stand/balance/floor; default 1 set, 10 s rest) and Calisthenics (`isCali`: bodyweight/chair/table/step + bar moves, grouped Push/Pull/Legs/Core/Full body/Skills; new Burpees, Pistol Squat, L-Sit, Wall Handstand Hold, Hanging Knee Raise)
+- Muscle step: "Or browse by style" cards; exercise step filter chips All / At home / Calisthenics / Yoga; plan categories `yoga` and `cali` (server whitelist too)
+- Plan helper skips yoga and Skills moves
+
 ## 2.5.1 — 2026-11-24
 - Plank Shoulder Taps: both arms drawn (far arm `far` shade); hands alternate, the other stays planted. `fig()` supports `far:[joints]` and `*2` joints map to the same muscle segments
 
